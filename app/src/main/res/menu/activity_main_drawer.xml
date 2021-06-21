@@ -16,6 +16,10 @@
             android:id="@+id/nav_avmovie"
             android:icon="@drawable/ic_menu_avmovie"
             android:title="@string/ic_meun_avmovie" />
+        <item
+            android:id="@+id/nav_mmd"
+            android:icon="@drawable/ic_menu_mmd"
+            android:title="MMD"/>
     </group>
 
 </menu>

@@ -1,5 +1,6 @@
 ﻿<resources>
     <string name="app_name">里の图书馆</string>
+    <string name="nullname"></string>
     <string name="title_activity_main">里の图书馆</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,6 +11,7 @@
     <string name="ic_menu_home">首页</string>
     <string name="ic_menu_lifan">里番</string>
     <string name="ic_meun_avmovie">AV系列</string>
+    <string name="ic_meun_mmd">MMD</string>
 
     <string name="title_">null</string>
     <string name="title_1">[ é l ]エル</string>

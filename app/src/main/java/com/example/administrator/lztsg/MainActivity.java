@@ -1,6 +1,8 @@
 package com.example.administrator.lztsg;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import static com.example.administrator.lztsg.R.id.drawer_layout;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -57,12 +61,16 @@ public class MainActivity extends AppCompatActivity
             final Intent intent = new Intent(this,LifanActivity.class);
             startActivity(intent);
 
-        }else if (id == R.id.nav_avmovie){
+        } else if (id == R.id.nav_avmovie){
             final Intent intent = new Intent(this,AvmovieActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_mmd){
+            final Intent intent = new Intent(this,MmdActivity.class);
             startActivity(intent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

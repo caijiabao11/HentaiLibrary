@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.lztsg">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@mipmap/ic_launcher_lizhitusuguang_icon"
         android:label="@string/app_name"
@@ -9,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/ImageTranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,16 +20,20 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:label="@string/nullname"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".LifanActivity"
             android:label="@string/ic_menu_lifan"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".AvmovieActivity"
             android:label="@string/ic_meun_avmovie"
-            android:theme="@style/Theme.AppCompat"/>
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".MmdActivity"
+            android:label="@string/ic_meun_mmd"
+            android:theme="@style/ImageTranslucentTheme" />
     </application>
 
 </manifest>

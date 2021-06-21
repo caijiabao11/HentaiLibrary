@@ -1,11 +1,10 @@
 package com.example.administrator.lztsg;
 
-
 import android.os.Build;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class AvmovieActivity extends AppCompatActivity {
+public class MmdActivity extends AppCompatActivity {
     private WebView mWvMain;
     private Toolbar mToolbar;
     private ImageButton mImgButton;
@@ -27,7 +26,7 @@ public class AvmovieActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_avmovie);
+        setContentView(R.layout.activity_mmd);
         bindViews();
         setview();
         ImageButtonOnClick();
@@ -60,7 +59,7 @@ public class AvmovieActivity extends AppCompatActivity {
         mWvMain.getSettings().setDefaultTextEncodingName("UTF-8");//编码
         mWvMain.getSettings().setLoadWithOverviewMode(true);
         //加载网络url
-        mWvMain.loadUrl("https:/www.javlibrary.com/cn/");
+        mWvMain.loadUrl("https:/www.iwara.tv/?language=zh-hans");
         mWvMain.setVerticalScrollBarEnabled(false);
         mWvMain.setHorizontalScrollBarEnabled(false);
         mWvMain.setWebViewClient(webClient);
@@ -81,7 +80,7 @@ public class AvmovieActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
             view.loadUrl(request.getUrl().toString());
-                return true;
+            return true;
         }
     };
 
@@ -110,7 +109,7 @@ public class AvmovieActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mWvMain.reload();
-                Toast.makeText(AvmovieActivity.this, "少女祈祷中ing...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MmdActivity.this, "少女祈祷中ing...", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -4,10 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AvmovieActivity">
 
-    <WebView
-        android:id="@+id/wv"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="25dp"
+        android:background="#46596f"
+        android:fitsSystemWindows="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#46596f">
+
+        <ImageButton
+            android:id="@+id/imgbutton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/ic_arrow_back_black_24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="75dp"
+        android:gravity="center_vertical"
+        android:text="@string/ic_meun_avmovie"
+        android:textColor="#fff"
+        android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/wv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="30dp"
+            android:clickable="true"
+            app:backgroundTint="#46596f"
+            app:maxImageSize="30dp"
+            app:srcCompat="@drawable/ic_refresh_black_24dp" />
+    </FrameLayout>
+
 </LinearLayout>

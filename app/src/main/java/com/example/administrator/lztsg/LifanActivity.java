@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -31,25 +32,27 @@ public class LifanActivity extends AppCompatActivity{
     private LinearLayoutManager mLinearLayoutManager;
     private Drawable mdrawable;
     private ImageView mimagevuew;
+    private Toolbar mToolbar;
     private List<Item> mData;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lifan);
+        setSupportActionBar(mToolbar);
         bindViews();
         onSearch();
         initData();
         LinearRecyclerView();
-
+        ImageButtonOnClick();
     }
 
     private void bindViews() {
         mRecyclerView = findViewById(R.id.run_main);
         mSearch = findViewById(R.id.edt_search);
         mImgButton = findViewById(R.id.imgbutton);
+        mToolbar = findViewById(R.id.toolbar);
 
     }
     //载入图片+标题
@@ -58,7 +61,6 @@ public class LifanActivity extends AppCompatActivity{
         int i = 1;
         while (i <= 1113)
         {
-
             Object localObject1 = getResources();
             Object localObject2 = new StringBuilder();
             ((StringBuilder)localObject2).append("img_");
@@ -96,7 +98,6 @@ public class LifanActivity extends AppCompatActivity{
     }
     //返回箭头点击事件
     public void ImageButtonOnClick(){
-        mImgButton.setColorFilter(R.color.colorAccent);
         mImgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,8 +138,8 @@ public class LifanActivity extends AppCompatActivity{
                 //这是文本框改变之后 会执行的动作
 //                if (s == null) {
 //                }
-                 //   Toast.makeText(getApplicationContext(),mSearch.getText().toString()+"",Toast.LENGTH_SHORT).show();
-                    //doChangeColor(mSearch.toString().trim());
+                    Toast.makeText(getApplicationContext(),mSearch.getText().toString()+"",Toast.LENGTH_SHORT).show();
+                    doChangeColor(mSearch.toString().trim());
                       mLinearAdaoter.getFilter().filter(s);
                       if (s.length()>0){
                           mSearch.setVisibility(View.VISIBLE);
@@ -146,12 +147,13 @@ public class LifanActivity extends AppCompatActivity{
                           mSearch.setVisibility(View.INVISIBLE);
                       }
             }
-//            private void doChangeColor(String text) {
-//                    String data = mSearch.getText().toString();
-//                    mData.clear();
-//                    //刷新
-//                    mLinearAdaoter.notifyDataSetChanged();
-//            }
+            private void doChangeColor(String text) {
+                    String data = mSearch.getText().toString();
+                    mData.clear();
+                    //刷新
+                    mLinearAdaoter.notifyDataSetChanged();
+            }
         });
+
     }
 }
