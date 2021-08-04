@@ -33,7 +33,8 @@
         <activity
             android:name=".MmdActivity"
             android:label="@string/ic_meun_mmd"
-            android:theme="@style/ImageTranslucentTheme" />
+            android:theme="@style/ImageTranslucentTheme"
+            android:hardwareAccelerated="true"/>
     </application>
 
 </manifest>
