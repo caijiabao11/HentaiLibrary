@@ -34,6 +34,7 @@ public class LifanActivity extends AppCompatActivity{
     private ImageView mimagevuew;
     private Toolbar mToolbar;
     private List<Item> mData;
+    private List<Item> mAllData;
 
 
     @Override
@@ -58,6 +59,7 @@ public class LifanActivity extends AppCompatActivity{
     //载入图片+标题
     private void initData() {
         this.mData = new ArrayList<>();
+        this.mAllData = new ArrayList<>();
         int i = 1;
         while (i <= 1113)
         {
@@ -83,6 +85,7 @@ public class LifanActivity extends AppCompatActivity{
             }
             i += 1;
         }
+        mAllData.addAll(mData);
     }
 
     public void LinearRecyclerView(){
@@ -140,7 +143,7 @@ public class LifanActivity extends AppCompatActivity{
 //                }
                     Toast.makeText(getApplicationContext(),mSearch.getText().toString()+"",Toast.LENGTH_SHORT).show();
                     doChangeColor(mSearch.toString().trim());
-                      mLinearAdaoter.getFilter().filter(s);
+                 //     mLinearAdaoter.getFilter().filter(s);
                       if (s.length()>0){
                           mSearch.setVisibility(View.VISIBLE);
                       }else{
@@ -150,6 +153,11 @@ public class LifanActivity extends AppCompatActivity{
             private void doChangeColor(String text) {
                     String data = mSearch.getText().toString();
                     mData.clear();
+                    for (Item item:mAllData){
+                        if (item.getTitle().contains(data)){
+                            mData.add(item);
+                        }
+                    }
                     //刷新
                     mLinearAdaoter.notifyDataSetChanged();
             }

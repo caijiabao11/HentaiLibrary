@@ -35,7 +35,7 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
         //设置Item文字
         holder.title.setText(mItems.get(position).getTitle());
 
-       // holder.title.setText(mFilterList.get(position));
+
     }
 
     @NonNull
@@ -91,7 +91,9 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 mItems.clear();//清除数据
-                mItems.addAll((ArrayList<Item>)results.values);//将过滤结果添加到这个对象
+                if(null != results && null != results.values){
+                    mItems.addAll((ArrayList<Item>)results.values);//将过滤结果添加到这个对象
+                }
                 if (results.count == 0){
                     //有关键字的时候刷新数据
                     notifyDataSetChanged();
