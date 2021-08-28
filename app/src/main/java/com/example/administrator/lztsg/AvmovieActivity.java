@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -35,6 +37,7 @@ public class AvmovieActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
     }
     private void bindViews(){
         mWvMain = findViewById(R.id.wv);
@@ -109,7 +112,9 @@ public class AvmovieActivity extends AppCompatActivity {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Animation anim = AnimationUtils.loadAnimation(AvmovieActivity.this,R.anim.rotate);
                 mWvMain.reload();
+                mFloatingActionButton.startAnimation(anim);
                 Toast.makeText(AvmovieActivity.this, "少女祈祷中ing...", Toast.LENGTH_SHORT).show();
             }
         });

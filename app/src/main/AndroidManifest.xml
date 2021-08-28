@@ -25,7 +25,7 @@
         <activity
             android:name=".LifanActivity"
             android:label="@string/ic_menu_lifan"
-            android:theme="@style/ImageTranslucentTheme" />
+            android:theme="@style/ImageTranslucentTheme"/>
         <activity
             android:name=".AvmovieActivity"
             android:label="@string/ic_meun_avmovie"

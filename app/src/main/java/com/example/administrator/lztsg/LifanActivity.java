@@ -1,9 +1,15 @@
 package com.example.administrator.lztsg;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.transition.AutoTransition;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,25 +19,34 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.administrator.lztsg.R.drawable.ic_arrow_back_black_24dp;
+import static com.example.administrator.lztsg.R.drawable.ic_search_black_24dp;
+
 public class LifanActivity extends AppCompatActivity{
     private LinearAdapter mLinearAdaoter;
     private ImageButton mImgButton;
+    private ImageButton mSearchButton;
     private EditText mSearch;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private Drawable mdrawable;
-    private ImageView mimagevuew;
+    private RelativeLayout mRelativeLayoutSearch;
+    private TransitionSet mSet;
+    private Animator mShowAnim;
+    private Animator mHideAnim;
     private Toolbar mToolbar;
     private List<Item> mData;
     private List<Item> mAllData;
@@ -47,14 +62,16 @@ public class LifanActivity extends AppCompatActivity{
         initData();
         LinearRecyclerView();
         ImageButtonOnClick();
+        SearchButtonOnClick();
     }
 
     private void bindViews() {
         mRecyclerView = findViewById(R.id.run_main);
         mSearch = findViewById(R.id.edt_search);
         mImgButton = findViewById(R.id.imgbutton);
+        mSearchButton = findViewById(R.id.searchbutton);
         mToolbar = findViewById(R.id.toolbar);
-
+        mRelativeLayoutSearch = findViewById(R.id.rela_search);
     }
     //载入图片+标题
     private void initData() {
@@ -108,6 +125,87 @@ public class LifanActivity extends AppCompatActivity{
             }
         });
     }
+    //搜索按钮点击展开
+    public void SearchButtonOnClick(){
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            boolean isShow = true;
+            @Override
+            public void onClick(View v) {
+                mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
+                if (isShow == true) {
+                    initShowAnim();
+                    isShow = false;
+                }else if (isShow == false){
+                    initHideAnim();
+                    isShow = true;
+                }
+            }
+        });
+    }
+    //搜索框显示时的布局
+    private void initShowAnim(){
+        int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2)+ 6;
+        int centerY = mRelativeLayoutSearch.getMeasuredHeight()/2;
+        float startRadius = 0f;
+        float endRadius = Math.max(mRelativeLayoutSearch.getWidth(),mRelativeLayoutSearch.getHeight());
+        mShowAnim = ViewAnimationUtils.createCircularReveal(mRelativeLayoutSearch,centerX,centerY,startRadius,endRadius);
+        mShowAnim.setDuration(500).start();
+        expand();
+        mShowAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mSearch.setFocusable(true);
+                mSearch.setFocusableInTouchMode(true);
+                mSearch.requestFocus();
+
+                InputMethodManager imm = (InputMethodManager)LifanActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
+    }
+
+    //搜索框隐藏时布局
+    private void initHideAnim(){
+        int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2)+ 6;
+        int centerY = mRelativeLayoutSearch.getMeasuredHeight()/2;
+        float startRadius = Math.max(mRelativeLayoutSearch.getWidth(),mRelativeLayoutSearch.getHeight());
+        float endRadius = 0f;
+        mHideAnim = ViewAnimationUtils.createCircularReveal(mRelativeLayoutSearch,centerX,centerY,startRadius,endRadius);
+        mHideAnim.setDuration(500).start();
+        reduce();
+        mHideAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mRelativeLayoutSearch.setVisibility(View.INVISIBLE);
+
+                InputMethodManager imm = (InputMethodManager)LifanActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mSearch.getWindowToken(), 0);
+            }
+        });
+
+    }
+
+    //搜索按钮————>返回按钮
+    private void expand(){
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mSearchButton,"translationX",0,-885);
+        objectAnimator.setDuration(500).start();
+        mSearchButton.setBackgroundResource(ic_arrow_back_black_24dp);
+    }
+
+    //返回按钮————>搜索按钮
+    private void reduce(){
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mSearchButton,"translationX",-885,0);
+        objectAnimator.setDuration(500).start();
+        mSearchButton.setBackgroundResource(ic_search_black_24dp);
+    }
+
+    public void showSoftInputFromWindow(Activity activity,EditText editText){
+        //
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
+
     //搜索框
     public void onSearch(){
         mSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -139,16 +237,8 @@ public class LifanActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable s) {
                 //这是文本框改变之后 会执行的动作
-//                if (s == null) {
-//                }
-                    Toast.makeText(getApplicationContext(),mSearch.getText().toString()+"",Toast.LENGTH_SHORT).show();
                     doChangeColor(mSearch.toString().trim());
-                 //     mLinearAdaoter.getFilter().filter(s);
-                      if (s.length()>0){
-                          mSearch.setVisibility(View.VISIBLE);
-                      }else{
-                          mSearch.setVisibility(View.INVISIBLE);
-                      }
+
             }
             private void doChangeColor(String text) {
                     String data = mSearch.getText().toString();

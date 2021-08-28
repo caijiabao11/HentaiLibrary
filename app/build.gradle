@@ -9,6 +9,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        lintOptions {
+            abortOnError false
+            checkReleaseBuilds false
+// 防止在发布的时候出现因MissingTranslation导致Build Failed!
+            disable 'MissingTranslation'
+        }
     }
     buildTypes {
         release {
@@ -19,7 +26,6 @@ android {
     productFlavors {
     }
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.+'

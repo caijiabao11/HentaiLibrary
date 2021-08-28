@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -134,7 +136,9 @@ public class MmdActivity extends AppCompatActivity {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Animation anim = AnimationUtils.loadAnimation(MmdActivity.this,R.anim.rotate);
                 mWvMain.reload();
+                mFloatingActionButton.startAnimation(anim);
                 Toast.makeText(MmdActivity.this, "少女祈祷中ing...", Toast.LENGTH_SHORT).show();
             }
         });
