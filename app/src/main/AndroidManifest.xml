@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_lizhitusuguang_icon_round"
         android:theme="@style/AppTheme">
+        <activity android:name=".SettingActivity"></activity>
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/ImageTranslucentTheme">
@@ -25,16 +26,17 @@
         <activity
             android:name=".LifanActivity"
             android:label="@string/ic_menu_lifan"
-            android:theme="@style/ImageTranslucentTheme"/>
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".AvmovieActivity"
             android:label="@string/ic_meun_avmovie"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".MmdActivity"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/ic_meun_mmd"
-            android:theme="@style/ImageTranslucentTheme"
-            android:hardwareAccelerated="true"/>
+            android:theme="@style/ImageTranslucentTheme" />
     </application>
 
 </manifest>

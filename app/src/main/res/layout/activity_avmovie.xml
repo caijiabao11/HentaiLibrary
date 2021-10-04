@@ -17,7 +17,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="?attr/actionBarSize"
         android:background="#46596f">
 
         <ImageButton
@@ -28,16 +28,17 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/ic_arrow_white_24dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="75dp"
-        android:gravity="center_vertical"
-        android:text="@string/ic_meun_avmovie"
-        android:textColor="#fff"
-        android:textSize="20dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:gravity="center_vertical"
+            android:text="@string/ic_meun_avmovie"
+            android:textColor="#fff"
+            android:textSize="20dp" />
 
     </RelativeLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -47,6 +48,14 @@
             android:id="@+id/wv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:indeterminateTint="#E91E63"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fbutton"
@@ -59,6 +68,7 @@
             app:backgroundTint="#46596f"
             app:maxImageSize="35dp"
             app:srcCompat="@drawable/ic_refresh_black_24dp" />
+
     </FrameLayout>
 
 </LinearLayout>

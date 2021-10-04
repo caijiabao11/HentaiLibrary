@@ -73,6 +73,7 @@ public class LifanActivity extends AppCompatActivity{
         mToolbar = findViewById(R.id.toolbar);
         mRelativeLayoutSearch = findViewById(R.id.rela_search);
     }
+
     //载入图片+标题
     private void initData() {
         this.mData = new ArrayList<>();
@@ -116,6 +117,7 @@ public class LifanActivity extends AppCompatActivity{
     //设置适配器
         mRecyclerView.setAdapter(mLinearAdaoter);
     }
+
     //返回箭头点击事件
     public void ImageButtonOnClick(){
         mImgButton.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +127,7 @@ public class LifanActivity extends AppCompatActivity{
             }
         });
     }
+
     //搜索按钮点击展开
     public void SearchButtonOnClick(){
         mSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +146,7 @@ public class LifanActivity extends AppCompatActivity{
             }
         });
     }
+
     //搜索框显示时的布局
     private void initShowAnim(){
         int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2)+ 6;
@@ -201,13 +205,9 @@ public class LifanActivity extends AppCompatActivity{
         mSearchButton.setBackgroundResource(ic_search_black_24dp);
     }
 
-    public void showSoftInputFromWindow(Activity activity,EditText editText){
-        //
-        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-    }
-
     //搜索框
     public void onSearch(){
+        mSearch.setWidth(885);
         mSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             //监听搜索按钮

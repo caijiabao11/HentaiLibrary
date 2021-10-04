@@ -1,6 +1,7 @@
 package com.example.administrator.lztsg;
 
 
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,11 +18,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class AvmovieActivity extends AppCompatActivity {
     private WebView mWvMain;
     private Toolbar mToolbar;
+    private ProgressBar mProgressBar;
     private ImageButton mImgButton;
     private FloatingActionButton mFloatingActionButton;
 
@@ -44,6 +47,7 @@ public class AvmovieActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mImgButton = findViewById(R.id.imgbutton);
         mFloatingActionButton = findViewById(R.id.fbutton);
+        mProgressBar = findViewById(R.id.pb);
     }
     private void setview() {
         //缩放操作
@@ -69,7 +73,7 @@ public class AvmovieActivity extends AppCompatActivity {
         mWvMain.setWebViewClient(webClient);
         mWvMain.getSettings().setDomStorageEnabled(false);
         if (Build.VERSION.SDK_INT >= 21) {//同时允许HTTP和HTTPS
-            mWvMain.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            mWvMain.getSettings().setMixedContentMode(WebSettings.LOAD_NO_CACHE);
         }
     }
 
@@ -85,6 +89,20 @@ public class AvmovieActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
             view.loadUrl(request.getUrl().toString());
                 return true;
+        }
+
+        //开始加载时
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        //加载结束
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            mProgressBar.setVisibility(View.GONE);
         }
     };
 

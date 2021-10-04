@@ -2,6 +2,7 @@ package com.example.administrator.lztsg;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -25,12 +26,14 @@ import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MmdActivity extends AppCompatActivity {
     private WebView mWvMain;
     private Toolbar mToolbar;
     private ImageButton mImgButton;
+    private ProgressBar mProgressBar;
     private FloatingActionButton mFloatingActionButton;
     protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     private View customView;
@@ -55,6 +58,7 @@ public class MmdActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mImgButton = findViewById(R.id.imgbutton);
         mFloatingActionButton = findViewById(R.id.fbutton);
+        mProgressBar = findViewById(R.id.pb);
     }
     private void setview() {
         //缩放操作
@@ -82,7 +86,7 @@ public class MmdActivity extends AppCompatActivity {
         mWvMain.setHorizontalScrollBarEnabled(false);
         mWvMain.setWebViewClient(webClient);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//同时允许HTTP和HTTPS
-            mWvMain.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            mWvMain.getSettings().setMixedContentMode(WebSettings.LOAD_NO_CACHE);
         }
         //视频播放相关的方法
         mWvMain.setWebChromeClient(new WebChromeClient() {
@@ -117,6 +121,18 @@ public class MmdActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
             view.loadUrl(request.getUrl().toString());
             return true;
+        }
+        //开始加载时
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+        //加载结束
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            mProgressBar.setVisibility(View.GONE);
         }
     };
 
@@ -157,6 +173,9 @@ public class MmdActivity extends AppCompatActivity {
         fullscreenContainer.addView(view, COVER_SCREEN_PARAMS);
         decor.addView(fullscreenContainer, COVER_SCREEN_PARAMS);
         customView = view;
+        mWvMain.setVisibility(View.INVISIBLE);
+        //
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setStatusBarVisibility(false);
         customViewCallback = callback;
     }
@@ -176,10 +195,10 @@ public class MmdActivity extends AppCompatActivity {
         // 设置竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // 取消全屏
-        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
-        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setAttributes(attrs);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setAttributes(attrs);
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     // 全屏容器界面
