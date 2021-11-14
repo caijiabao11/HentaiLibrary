@@ -9,9 +9,9 @@
             android:icon="@drawable/ic_menu_home"
             android:title="@string/ic_menu_home" />
         <item
-        android:id="@+id/nav_lifan"
-        android:icon="@drawable/ic_menu_lifan"
-        android:title="@string/ic_menu_lifan" />
+            android:id="@+id/nav_lifan"
+            android:icon="@drawable/ic_menu_lifan"
+            android:title="@string/ic_menu_lifan" />
         <item
             android:id="@+id/nav_avmovie"
             android:icon="@drawable/ic_menu_avmovie"
@@ -20,6 +20,11 @@
             android:id="@+id/nav_mmd"
             android:icon="@drawable/ic_menu_mmd"
             android:title="MMD"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_menu_setting"
+            android:title="@string/ic_menu_setting"/>
+
     </group>
 
 </menu>

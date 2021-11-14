@@ -19,6 +19,9 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
     private ArrayList<Item> filterWords;
     private List<Item> mCopyInviteMessages;
 
+    public static final int ITEMONE = 1;
+    public static final int ITEMTWO = 2;
+
     LinearAdapter(List<Item> items) {
         mItems = items;
     }
@@ -35,7 +38,6 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
         //设置Item文字
         holder.title.setText(mItems.get(position).getTitle());
 
-
     }
 
     @NonNull
@@ -50,7 +52,6 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
             //执行过滤操作
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                //String charString = constraint.toString();
                 FilterResults results  = new FilterResults();
                 if(results.values == null){
                     //没有过滤的内容，则使用源数据

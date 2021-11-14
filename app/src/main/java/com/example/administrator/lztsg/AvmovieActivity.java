@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebResourceError;
@@ -19,6 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class AvmovieActivity extends AppCompatActivity {
@@ -26,6 +28,8 @@ public class AvmovieActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ProgressBar mProgressBar;
     private ImageButton mImgButton;
+    private RelativeLayout mBag;
+    private RelativeLayout mBag1;
     private FloatingActionButton mFloatingActionButton;
 
 
@@ -47,7 +51,9 @@ public class AvmovieActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mImgButton = findViewById(R.id.imgbutton);
         mFloatingActionButton = findViewById(R.id.fbutton);
-        mProgressBar = findViewById(R.id.pb);
+        mProgressBar = findViewById(R.id.loading);
+        mBag = findViewById(R.id.bag);
+        mBag1 = findViewById(R.id.bag1);
     }
     private void setview() {
         //缩放操作
@@ -95,14 +101,24 @@ public class AvmovieActivity extends AppCompatActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            AlphaAnimation mShowAction = new AlphaAnimation(0.0f,1.0f);
+            mShowAction.setDuration(500);
+            mProgressBar.startAnimation(mShowAction);
             mProgressBar.setVisibility(View.VISIBLE);
+            mBag.setVisibility(View.VISIBLE);
+            mBag1.setVisibility(View.GONE);
         }
 
         //加载结束
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            AlphaAnimation mHideAction = new AlphaAnimation(1.0f,0.0f);
+            mHideAction.setDuration(500);
+            mProgressBar.startAnimation(mHideAction);
+            mBag.startAnimation(mHideAction);
             mProgressBar.setVisibility(View.GONE);
+            mBag.setVisibility(View.GONE);
         }
     };
 

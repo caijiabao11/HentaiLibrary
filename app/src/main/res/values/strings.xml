@@ -12,6 +12,9 @@
     <string name="ic_menu_lifan">里番</string>
     <string name="ic_meun_avmovie">AV系列</string>
     <string name="ic_meun_mmd">MMD</string>
+    <string name="ic_menu_setting">设定</string>
+    <string name="string_kbnsd">看板娘设定</string>
+    <string name="string_about">关于</string>
 
     <string name="title_">null</string>
     <string name="title_1">[ é l ]エル</string>
@@ -1127,4 +1130,7 @@
     <string name="title_997">卒業○○電車</string>
     <string name="title_998">最终痴汉电车</string>
     <string name="title_999">罪恶~ ヴィシャス~</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

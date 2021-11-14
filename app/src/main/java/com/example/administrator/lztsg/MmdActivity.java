@@ -4,16 +4,17 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -27,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MmdActivity extends AppCompatActivity {
@@ -34,6 +36,8 @@ public class MmdActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ImageButton mImgButton;
     private ProgressBar mProgressBar;
+    private RelativeLayout mBag;
+    private RelativeLayout mBag1;
     private FloatingActionButton mFloatingActionButton;
     protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     private View customView;
@@ -52,13 +56,16 @@ public class MmdActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
     }
     private void bindViews(){
         mWvMain = findViewById(R.id.wv);
         mToolbar = findViewById(R.id.toolbar);
         mImgButton = findViewById(R.id.imgbutton);
         mFloatingActionButton = findViewById(R.id.fbutton);
-        mProgressBar = findViewById(R.id.pb);
+        mProgressBar = findViewById(R.id.loading);
+        mBag = findViewById(R.id.bag);
+        mBag1 = findViewById(R.id.bag1);
     }
     private void setview() {
         //缩放操作
@@ -111,6 +118,9 @@ public class MmdActivity extends AppCompatActivity {
 
     //Web视图
     WebViewClient webClient = new WebViewClient(){
+
+
+
         //加载错误时回调
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view,request,error);
@@ -126,16 +136,26 @@ public class MmdActivity extends AppCompatActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            AlphaAnimation mShowAction = new AlphaAnimation(0.0f,1.0f);
+            mShowAction.setDuration(500);
+            mProgressBar.startAnimation(mShowAction);
             mProgressBar.setVisibility(View.VISIBLE);
+            mBag.setVisibility(View.VISIBLE);
+            mBag1.setVisibility(View.GONE);
         }
         //加载结束
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            AlphaAnimation mHideAction = new AlphaAnimation(1.0f,0.0f);
+            mHideAction.setDuration(500);
+            mProgressBar.startAnimation(mHideAction);
+            mBag.startAnimation(mHideAction);
             mProgressBar.setVisibility(View.GONE);
+            mBag.setVisibility(View.GONE);
+
         }
     };
-
 
     //返回箭头点击事件
     public void ImageButtonOnClick(){
@@ -162,7 +182,6 @@ public class MmdActivity extends AppCompatActivity {
 
     //视频播放全屏
     private void showCustomView(View view, WebChromeClient.CustomViewCallback callback) {
-        // if a view already exists then immediately terminate the new one
         if (customView != null) {
             callback.onCustomViewHidden();
             return;
@@ -194,11 +213,6 @@ public class MmdActivity extends AppCompatActivity {
         mWvMain.setVisibility(View.VISIBLE);
         // 设置竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        // 取消全屏
-//        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getWindow().setAttributes(attrs);
-//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     // 全屏容器界面

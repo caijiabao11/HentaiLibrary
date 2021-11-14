@@ -48,13 +48,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <ProgressBar
-            android:id="@+id/pb"
+        <RelativeLayout
+            android:id="@+id/bag1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:alpha="0.7"
+            android:background="#000" />
+
+        <RelativeLayout
+            android:id="@+id/bag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:alpha="0.7"
+            android:background="#000" />
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-            android:indeterminateTint="#E91E63"/>
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/loading_anim"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fbutton"

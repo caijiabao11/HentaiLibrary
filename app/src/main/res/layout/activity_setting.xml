@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff"
     tools:context=".SettingActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="#46596f"
+        android:fitsSystemWindows="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#46596f">
+
+        <ImageButton
+            android:id="@+id/imgbutton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/ic_arrow_white_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:gravity="center_vertical"
+            android:text="@string/ic_menu_setting"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+
+
+        </RelativeLayout>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/settingsFragment"
+            android:name="com.example.administrator.lztsg.SettingActivity$SettingsFragment"/>
+</LinearLayout>
