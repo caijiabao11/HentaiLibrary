@@ -10,25 +10,35 @@
             android:layout="@layout/layout_setting_item1"
             android:title="@string/string_kbnsd">
 
-                <SwitchPreference
-                    android:key=""
-                    android:layout="@layout/layout_setting_item"
-                    android:summary="仅在Wi-Fi环境下才自动加载图片"
-                    android:title="奇怪的开关" />
+            <SwitchPreference
+                android:key=""
+                android:layout="@layout/layout_setting_item"
+                android:summary="仅在Wi-Fi环境下才自动加载图片"
+                android:title="奇怪的开关" />
 
         </PreferenceCategory>
         <PreferenceCategory
             android:layout="@layout/layout_setting_item1"
             android:title="@string/string_about">
+0
+            <Preference
+                android:key="setting_cleandate"
+                android:layout="@layout/layout_setting_item"
+                android:summary="删除已缓存的文章内容及图片"
+                android:title="清空缓存"/>
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:layout="@layout/layout_setting_item1"
+            android:title="@string/string_about">
 
-        <Preference
-            android:layout="@layout/layout_setting_item"
-            android:summary="删除已缓存的文章内容及图片"
-            android:title="清空缓存" />
-        <Preference
-            android:key="setting_about"
-            android:layout="@layout/layout_setting_item"
-            android:title="关于里の图书馆" >
-        </Preference>
+            <Preference
+                android:key="setting_versionName"
+                android:layout="@layout/layout_setting_item"
+                android:title="版本号"
+                android:summary="@string/versionName"/>
+            <Preference
+                android:key="setting_about"
+                android:layout="@layout/layout_setting_item"
+                android:title="关于里の图书馆"/>
         </PreferenceCategory>
 </PreferenceScreen >

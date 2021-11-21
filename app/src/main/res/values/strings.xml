@@ -13,7 +13,9 @@
     <string name="ic_meun_avmovie">AV系列</string>
     <string name="ic_meun_mmd">MMD</string>
     <string name="ic_menu_setting">设定</string>
+    <string name="versionName">1.0</string>
     <string name="string_kbnsd">看板娘设定</string>
+    <string name="string_">阅读选项</string>
     <string name="string_about">关于</string>
 
     <string name="title_">null</string>
