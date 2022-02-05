@@ -12,21 +12,21 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="#46596f"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#46596f">
+        android:background="@color/colorPrimary">
 
         <ImageButton
             android:id="@+id/imgbutton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/ic_arrow_white_24dp" />
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_arrow" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,6 +43,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="#00ffcc"/>-->
 
         <WebView
             android:id="@+id/wv"
@@ -80,7 +86,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
             android:clickable="true"
-            app:backgroundTint="#46596f"
+            app:backgroundTint="@color/colorPrimary"
             app:maxImageSize="35dp"
             app:srcCompat="@drawable/ic_refresh_black_24dp" />
 

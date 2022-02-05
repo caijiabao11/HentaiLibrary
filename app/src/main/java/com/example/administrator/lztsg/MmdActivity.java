@@ -70,7 +70,7 @@ public class MmdActivity extends AppCompatActivity {
     private void setview() {
         //缩放操作
         mWvMain.getSettings().setSupportZoom(true);//支持缩放，默认为true。是下面那个的前提。
-        mWvMain.getSettings().setBuiltInZoomControls(true);//设置内置的缩放控件。若为false，则该WebView不可缩放
+        mWvMain.getSettings().setBuiltInZoomControls(false);//设置内置的缩放控件。若为false，则该WebView不可缩放
         mWvMain.getSettings().setDisplayZoomControls(false);//隐藏原生的缩放控件
         //设置自适应屏幕
         mWvMain.getSettings().setUseWideViewPort(true);//自适应全屏
@@ -78,7 +78,7 @@ public class MmdActivity extends AppCompatActivity {
         mWvMain.getSettings().setJavaScriptEnabled(true);//支持js
         mWvMain.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         mWvMain.getSettings().setLoadsImagesAutomatically(true);//支持自动加载图片
-        mWvMain.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//缓存设置，直接加载网络数据
+        mWvMain.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//缓存设置，直接加载网络数据
         mWvMain.getSettings().setAllowFileAccess(true); //设置可以访问文件
         mWvMain.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWvMain.getSettings().setAppCacheEnabled(true);//开启H5(APPCache)缓存功能

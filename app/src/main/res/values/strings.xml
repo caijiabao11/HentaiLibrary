@@ -15,7 +15,7 @@
     <string name="ic_menu_setting">设定</string>
     <string name="versionName">1.0</string>
     <string name="string_kbnsd">看板娘设定</string>
-    <string name="string_">阅读选项</string>
+    <string name="string_reading">阅读选项</string>
     <string name="string_about">关于</string>
 
     <string name="title_">null</string>
@@ -1135,4 +1135,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

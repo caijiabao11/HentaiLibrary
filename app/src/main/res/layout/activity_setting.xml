@@ -11,21 +11,21 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="#46596f"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#46596f">
+        android:background="@color/colorPrimary">
 
         <ImageButton
             android:id="@+id/imgbutton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/ic_arrow_white_24dp" />
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_arrow"/>
 
         <TextView
             android:layout_width="wrap_content"

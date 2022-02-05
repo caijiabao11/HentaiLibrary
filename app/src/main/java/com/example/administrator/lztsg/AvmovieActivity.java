@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -56,24 +57,38 @@ public class AvmovieActivity extends AppCompatActivity {
         mBag1 = findViewById(R.id.bag1);
     }
     private void setview() {
+        mWvMain.setBackgroundColor(0);
         //缩放操作
         mWvMain.getSettings().setSupportZoom(true);//支持缩放，默认为true。是下面那个的前提。
-        mWvMain.getSettings().setBuiltInZoomControls(true);//设置内置的缩放控件。若为false，则该WebView不可缩放
+        mWvMain.getSettings().setBuiltInZoomControls(false);//设置内置的缩放控件。若为false，则该WebView不可缩放
         mWvMain.getSettings().setDisplayZoomControls(false);//隐藏原生的缩放控件
         //设置自适应屏幕
         mWvMain.getSettings().setUseWideViewPort(true);//自适应全屏
         mWvMain.getSettings().setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         mWvMain.getSettings().setJavaScriptEnabled(true);//支持js
         mWvMain.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-        mWvMain.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//缓存设置，直接加载网络数据
         mWvMain.getSettings().setAllowFileAccess(true); //设置可以访问文件
         mWvMain.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         mWvMain.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWvMain.getSettings().setBlockNetworkImage(false);
         mWvMain.getSettings().setDefaultTextEncodingName("UTF-8");//编码
         mWvMain.getSettings().setLoadWithOverviewMode(true);
+        //文件权限
+        mWvMain.getSettings().setAllowFileAccess(true);
+        mWvMain.getSettings().setAllowFileAccessFromFileURLs(true);
+        mWvMain.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        mWvMain.getSettings().setAllowContentAccess(true);
+        //缓存相关
+        mWvMain.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//优先加载本地缓存，无缓存就网络加载
+        mWvMain.getSettings().setDomStorageEnabled(true);//开启DOM storage API功能
+        mWvMain.getSettings().setDatabaseEnabled(true);//开启database storeage API功能
+        String cacheDirPath = getFilesDir().getAbsolutePath()+ "/webcache";//缓存路径
+        Log.i("cachePath", cacheDirPath);
+        mWvMain.getSettings().setAppCachePath(cacheDirPath);//设置AppCaches缓存路径
+        mWvMain.getSettings().setAppCacheEnabled(true);//开启AppCaches功能
         //加载网络url
         mWvMain.loadUrl("https:/www.javlibrary.com/cn/");
+        //
         mWvMain.setVerticalScrollBarEnabled(false);
         mWvMain.setHorizontalScrollBarEnabled(false);
         mWvMain.setWebViewClient(webClient);

@@ -23,11 +23,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import static com.example.administrator.lztsg.R.drawable.ic_arrow_back_black_24dp;
-import static com.example.administrator.lztsg.R.drawable.ic_search_black_24dp;
+import static com.example.administrator.lztsg.R.drawable.btn_arrow_black;
+import static com.example.administrator.lztsg.R.drawable.btn_search;
+import static com.example.administrator.lztsg.R.drawable.btn_search_notcolor;
 
 public class LifanActivity extends AppCompatActivity{
     private LinearAdapter mLinearAdaoter;
@@ -147,8 +151,8 @@ public class LifanActivity extends AppCompatActivity{
         float startRadius = 0f;
         float endRadius = Math.max(mRelativeLayoutSearch.getWidth(),mRelativeLayoutSearch.getHeight());
         mShowAnim = ViewAnimationUtils.createCircularReveal(mRelativeLayoutSearch,centerX,centerY,startRadius,endRadius);
-        mShowAnim.setDuration(500).start();
         expand();
+        mShowAnim.setDuration(500).start();
         mShowAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -170,8 +174,19 @@ public class LifanActivity extends AppCompatActivity{
         float startRadius = Math.max(mRelativeLayoutSearch.getWidth(),mRelativeLayoutSearch.getHeight());
         float endRadius = 0f;
         mHideAnim = ViewAnimationUtils.createCircularReveal(mRelativeLayoutSearch,centerX,centerY,startRadius,endRadius);
-        mHideAnim.setDuration(500).start();
         reduce();
+        if (reduce()==true){
+            //延时500毫秒
+            Timer timer = new Timer();
+            TimerTask tack = new TimerTask(){
+                public void run(){
+                    mSearchButton.setBackgroundResource(btn_search);
+                }
+            };
+            timer.schedule(tack,500);
+
+        }
+        mHideAnim.setDuration(500).start();
         mHideAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -186,16 +201,17 @@ public class LifanActivity extends AppCompatActivity{
 
     //搜索按钮————>返回按钮
     private void expand(){
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mSearchButton,"translationX",0,-885);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mSearchButton,"translationX",0,-840);
         objectAnimator.setDuration(500).start();
-        mSearchButton.setBackgroundResource(ic_arrow_back_black_24dp);
+        mSearchButton.setBackgroundResource(btn_arrow_black);
     }
 
     //返回按钮————>搜索按钮
-    private void reduce(){
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mSearchButton,"translationX",-885,0);
+    private boolean reduce(){
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mSearchButton,"translationX",-840,0);
         objectAnimator.setDuration(500).start();
-        mSearchButton.setBackgroundResource(ic_search_black_24dp);
+        mSearchButton.setBackgroundResource(btn_search_notcolor);
+        return true;
     }
 
     //搜索框

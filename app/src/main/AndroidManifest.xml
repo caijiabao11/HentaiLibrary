@@ -34,14 +34,14 @@
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".MmdActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
             android:label="@string/ic_meun_mmd"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".SettingActivity"
             android:label="@string/ic_menu_setting"
-            android:theme="@style/ImageTranslucentTheme"/>
+            android:theme="@style/ImageTranslucentTheme" />
     </application>
 
 </manifest>
