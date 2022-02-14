@@ -12,37 +12,49 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import static com.example.administrator.lztsg.R.id.drawer_layout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private WebView mWvMain;
+    private ImageView mIvbtnrest;
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawer;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        bindViews();
         setView();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
+        setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
+        mNavigationView.setNavigationItemSelectedListener(this);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        onTabBtnrestOnClick();
     }
-    public void setView(){
+
+    private void bindViews(){
         mWvMain = findViewById(R.id.wv);
+        mIvbtnrest = findViewById(R.id.tabbtn_more);
+        mToolbar = findViewById(R.id.toolbar);
+        mDrawer = findViewById(drawer_layout);
+        mNavigationView = findViewById(R.id.nav_view);
+    }
+
+    public void setView(){
         mWvMain.setBackgroundColor(0);
         mWvMain.getSettings().setBuiltInZoomControls(false);//设置内置的缩放控件。若为false，则该WebView不可缩放
         //设置自适应屏幕
@@ -137,5 +149,15 @@ public class MainActivity extends AppCompatActivity
             //在这里处理
 
         }return super.onKeyDown(keyCode, event);
+    }
+    //更多功能按钮点击事件
+    public void onTabBtnrestOnClick(){
+        mIvbtnrest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(MainActivity.this,MoreActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

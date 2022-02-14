@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_lizhitusuguang_icon_round"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/ImageTranslucentTheme">
@@ -42,6 +43,10 @@
             android:name=".SettingActivity"
             android:label="@string/ic_menu_setting"
             android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".MoreActivity"
+            android:label="@string/ic_menu_setting"
+            android:theme="@style/ImageTranslucentTheme"/>
     </application>
 
 </manifest>

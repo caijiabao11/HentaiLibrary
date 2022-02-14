@@ -4,21 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welrer_background"
+    android:background="@color/colorAllTextDark"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@null"
-    android:fitsSystemWindows="true"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:fitsSystemWindows="true"/>
 
     <WebView
         android:id="@+id/wv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+    </WebView>
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -27,11 +29,14 @@
             app:popupTheme="@style/PopupOverlay" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/tabitem_background" />
-    <include layout="@layout/content_main" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
+        <include
+            layout="@layout/layout_tabbutton"/>
+    </RelativeLayout>
+
+    <include layout="@layout/content_main"/>
 
 </android.support.design.widget.CoordinatorLayout>

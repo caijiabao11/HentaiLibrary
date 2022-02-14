@@ -83,12 +83,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
             android:clickable="true"
             app:backgroundTint="@color/colorPrimary"
             app:maxImageSize="35dp"
-            app:srcCompat="@drawable/ic_refresh_black_24dp" />
+            app:srcCompat="@drawable/ic_refresh_white" />
 
     </FrameLayout>
 

@@ -59,8 +59,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_menu_setting" />
-                            <entry key="sourceFile" value="D:\新建文件夹\ic_menu_mmd.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_refresh_white" />
+                            <entry key="sourceFile" value="D:\桌面\refresh.svg" />
                           </map>
                         </option>
                       </PersistentState>
