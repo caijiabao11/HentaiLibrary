@@ -36,8 +36,7 @@ public class MmdActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ImageButton mImgButton;
     private ProgressBar mProgressBar;
-    private RelativeLayout mBag;
-    private RelativeLayout mBag1;
+    private RelativeLayout mBag,mBag1;
     private FloatingActionButton mFloatingActionButton;
     protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     private View customView;

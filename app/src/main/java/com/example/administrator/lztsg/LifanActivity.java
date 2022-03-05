@@ -35,18 +35,15 @@ import static com.example.administrator.lztsg.R.drawable.btn_search_notcolor;
 
 public class LifanActivity extends AppCompatActivity{
     private LinearAdapter mLinearAdaoter;
-    private ImageButton mImgButton;
-    private ImageButton mSearchButton;
+    private ImageButton mImgButton,mSearchButton;
     private EditText mSearch;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private RelativeLayout mRelativeLayoutSearch;
     private TransitionSet mSet;
-    private Animator mShowAnim;
-    private Animator mHideAnim;
+    private Animator mShowAnim,mHideAnim;
     private Toolbar mToolbar;
-    private List<Item> mData;
-    private List<Item> mAllData;
+    private List<Item> mData,mAllData;
 
 
     @Override

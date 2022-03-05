@@ -19,8 +19,52 @@
         </PreferenceCategory>
         <PreferenceCategory
             android:layout="@layout/layout_setting_item1"
+            android:title="@string/string_cdxg">
+
+            <SwitchPreference
+                android:key="cdsh"
+                android:layout="@layout/layout_setting_item"
+                android:summary="开启后插入充电器充电时开始补魔"
+                android:title="图书姬充电守护"/>
+
+            <SwitchPreference
+                android:key=""
+                android:layout="@layout/layout_setting_item"
+                android:summary=""
+                android:title="亮屏守护 "
+                android:dependency="cdsh"/>
+
+            <SwitchPreference
+                android:key=""
+                android:layout="@layout/layout_setting_item"
+                android:summary=""
+                android:title="守护常亮"
+                android:dependency="cdsh"/>
+
+            <SwitchPreference
+                android:key=""
+                android:layout="@layout/layout_setting_item"
+                android:summary=""
+                android:title="音乐跟随"
+                android:dependency="cdsh"/>
+
+            <Preference
+                android:key=""
+                android:layout="@layout/layout_setting_item2"
+                android:summary="删除已缓存的文章内容及图片"
+                android:title="清空缓存"/>
+
+            <Preference
+                android:key=""
+                android:layout="@layout/layout_setting_item2"
+                android:summary="删除已缓存的文章内容及图片"
+                android:title="清空缓存"/>
+
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:layout="@layout/layout_setting_item1"
             android:title="@string/string_about">
-0
+
             <Preference
                 android:key="setting_cleandate"
                 android:layout="@layout/layout_setting_item"
@@ -34,11 +78,19 @@
             <Preference
                 android:key="setting_versionName"
                 android:layout="@layout/layout_setting_item"
-                android:title="版本号"
-                android:summary="@string/versionName"/>
-            <Preference
+                android:summary="@string/versionName"
+                android:title="版本号" />
+
+            <PreferenceScreen
                 android:key="setting_about"
                 android:layout="@layout/layout_setting_item"
-                android:title="关于里の图书馆"/>
+                android:summary="https://github.com/caijiabao11/HentaiLibrary"
+                android:title="关于里の图书馆">
+
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/caijiabao11/HentaiLibrary" />
+
+            </PreferenceScreen>
         </PreferenceCategory>
 </PreferenceScreen >

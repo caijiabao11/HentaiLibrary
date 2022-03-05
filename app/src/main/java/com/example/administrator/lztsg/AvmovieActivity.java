@@ -29,8 +29,7 @@ public class AvmovieActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ProgressBar mProgressBar;
     private ImageButton mImgButton;
-    private RelativeLayout mBag;
-    private RelativeLayout mBag1;
+    private RelativeLayout mBag,mBag1;
     private FloatingActionButton mFloatingActionButton;
 
 

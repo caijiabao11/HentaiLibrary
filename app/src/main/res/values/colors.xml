@@ -5,6 +5,6 @@
     <color name="colorAccent">#A452A8</color>
     <color name="colorSearch">#222222</color>
     <color name="colorAllBagWhite">#FFFFFF</color>
-    <color name="colorAllText">#222222</color>
+    <color name="colorAllText">#2C2C2C</color>
     <color name="colorAllTextDark">#FFFFFF</color>
 </resources>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
     private ArrayList<Item> filterWords;
     private List<Item> mCopyInviteMessages;
 
-    public static final int ITEMONE = 1;
-    public static final int ITEMTWO = 2;
+    private static final int ITEMONE = 0;
+    private static final int ITEMTWO = 1;
 
     LinearAdapter(List<Item> items) {
         mItems = items;
@@ -31,8 +32,21 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
         return mItems.size();
     }
 
+//    @Override
+//    public int getItemViewType(int position) {
+//        //根据某一个参数不同的值来返回对应的Type
+//        switch (mItems.get(position).getItemType()) {
+//            case HENTAI:
+//                return ITEMONE;
+//            case TESTHOLEKILN:
+//                return ITEMTWO;
+//        }
+//        return -1;
+//    }
+
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+
         //设置Item图片
         holder.image.setImageResource(mItems.get(position).getImageResId());
         //设置Item文字
@@ -43,8 +57,19 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemHolder(LayoutInflater
-                .from(parent.getContext()).inflate(R.layout.layout_linear_item, parent, false));
+        View view;
+        if (viewType ==ITEMONE) {
+            //item==0，里番item布局
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.layout_linear_item, parent, false);
+            return new ItemHolder(view);
+        } else if (viewType == ITEMTWO){
+            //item==1，更多功能item布局
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.layout_linear_item, parent, false);
+            return new ItemHolder(view);
+        }
+        return null;
     }
     public Filter getFilter(){
         return new Filter() {
