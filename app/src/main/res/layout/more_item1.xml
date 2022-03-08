@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp">
 
@@ -17,8 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:scrollY="-120dp"
-            android:src="@drawable/bag_1" />
+            android:scrollY="-120dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -33,8 +33,7 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:text="小电视beta"
                 android:textSize="26sp" />
         </RelativeLayout>
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

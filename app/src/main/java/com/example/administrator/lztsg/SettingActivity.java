@@ -1,12 +1,12 @@
 package com.example.administrator.lztsg;
 
 import android.os.Bundle;
-import android.support.v14.preference.PreferenceFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.Preference;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragment;
 
 
 public class SettingActivity extends AppCompatActivity {

@@ -1,12 +1,12 @@
-package com.example.administrator.lztsg;
+package com.example.administrator.lztsg.items;
 
 
-class Item {
+public class More1Item implements MultipleItem {
 
     private int mImageResId;
     private String mTitle;
 
-    Item(int imageResId, String title) {
+    public More1Item(int imageResId, String title) {
         mImageResId = imageResId;
         mTitle = title;
     }
@@ -27,6 +27,8 @@ class Item {
         mTitle = title;
     }
 
-
+    public ItemType getItemType() {
+        return ItemType.MORE1;
+    }
 }
 

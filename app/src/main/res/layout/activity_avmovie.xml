@@ -8,7 +8,7 @@
     tools:context=".AvmovieActivity">
 
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="25dp"
@@ -78,7 +78,7 @@
             android:visibility="gone"
             android:indeterminateDrawable="@drawable/loading_anim"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

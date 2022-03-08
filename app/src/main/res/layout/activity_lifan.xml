@@ -8,7 +8,7 @@
     android:background="#fff"
     tools:context=".LifanActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="25dp"
@@ -85,7 +85,7 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/run_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

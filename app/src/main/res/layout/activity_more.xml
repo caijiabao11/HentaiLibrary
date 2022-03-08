@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".MoreActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="25dp"
@@ -171,23 +171,9 @@
             android:textColor="#2c2c2c"
             android:text="功能区"/>
 
-        <LinearLayout
-            android:id="@+id/tv_beta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <include layout="@layout/more_item1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/test_holekiln"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <include layout="@layout/more_item"/>
-        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/run_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </LinearLayout>

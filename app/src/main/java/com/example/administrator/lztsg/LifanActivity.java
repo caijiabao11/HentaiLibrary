@@ -6,12 +6,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.transition.TransitionSet;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -23,17 +17,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import com.example.administrator.lztsg.items.Item;
+import com.example.administrator.lztsg.items.MultipleItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionSet;
 import static com.example.administrator.lztsg.R.drawable.btn_arrow_black;
 import static com.example.administrator.lztsg.R.drawable.btn_search;
 import static com.example.administrator.lztsg.R.drawable.btn_search_notcolor;
 
-public class LifanActivity extends AppCompatActivity{
+public class LifanActivity extends AppCompatActivity {
     private LinearAdapter mLinearAdaoter;
     private ImageButton mImgButton,mSearchButton;
     private EditText mSearch;
@@ -43,7 +43,7 @@ public class LifanActivity extends AppCompatActivity{
     private TransitionSet mSet;
     private Animator mShowAnim,mHideAnim;
     private Toolbar mToolbar;
-    private List<Item> mData,mAllData;
+    private List<MultipleItem> mData,mAllData;
 
 
     @Override
@@ -88,7 +88,8 @@ public class LifanActivity extends AppCompatActivity{
                 //输出标题
                 localStringBuilder.append("");
                 localStringBuilder.append((String)localObject1);
-                ((List)localObject2).add(new Item(j, localStringBuilder.toString()));
+                ((List)localObject2).add(new Item(j, localStringBuilder.toString()) {
+                });
 
             }
             catch (NumberFormatException localNumberFormatException)
@@ -107,7 +108,12 @@ public class LifanActivity extends AppCompatActivity{
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     //初始化适配器
-        mLinearAdaoter = new LinearAdapter(mData);
+        mLinearAdaoter = new LinearAdapter(mData, new LinearAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        });
     //设置适配器
         mRecyclerView.setAdapter(mLinearAdaoter);
     }
@@ -249,9 +255,11 @@ public class LifanActivity extends AppCompatActivity{
             private void doChangeColor(String text) {
                     String data = mSearch.getText().toString();
                     mData.clear();
-                    for (Item item:mAllData){
-                        if (item.getTitle().contains(data)){
-                            mData.add(item);
+
+                    for (MultipleItem item:mAllData){
+                        final Item value = (Item) item;
+                        if (value.getTitle().contains(data)){
+                            mData.add(value);
                         }
                     }
                     //刷新

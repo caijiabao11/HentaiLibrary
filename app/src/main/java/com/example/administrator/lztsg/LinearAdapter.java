@@ -2,29 +2,35 @@ package com.example.administrator.lztsg;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.example.administrator.lztsg.items.Item;
+import com.example.administrator.lztsg.items.More1Item;
+import com.example.administrator.lztsg.items.MoreItem;
+import com.example.administrator.lztsg.items.MultipleItem;
 import java.util.ArrayList;
 import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
+class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mcontext;
-    private List<Item> mItems;
-    private ArrayList<Item> filterWords;
-    private List<Item> mCopyInviteMessages;
+    private List<MultipleItem> mItems;
+    private ArrayList<MultipleItem> filterWords;
+    private List<MultipleItem> mCopyInviteMessages;
+    private OnItemClickListener mListener;
 
-    private static final int ITEMONE = 0;
-    private static final int ITEMTWO = 1;
+    private static final int ITEMZERO = 0;
+    private static final int ITEMONE = 1;
+    private static final int ITEMTWO = 2;
 
-    LinearAdapter(List<Item> items) {
+    LinearAdapter(List<MultipleItem> items,OnItemClickListener listener) {
         mItems = items;
+        mListener = listener;
     }
 
     @Override
@@ -32,42 +38,87 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
         return mItems.size();
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        //根据某一个参数不同的值来返回对应的Type
-//        switch (mItems.get(position).getItemType()) {
-//            case HENTAI:
-//                return ITEMONE;
-//            case TESTHOLEKILN:
-//                return ITEMTWO;
-//        }
-//        return -1;
-//    }
+    @Override
+    public int getItemViewType(int position) {
+        //根据某一个参数不同的值来返回对应的Type
+        switch (mItems.get(position).getItemType()) {
+            case HENTAI:
+                return ITEMZERO;
+            case MORE:
+                return ITEMONE;
+            case MORE1:
+                return ITEMTWO;
+        }
+        return -1;
+    }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
-        //设置Item图片
-        holder.image.setImageResource(mItems.get(position).getImageResId());
-        //设置Item文字
-        holder.title.setText(mItems.get(position).getTitle());
+        switch (mItems.get(position).getItemType()) {
+            case HENTAI:
+                Item item = (Item) mItems.get(position);
+                ItemHolder itemHolder = (ItemHolder)holder;
+                //设置Item图片
+                itemHolder.image.setImageResource(item.getImageResId());
+                //设置Item文字
+                itemHolder.title.setText(item.getTitle());
+                break;
+            case MORE:
+                MoreItem item1 = (MoreItem) mItems.get(position);
+                MoreHolder moreHolder = (MoreHolder)holder;
+                String s1 = "bag";
+                String s2 = "bag_1";
+                //设置Item图片
+                moreHolder.image.setImageResource(item1.getImageResId());
+                //设置Item文字
+                moreHolder.title.setText(item1.getTitle());
+                moreHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onClick(position);
+                    }
+                });
+                break;
+            case MORE1:
+                More1Item item2 = (More1Item) mItems.get(position);
+                More1Holder more1Holder = (More1Holder)holder;
+                //设置Item图片
+                more1Holder.image.setImageResource(item2.getImageResId());
+                //设置Item文字
+                more1Holder.title.setText(item2.getTitle());
+                more1Holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onClick(position);
+                    }
+                });
+                break;
 
+            case TESTHOLEKILN:
+                break;
+        }
     }
 
     @NonNull
     @Override
-    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if (viewType ==ITEMONE) {
+        if (viewType ==ITEMZERO) {
             //item==0，里番item布局
             view = LayoutInflater
                     .from(parent.getContext()).inflate(R.layout.layout_linear_item, parent, false);
             return new ItemHolder(view);
-        } else if (viewType == ITEMTWO){
+        } else if (viewType == ITEMONE) {
             //item==1，更多功能item布局
             view = LayoutInflater
-                    .from(parent.getContext()).inflate(R.layout.layout_linear_item, parent, false);
-            return new ItemHolder(view);
+                    .from(parent.getContext()).inflate(R.layout.more_item, parent, false);
+            return new MoreHolder(view);
+        } else if (viewType == ITEMTWO){
+            //item==2，更多功能item布局1
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.more_item1, parent, false);
+            return new More1Holder(view);
         }
         return null;
     }
@@ -91,9 +142,9 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
                     String prefixString = constraint.toString();
                     final int count = mItems.size();
                     //用于存放暂时的过滤结果
-                    final ArrayList<Item> newValues = new ArrayList<Item>();
+                    final ArrayList<MultipleItem> newValues = new ArrayList<MultipleItem>();
                     for (int i=0;i<count;i++){
-                        final Item value = mItems.get(i);
+                        final Item value = (Item) mItems.get(i);
                         String username= value.getTitle();
                         if (username.contains(prefixString)){
                             newValues.add(value);
@@ -118,7 +169,7 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 mItems.clear();//清除数据
                 if(null != results && null != results.values){
-                    mItems.addAll((ArrayList<Item>)results.values);//将过滤结果添加到这个对象
+                    mItems.addAll((ArrayList<MultipleItem>)results.values);//将过滤结果添加到这个对象
                 }
                 if (results.count == 0){
                     //有关键字的时候刷新数据
@@ -129,13 +180,13 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
                         notifyDataSetChanged();
                         return;
                     }
-                    setFilter((ArrayList<Item>) mCopyInviteMessages);
+                    setFilter((ArrayList<MultipleItem>) mCopyInviteMessages);
                 }
             }
         };
     }
 
-    public void setFilter(ArrayList<Item> filterWords) {
+    public void setFilter(ArrayList<MultipleItem> filterWords) {
         mCopyInviteMessages = new ArrayList<>();
         this.mCopyInviteMessages.addAll(filterWords);
         this.mItems=filterWords;
@@ -152,5 +203,33 @@ class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.ItemHolder> {
             image = item.findViewById(R.id.image_view);
             title = item.findViewById(R.id.text_title);
         }
+    }
+
+    class MoreHolder extends RecyclerView.ViewHolder {
+
+        ImageView image;
+        TextView title;
+
+        MoreHolder(View item) {
+            super(item);
+            image = item.findViewById(R.id.image_view);
+            title = item.findViewById(R.id.text_title);
+        }
+    }
+
+    class More1Holder extends RecyclerView.ViewHolder {
+
+        ImageView image;
+        TextView title;
+
+        More1Holder(View item) {
+            super(item);
+            image = item.findViewById(R.id.image_view);
+            title = item.findViewById(R.id.text_title);
+        }
+    }
+    //Item点击接口
+    public interface OnItemClickListener{
+        void onClick(int position);
     }
 }

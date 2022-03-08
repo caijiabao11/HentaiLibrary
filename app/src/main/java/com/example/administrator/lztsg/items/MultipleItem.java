@@ -1,9 +1,9 @@
-package com.example.administrator.lztsg;
+package com.example.administrator.lztsg.items;
 
 public interface MultipleItem {
 
     enum ItemType{
-        HENTAI,TESTHOLEKILN
+        HENTAI,MORE,MORE1,TESTHOLEKILN
     }
     ItemType getItemType();
 }
