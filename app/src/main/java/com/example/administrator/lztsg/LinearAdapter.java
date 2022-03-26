@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.More1Item;
 import com.example.administrator.lztsg.items.MoreItem;
 import com.example.administrator.lztsg.items.MultipleItem;
+import com.example.administrator.lztsg.items.TestholeItem;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +31,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEMZERO = 0;
     private static final int ITEMONE = 1;
     private static final int ITEMTWO = 2;
+    private static final int ITEMTHREE = 3;
 
     LinearAdapter(List<MultipleItem> items,OnItemClickListener listener) {
         mItems = items;
@@ -48,6 +53,8 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return ITEMONE;
             case MORE1:
                 return ITEMTWO;
+            case TESTHOLE:
+                return ITEMTHREE;
         }
         return -1;
     }
@@ -67,8 +74,6 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case MORE:
                 MoreItem item1 = (MoreItem) mItems.get(position);
                 MoreHolder moreHolder = (MoreHolder)holder;
-                String s1 = "bag";
-                String s2 = "bag_1";
                 //设置Item图片
                 moreHolder.image.setImageResource(item1.getImageResId());
                 //设置Item文字
@@ -94,8 +99,19 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
                 break;
-
-            case TESTHOLEKILN:
+            case TESTHOLE:
+                TestholeItem item3 = (TestholeItem) mItems.get(position);
+                TestholeHolder testholeHolder = (TestholeHolder)holder;
+                //设置Item图片
+                testholeHolder.image.setImageResource(item3.getImageResId());
+                //设置Item文字
+                testholeHolder.title.setText(item3.getTitle());
+                testholeHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onClick(position);
+                    }
+                });
                 break;
         }
     }
@@ -119,6 +135,11 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view = LayoutInflater
                     .from(parent.getContext()).inflate(R.layout.more_item1, parent, false);
             return new More1Holder(view);
+        } else if (viewType == ITEMTHREE){
+            //item==3，更多功能item布局1
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.testhole_video_item, parent, false);
+            return new TestholeHolder(view);
         }
         return null;
     }
@@ -228,6 +249,19 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             title = item.findViewById(R.id.text_title);
         }
     }
+
+    class TestholeHolder extends RecyclerView.ViewHolder {
+
+        ImageView image;
+        TextView title;
+
+        TestholeHolder(View item) {
+            super(item);
+            image = item.findViewById(R.id.image_view);
+            title = item.findViewById(R.id.text_title);
+        }
+    }
+
     //Item点击接口
     public interface OnItemClickListener{
         void onClick(int position);

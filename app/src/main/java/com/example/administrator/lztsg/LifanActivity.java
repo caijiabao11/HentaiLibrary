@@ -17,18 +17,22 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.MultipleItem;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionSet;
+
 import static com.example.administrator.lztsg.R.drawable.btn_arrow_black;
 import static com.example.administrator.lztsg.R.drawable.btn_search;
 import static com.example.administrator.lztsg.R.drawable.btn_search_notcolor;
@@ -38,7 +42,7 @@ public class LifanActivity extends AppCompatActivity {
     private ImageButton mImgButton,mSearchButton;
     private EditText mSearch;
     private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLinearLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     private RelativeLayout mRelativeLayoutSearch;
     private TransitionSet mSet;
     private Animator mShowAnim,mHideAnim;
@@ -103,9 +107,9 @@ public class LifanActivity extends AppCompatActivity {
 
     public void LinearRecyclerView(){
     //初始化线性布局管理器
-        mLinearLayoutManager = new LinearLayoutManager(this);
+        mGridLayoutManager = new GridLayoutManager(this,2);
     //设置布局管理器
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     //初始化适配器
         mLinearAdaoter = new LinearAdapter(mData, new LinearAdapter.OnItemClickListener() {

@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".TestholekilnActivity">
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,17 +17,17 @@
             android:layout_height="25dp"
             android:fitsSystemWindows="true"/>
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_itembg"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:background="@drawable/f" />-->
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vtop_pager"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/testholekin_item_lngc_img"/>
-<!--        <ImageButton-->
-<!--            android:id="@+id/imgbutton"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginLeft="15dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:background="@drawable/btn_arrow"/>-->
+            android:layout_height="300dp"/>
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,36 +37,62 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="75dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:textSize="12sp"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_main_title"
                 android:textColor="@color/colorTextgray"
                 android:text="打卡提醒"/>
 
             <Switch
                 android:id="@+id/daka_switch"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"
                 android:layout_marginRight="25dp"
                 android:gravity="center_vertical"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:tabTextColor="@color/colorTextgray"
+                app:tabMode="scrollable"
+                app:tabGravity="fill"
+                app:tabIndicator="@drawable/layer_tab_indicator"
+                app:tabIndicatorColor="@color/colorPinke"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="3dp"
+                app:tabSelectedTextColor="#000"
+                app:tabMinWidth="50dp"
+                app:tabPadding="0dp"
+                app:tabPaddingBottom="4dp"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="10dp"
+                app:tabPaddingTop="0dp"
+                app:tabRippleColor="@null">
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/v_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
