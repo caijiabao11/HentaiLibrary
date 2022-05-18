@@ -9,6 +9,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.More1Item;
 import com.example.administrator.lztsg.items.MoreItem;
@@ -103,7 +104,8 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 TestholeItem item3 = (TestholeItem) mItems.get(position);
                 TestholeHolder testholeHolder = (TestholeHolder)holder;
                 //设置Item图片
-                testholeHolder.image.setImageResource(item3.getImageResId());
+//                testholeHolder.image.setImageURI(Uri.parse(item3.getmImageUrl()));
+                Glide.with(MyApplication.getContext()).load(item3.getmImageUrl()).into(testholeHolder.image);
                 //设置Item文字
                 testholeHolder.title.setText(item3.getTitle());
                 testholeHolder.itemView.setOnClickListener(new View.OnClickListener() {

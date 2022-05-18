@@ -1,14 +1,20 @@
 package com.example.administrator.lztsg;
 
 
+
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import com.example.administrator.lztsg.httpjson.HttpJsonResolution;
+import com.example.administrator.lztsg.httpjson.TestholekoHttpJson;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,36 +23,17 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 
-public class TestholekilnActivity extends AppCompatActivity {
+public class TestholekilnActivity extends AppCompatActivity{
+    private static SetInto setmInto;
+    private static TextView itv;
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager2,mTopbgViewPeger;
     private String[] mTitles={"地狱寸止","颅内高潮","节奏大师"};
-    private String s=" {\n" +
-            "    \"@context\": \"https://schema.org\",\n" +
-            "    \"@type\": \"VideoObject\",\n" +
-            "    \"name\": \"HMV7\",\n" +
-            "    \"description\": \"Watch HMV7 on SpankBang now! - Hmv, Hentai, Big Tits Porn - SpankBang \",\n" +
-            "    \"thumbnailUrl\": \"https://tb.sb-cd.com/t/10060872/1/0/w:1280/t7-enh/hmv7.jpg\",\n" +
-            "    \"uploadDate\": \"2021-09-21T20:06:05\",\n" +
-            "    \"duration\": \"PT00H05M43S\",\n" +
-            "    \"contentUrl\": \"https://vdownload-19.sb-cd.com/1/0/10060872-720p.mp4?secure=m5X5QiO3YgsqLgQF_B8YuQ,1647021825&m=19&d=4&_tid=10060872\",\n" +
-            "    \"embedUrl\": \"https://spankbang.com/5zn0o/embed/\",\n" +
-            "\n" +
-            "    \"interactionStatistic\": [\n" +
-            "    {\n" +
-            "          \"@type\": \"InteractionCounter\",\n" +
-            "          \"interactionType\": \"http://schema.org/WatchAction\",\n" +
-            "          \"userInteractionCount\": \"6439\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "          \"@type\": \"InteractionCounter\",\n" +
-            "          \"interactionType\": \"http://schema.org/LikeAction\",\n" +
-            "          \"userInteractionCount\": \"112\"\n" +
-            "     }\n" +
-            "    ],\n" +
-            "\n" +
-            "    \"keywords\": \"Hmv, Hentai, Big Tits\"\n" +
-            "  }";
+
+    public static void setInto(SetInto setInto){
+        setmInto = setInto;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +42,13 @@ public class TestholekilnActivity extends AppCompatActivity {
         bindViews();
         LinearRecyclerView();
         initData();
-//        try {
-//            JSONObject js = new JSONObject(s);
-//            js.get("contentUrl");
-////            System.out.println();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     private void bindViews() {
         mTabLayout = findViewById(R.id.tab_layout);
         mViewPager2 = findViewById(R.id.v_pager);
         mTopbgViewPeger = findViewById(R.id.vtop_pager);
+        itv = findViewById(R.id.itv);
     }
 
     //载入数据
@@ -167,5 +147,31 @@ public class TestholekilnActivity extends AppCompatActivity {
                 return TopbgPagerFragment.newInstance(position);
             }
         });
+    }
+
+    public static void Into(){
+        TestholekoHttpJson.getData(new HttpJsonResolution() {
+            Handler handler = new Handler();
+            @Override
+            public void onFinish(final ArrayList<String> title, final String imageurl, final String videourl) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        itv.setText(title.get(0));
+                        setmInto.onFinish(title, imageurl, videourl);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+
+    }
+
+    public interface SetInto{
+        void onFinish(ArrayList<String> title, String imgurl, String videourl);
     }
 }

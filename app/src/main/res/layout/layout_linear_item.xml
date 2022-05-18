@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
 
         </RelativeLayout>
@@ -32,5 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/colorAllText"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="14sp" />
 </LinearLayout>

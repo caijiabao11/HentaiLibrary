@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class TopbgPagerFragment extends BaseFragment{
     private static final String KEY_POSITION = "position";
     private ImageView mImageView;
@@ -48,4 +50,11 @@ public class TopbgPagerFragment extends BaseFragment{
     public void onDestroyFragment() {
 
     }
+
+
+    @Override
+    public void onFinish(ArrayList<String> title, String imageurl, String videourl) {
+
+    }
+
 }

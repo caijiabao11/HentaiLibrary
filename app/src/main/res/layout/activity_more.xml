@@ -13,46 +13,33 @@
         android:layout_height="25dp"
         android:fitsSystemWindows="true"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_weight="3">
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:contentDescription="@string/nav_header_desc"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                app:riv_border_color="#ccc"
-                app:riv_oval="true"
-                android:src="@mipmap/ic_launcher_lizhitusuguang_icon_round" />
-        </LinearLayout>
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_close_black"/>
-
+            android:layout_height="match_parent"
+            android:contentDescription="@string/nav_header_desc"
+            android:layout_marginLeft="12dp"
+            app:riv_border_color="#ccc"
+            app:riv_oval="true"
+            android:src="@mipmap/ic_launcher_lizhitusuguang_icon_round" />
         <ImageButton
             android:id="@+id/imgbutton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="12dp"
             android:background="@drawable/ic_close_black"/>
-    </LinearLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_height="65dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/cun_m_bg">
 
@@ -63,103 +50,115 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="12dp"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/cun_m_bg">
+                android:background="@drawable/cun_m_bg"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_heiye_notcolor"/>
+                    android:background="@drawable/btn_heiye_notcolor" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
+                    android:text="白噪音"
                     android:textColor="@color/colorAllText"
-                    android:textSize="@dimen/text_main_title"
-                    android:text="白噪音"/>
+                    android:textSize="@dimen/text_main_title" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="6dp"
                 android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:orientation="vertical"
-                android:background="@drawable/cun_m_bg">
+                android:background="@drawable/cun_m_bg"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_searchbygraph_notcolor"/>
+                    android:background="@drawable/btn_searchbygraph_notcolor" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
+                    android:text="搜图"
                     android:textColor="@color/colorAllText"
-                    android:textSize="@dimen/text_main_title"
-                    android:text="搜图"/>
+                    android:textSize="@dimen/text_main_title" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical"
-                android:background="@drawable/cun_m_bg">
+                android:background="@drawable/cun_m_bg"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_heiye_notcolor"/>
+                    android:background="@drawable/btn_heiye_notcolor" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
+                    android:text="白噪音"
                     android:textColor="@color/colorAllText"
-                    android:textSize="@dimen/text_main_title"
-                    android:text="白噪音"/>
+                    android:textSize="@dimen/text_main_title" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/cun_m_bg">
+                android:background="@drawable/cun_m_bg"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_heiye_notcolor"/>
+                    android:background="@drawable/btn_heiye_notcolor" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
+                    android:text="白噪音"
                     android:textColor="@color/colorAllText"
-                    android:textSize="@dimen/text_main_title"
-                    android:text="白噪音"/>
+                    android:textSize="@dimen/text_main_title" />
             </LinearLayout>
 
         </LinearLayout>
@@ -167,13 +166,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:text="功能区"
             android:textColor="#2c2c2c"
-            android:text="功能区"/>
+            android:textSize="26sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/run_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
