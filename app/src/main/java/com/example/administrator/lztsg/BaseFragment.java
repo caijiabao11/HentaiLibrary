@@ -38,9 +38,9 @@ public abstract class BaseFragment extends Fragment implements TestholekilnActiv
         handler.post(new Runnable() {
             @Override
             public void run() {
-                for (int i=0;i<4;i++) {
+//                for (int i=0;i<4;i++) {
                     TestholekilnActivity.Into();
-                }
+//                }
             }
         });
         initView(rootview);

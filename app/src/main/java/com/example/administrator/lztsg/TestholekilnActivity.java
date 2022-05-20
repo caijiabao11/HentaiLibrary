@@ -14,8 +14,6 @@ import com.example.administrator.lztsg.httpjson.TestholekoHttpJson;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -153,11 +151,11 @@ public class TestholekilnActivity extends AppCompatActivity{
         TestholekoHttpJson.getData(new HttpJsonResolution() {
             Handler handler = new Handler();
             @Override
-            public void onFinish(final ArrayList<String> title, final String imageurl, final String videourl) {
+            public void onFinish(final String title, final String imageurl, final String videourl) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        itv.setText(title.get(0));
+                        itv.setText(title);
                         setmInto.onFinish(title, imageurl, videourl);
                     }
                 });
@@ -172,6 +170,6 @@ public class TestholekilnActivity extends AppCompatActivity{
     }
 
     public interface SetInto{
-        void onFinish(ArrayList<String> title, String imgurl, String videourl);
+        void onFinish(String title, String imgurl, String videourl);
     }
 }

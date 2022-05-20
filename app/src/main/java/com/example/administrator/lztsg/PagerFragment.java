@@ -76,6 +76,7 @@ public class PagerFragment extends BaseFragment implements TestholekilnActivity.
             mAllData.addAll(mData);
 //            mData.add(new TestholeItem("dd"+mTitle,"","https://tb.sb-cd.com/t/8488681/8/4/w:1280/t2-enh/hmv-hentai-mv.jpg"));
             mData.add(new TestholeItem("dd"+mTitle,"",""+mImage));
+            mData.add(new TestholeItem("dd"+mTitle,"",""+mImage));
 //           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
 //           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
 //           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
@@ -94,16 +95,14 @@ public class PagerFragment extends BaseFragment implements TestholekilnActivity.
     }
 
     @Override
-    public void onFinish(final ArrayList<String> title, final String imageurl, final String videourl) {
-        this.mTitle = title.get(0);
+    public void onFinish(final String title, final String imageurl, final String videourl) {
+        this.mTitle = title;
         this.mImage = imageurl;
-//        ArrayList<String> ss = new ArrayList();
-//        this.mImage = imageurl;
-            mData.add(new TestholeItem(""+mTitle,"",""+imageurl));
-//            ss.add(title);
-//            ss.toString();
+
+        mData.add(new TestholeItem(""+title,"",""+imageurl));
+
         Log.e("激活成功","激活成功");
-//        LinearRecyclerView();
+
         mLinearAdaoter.notifyDataSetChanged();
     }
 
