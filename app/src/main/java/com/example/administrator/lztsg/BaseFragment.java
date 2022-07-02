@@ -32,15 +32,12 @@ public abstract class BaseFragment extends Fragment implements TestholekilnActiv
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(initLyout(), container, true);
-//        TestholekoHttpJson.setmResolution(this);
         TestholekilnActivity.setInto(this);
         Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-//                for (int i=0;i<4;i++) {
                     TestholekilnActivity.Into();
-//                }
             }
         });
         initView(rootview);

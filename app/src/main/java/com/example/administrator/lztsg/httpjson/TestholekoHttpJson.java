@@ -74,13 +74,12 @@ public class TestholekoHttpJson {
                         JSONObject json = new JSONObject(scriptEle.data());
                         httpJson.Allname.add((String)json.get("name"));
                         httpJson.Allimg.add((String) json.get("thumbnailUrl"));
-//                        String text =((String) json.get("name"));
-//                        String imageurl = (String) json.get("thumbnailUrl") ;
+
                         String videourl = (String) json.get("contentUrl");
                         Log.e("text数据","text数据"+scriptEle.data());
-                        if (Allname.size() % 6 == 0 && resolution!=null) {
-                            int loging = 0;
-                            while (loging <= 5) {
+                        if (Allname.size() % 10== 0 && resolution!=null) {
+                                int loging = 0;
+                            while (loging <= (Allname.size()-1)) {
                                 String text = Allname.get(loging);
                                 String imageurl = Allimg.get(loging);
                                 //回调onFinish方法

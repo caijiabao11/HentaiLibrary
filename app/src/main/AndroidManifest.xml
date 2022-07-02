@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_lizhitusuguang_icon_round"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".BetaTvActivity"></activity>
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/ImageTranslucentTheme">
@@ -29,6 +30,10 @@
             android:name=".LifanActivity"
             android:label="@string/ic_menu_lifan"
             android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".LifanDetailpageActivity"
+            android:label="@string/nullname"
+            android:theme="@style/LifanDetailpageTheme" />
         <activity
             android:name=".AvmovieActivity"
             android:label="@string/ic_meun_avmovie"
@@ -50,7 +55,7 @@
         <activity
             android:name=".TestholekilnActivity"
             android:label="@string/ic_menu_testholekiln"
-            android:theme="@style/ImageTranslucentTheme"/>
+            android:theme="@style/ImageTranslucentTheme" />
     </application>
 
 </manifest>

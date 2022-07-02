@@ -1,6 +1,8 @@
 package com.example.administrator.lztsg;
 
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,9 @@ import androidx.recyclerview.widget.RecyclerView;
 class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mcontext;
     private List<MultipleItem> mItems;
+
+
+
     private ArrayList<MultipleItem> filterWords;
     private List<MultipleItem> mCopyInviteMessages;
     private OnItemClickListener mListener;
@@ -61,16 +66,42 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
+    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        addAnimation(holder);
+    }
+
+    private void addAnimation(RecyclerView.ViewHolder holder) {
+        for(Animator anim : getAnimators(holder.itemView)){
+            anim.setDuration(300).start();
+        }
+    }
+
+    private Animator[] getAnimators(View view) {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 0, 1f);
+        return new ObjectAnimator[]{alpha};
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
         switch (mItems.get(position).getItemType()) {
             case HENTAI:
-                Item item = (Item) mItems.get(position);
-                ItemHolder itemHolder = (ItemHolder)holder;
+                final Item item = (Item) mItems.get(position);
+                final ItemHolder itemHolder = (ItemHolder)holder;
                 //设置Item图片
                 itemHolder.image.setImageResource(item.getImageResId());
                 //设置Item文字
                 itemHolder.title.setText(item.getTitle());
+//                itemHolder.itemView.setAnimation(AnimationUtils.loadAnimation(itemHolder.itemView.getContext(),R.anim.alpha));
+                //设置点击事件
+                itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.itemonClick(position,mItems);
+//                        mListener.itemHoldersonClick(position);
+                    }
+                });
                 break;
             case MORE:
                 MoreItem item1 = (MoreItem) mItems.get(position);
@@ -82,7 +113,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 moreHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.onClick(position);
+                        mListener.itemHoldersonClick(position);
                     }
                 });
                 break;
@@ -96,7 +127,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 more1Holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.onClick(position);
+                        mListener.itemHoldersonClick(position);
                     }
                 });
                 break;
@@ -105,13 +136,16 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 TestholeHolder testholeHolder = (TestholeHolder)holder;
                 //设置Item图片
 //                testholeHolder.image.setImageURI(Uri.parse(item3.getmImageUrl()));
-                Glide.with(MyApplication.getContext()).load(item3.getmImageUrl()).into(testholeHolder.image);
+                Glide.with(MyApplication.getContext())
+                        .load(item3.getmImageUrl())
+                        .fitCenter()
+                        .into(testholeHolder.image);
                 //设置Item文字
                 testholeHolder.title.setText(item3.getTitle());
                 testholeHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.onClick(position);
+                        mListener.itemHoldersonClick(position);
                     }
                 });
                 break;
@@ -140,7 +174,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (viewType == ITEMTHREE){
             //item==3，更多功能item布局1
             view = LayoutInflater
-                    .from(parent.getContext()).inflate(R.layout.testhole_video_item, parent, false);
+                    .from(parent.getContext()).inflate(R.layout.layout_linear_item, parent, false);
             return new TestholeHolder(view);
         }
         return null;
@@ -266,6 +300,8 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //Item点击接口
     public interface OnItemClickListener{
-        void onClick(int position);
+        void itemonClick(int position,List<MultipleItem> mItems);
+
+        void itemHoldersonClick(int position);
     }
 }

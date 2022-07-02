@@ -17,16 +17,18 @@
             android:layout_height="25dp"
             android:fitsSystemWindows="true"/>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/iv_itembg"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="300dp"-->
-<!--            android:background="@drawable/f" />-->
+        <ImageView
+            android:id="@+id/iv_itembg"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="visible"
+            android:background="@drawable/topitemtoing" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vtop_pager"
             android:layout_width="match_parent"
             android:layout_height="300dp"/>
+
 
     </RelativeLayout>
     <RelativeLayout

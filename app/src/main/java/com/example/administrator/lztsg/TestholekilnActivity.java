@@ -1,14 +1,16 @@
 package com.example.administrator.lztsg;
 
 
-
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.administrator.lztsg.anima.ZoomOutPageTransformer;
 import com.example.administrator.lztsg.httpjson.HttpJsonResolution;
 import com.example.administrator.lztsg.httpjson.TestholekoHttpJson;
 import com.google.android.material.tabs.TabLayout;
@@ -24,6 +26,7 @@ import androidx.viewpager2.widget.ViewPager2;
 public class TestholekilnActivity extends AppCompatActivity{
     private static SetInto setmInto;
     private static TextView itv;
+    private ImageView mImagetoing;
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager2,mTopbgViewPeger;
     private String[] mTitles={"地狱寸止","颅内高潮","节奏大师"};
@@ -47,10 +50,15 @@ public class TestholekilnActivity extends AppCompatActivity{
         mViewPager2 = findViewById(R.id.v_pager);
         mTopbgViewPeger = findViewById(R.id.vtop_pager);
         itv = findViewById(R.id.itv);
+        mImagetoing = findViewById(R.id.iv_itembg);
     }
 
     //载入数据
     private void initData(){
+        Glide.with(TestholekilnActivity.this)
+                .load(R.drawable.topitemtoing)
+                .centerCrop()
+                .into(mImagetoing);
         //标题
         for (int i=0;i<mTitles.length;i++){
             mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[i]),false);
@@ -132,6 +140,7 @@ public class TestholekilnActivity extends AppCompatActivity{
                 return mTitles.length;
             }
         });
+        mTopbgViewPeger.setPageTransformer(new ZoomOutPageTransformer());
         mTopbgViewPeger.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         mTopbgViewPeger.setAdapter(new FragmentStateAdapter(getSupportFragmentManager(), getLifecycle()) {
             @Override
@@ -155,7 +164,6 @@ public class TestholekilnActivity extends AppCompatActivity{
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        itv.setText(title);
                         setmInto.onFinish(title, imageurl, videourl);
                     }
                 });

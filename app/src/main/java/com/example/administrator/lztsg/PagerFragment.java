@@ -18,10 +18,11 @@ public class PagerFragment extends BaseFragment implements TestholekilnActivity.
     private static final String KEY_POSITION = "position";
     private RecyclerView mRecyclerView;
     private int position;
-    private static String mTitle,mImage;
+    private static ArrayList<String> mTitle = new ArrayList<>();
+    private static ArrayList<String> mImage = new ArrayList<>();
     private LinearAdapter mLinearAdaoter;
     private GridLayoutManager mGridLayoutManager;
-    private static List<MultipleItem> mData,mAllData;
+    private static List<MultipleItem> mData = new ArrayList<>(),mAllData = new ArrayList<>();
 
 
     public static PagerFragment newInstance(int position) {
@@ -40,10 +41,13 @@ public class PagerFragment extends BaseFragment implements TestholekilnActivity.
         //初始化适配器
         mLinearAdaoter = new LinearAdapter(mData, new LinearAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int position) {
-//                switch (mData.get(position).getItemType()){
-//
-//                }
+            public void itemonClick(int position, List<MultipleItem> mItems) {
+
+            }
+
+            @Override
+            public void itemHoldersonClick(int position) {
+
             }
         });
         //设置适配器
@@ -67,24 +71,27 @@ public class PagerFragment extends BaseFragment implements TestholekilnActivity.
 
     @Override
     public void initData(Context context) {
-        this.mData = new ArrayList<MultipleItem>();
-        this.mAllData = new ArrayList<MultipleItem>();
+        this.mData = new ArrayList<>();
+//        this.mAllData = new ArrayList<MultipleItem>();
         position = getArguments().getInt(KEY_POSITION);
         LinearRecyclerView();
 
         if (position == 0 && mTitle != null){
-            mAllData.addAll(mData);
-//            mData.add(new TestholeItem("dd"+mTitle,"","https://tb.sb-cd.com/t/8488681/8/4/w:1280/t2-enh/hmv-hentai-mv.jpg"));
-            mData.add(new TestholeItem("dd"+mTitle,"",""+mImage));
-            mData.add(new TestholeItem("dd"+mTitle,"",""+mImage));
-//           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
-//           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
-//           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
-        } else if (position == 1){
+
+//            for (String name:mTitle){
+//
+//                mData.add(new TestholeItem(""+name,"",""));
+//            }
+            for(int i=0;i<mTitle.size();i++){
+                mData.add(new TestholeItem("dd"+mTitle.get(i),"",""+mImage.get(i)));
+
+            }
 //            mAllData.addAll(mData);
-           mData.add(new TestholeItem("aa","",""));
+
+        } else if (position == 1){
+
         } else if (position ==2){
-//           mData.add(new TestholeItem(R.drawable.jzds_hmv7,"HMV7"));
+
         }
 
     }
@@ -96,12 +103,12 @@ public class PagerFragment extends BaseFragment implements TestholekilnActivity.
 
     @Override
     public void onFinish(final String title, final String imageurl, final String videourl) {
-        this.mTitle = title;
-        this.mImage = imageurl;
-
+        //赋予数组
+//            mTitle = (ArrayList<String>) title.clone();
+        mTitle.add(title);
+        mImage.add(imageurl);
         mData.add(new TestholeItem(""+title,"",""+imageurl));
-
-        Log.e("激活成功","激活成功");
+        Log.e("激活成功"+title.toString(),"激活成功");
 
         mLinearAdaoter.notifyDataSetChanged();
     }

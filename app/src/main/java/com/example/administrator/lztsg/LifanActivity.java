@@ -3,11 +3,14 @@ package com.example.administrator.lztsg;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -15,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,29 +30,34 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.transition.TransitionSet;
 
+import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static com.example.administrator.lztsg.R.drawable.btn_arrow_black;
 import static com.example.administrator.lztsg.R.drawable.btn_search;
 import static com.example.administrator.lztsg.R.drawable.btn_search_notcolor;
 
 public class LifanActivity extends AppCompatActivity {
     private LinearAdapter mLinearAdaoter;
+    private LinearAdapter.ItemHolder mItemHolder;
     private ImageButton mImgButton,mSearchButton;
     private EditText mSearch;
     private RecyclerView mRecyclerView;
-    private GridLayoutManager mGridLayoutManager;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private RelativeLayout mRelativeLayoutSearch;
     private TransitionSet mSet;
     private Animator mShowAnim,mHideAnim;
     private Toolbar mToolbar;
     private List<MultipleItem> mData,mAllData;
-
+    public int[] firstStaggeredGridPosition={0,0};
+    public int[] lastStaggeredGridPosition={0,0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,19 +116,83 @@ public class LifanActivity extends AppCompatActivity {
 
     public void LinearRecyclerView(){
     //初始化线性布局管理器
-        mGridLayoutManager = new GridLayoutManager(this,2);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
     //设置布局管理器
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     //初始化适配器
         mLinearAdaoter = new LinearAdapter(mData, new LinearAdapter.OnItemClickListener() {
+
             @Override
-            public void onClick(int position) {
+            public void itemonClick(int position, List<MultipleItem> mItems) {
+                  final Intent intent = new Intent(getApplication(),LifanDetailpageActivity.class);
+//                //传递图片、标题信息
+                Bundle bundle = new Bundle();
+                Item item = (Item) mItems.get(position);
+                bundle.putInt("itemImageId",item.getImageResId());
+                bundle.putString("itemTitle",item.getTitle());
+                intent.putExtras(bundle);
+
+//                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+                int realFirstPosition = Math.min(firstStaggeredGridPosition[0],firstStaggeredGridPosition[1]);
+                mItemHolder = (LinearAdapter.ItemHolder)mRecyclerView.getChildViewHolder(mRecyclerView.getChildAt(position - realFirstPosition));
+                //获取共享动画的View对象
+                ImageView card_info_image= mItemHolder.image;
+                //绑定共享空间，并赋予标签（便于寻找）
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LifanActivity.this,
+                        Pair.<View, String>create(card_info_image, "item_info_image"));
+                startActivity(intent,options.toBundle());
+            }
+
+            @Override
+            public void itemHoldersonClick(int position) {
+
 
             }
         });
     //设置适配器
         mRecyclerView.setAdapter(mLinearAdaoter);
+    //设置recycleView的滚动监听
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //该if判断的是滚动的状态，其意义是放置不断的刷新if内的语句
+                if (newState == SCROLL_STATE_IDLE || newState == SCROLL_STATE_DRAGGING) {
+                    // DES: 找出当前可视Item位置
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    //我们使用的layoutManager是StaggeredGrid
+                    if (layoutManager instanceof StaggeredGridLayoutManager) {
+                        StaggeredGridLayoutManager linearManager = (StaggeredGridLayoutManager) layoutManager;
+                        //获取绝对坐标
+                        //第一个可见位置
+                        linearManager.findFirstVisibleItemPositions(firstStaggeredGridPosition);
+                        //最后一个可见位置
+                        linearManager.findLastVisibleItemPositions(lastStaggeredGridPosition);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+//                LinearAdapter.ItemHolder itemHolder = (LinearAdapter.ItemHolder) recyclerView.getChildViewHolder(mRecyclerView);
+                if(layoutManager !=null && layoutManager instanceof StaggeredGridLayoutManager){
+                    if (!recyclerView.canScrollVertically(1)){
+                        //滑到顶部
+                    } else if (!recyclerView.canScrollVertically(-1)){
+                        //滑到底部
+                    } else if (dy >0){
+                        //监听上滑
+//                    mItemHolder.itemView.setAnimation();
+                    } else if (dy < 0){
+                        //监听下滑
+//                        mItemHolder.itemView.setAnimation(AnimationUtils.loadAnimation(mItemHolder.itemView.getContext(),R.anim.alpha));
+                    }
+                }
+            }
+        });
     }
 
     //返回箭头点击事件
@@ -153,7 +226,7 @@ public class LifanActivity extends AppCompatActivity {
 
     //搜索框显示时的布局
     private void initShowAnim(){
-        int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2)+ 6;
+        int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2);
         int centerY = mRelativeLayoutSearch.getMeasuredHeight()/2;
         float startRadius = 0f;
         float endRadius = Math.max(mRelativeLayoutSearch.getWidth(),mRelativeLayoutSearch.getHeight());
@@ -176,7 +249,7 @@ public class LifanActivity extends AppCompatActivity {
 
     //搜索框隐藏时布局
     private void initHideAnim(){
-        int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2)+ 6;
+        int centerX = mRelativeLayoutSearch.getMeasuredWidth() - (mSearchButton.getMeasuredWidth()+ mSearchButton.getMeasuredWidth() /2);
         int centerY = mRelativeLayoutSearch.getMeasuredHeight()/2;
         float startRadius = Math.max(mRelativeLayoutSearch.getWidth(),mRelativeLayoutSearch.getHeight());
         float endRadius = 0f;

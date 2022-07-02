@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
 import com.example.administrator.lztsg.items.More1Item;
 import com.example.administrator.lztsg.items.MoreItem;
 import com.example.administrator.lztsg.items.MultipleItem;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +52,12 @@ public class MoreActivity extends AppCompatActivity {
         //初始化适配器
         mLinearAdaoter = new LinearAdapter(mData, new LinearAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int position) {
+            public void itemonClick(int position, List<MultipleItem> mItems) {
+
+            }
+
+            @Override
+            public void itemHoldersonClick(int position) {
                 switch (mData.get(position).getItemType()){
                     case MORE:
                         //试炼洞窑点击事件
