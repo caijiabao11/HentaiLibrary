@@ -98,7 +98,9 @@ public class AvmovieActivity extends AppCompatActivity {
         }
     }
 
-    //Web视图
+    /**
+     * Web视图
+     */
     WebViewClient webClient = new WebViewClient(){
         //加载错误时回调
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -156,6 +158,7 @@ public class AvmovieActivity extends AppCompatActivity {
             }
         });
     }
+
     //悬浮按钮刷新点击事件
     public void FloatingActionButtonreloadOnClick(){
         mFloatingActionButton.setOnClickListener(new View.OnClickListener(){

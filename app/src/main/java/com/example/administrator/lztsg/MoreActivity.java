@@ -66,7 +66,7 @@ public class MoreActivity extends AppCompatActivity {
                         break;
                     case MORE1:
                         //小电视beta点击事件
-                        final Intent intent1 = new Intent(MoreActivity.this,LifanActivity.class);
+                        final Intent intent1 = new Intent(MoreActivity.this,BetaTvActivity.class);
                         startActivity(intent1);
                         break;
                 }

@@ -11,8 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_lizhitusuguang_icon_round"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".BetaTvActivity"></activity>
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/ImageTranslucentTheme">
@@ -56,6 +56,16 @@
             android:name=".TestholekilnActivity"
             android:label="@string/ic_menu_testholekiln"
             android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".TestholekilnVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity
+            android:name=".BetaTvActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme"/>
     </application>
 
 </manifest>

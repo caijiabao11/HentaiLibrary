@@ -47,6 +47,8 @@ public class LifanDetailpageActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //返回键监听
         mFloatingActionButton.setVisibility(View.INVISIBLE);
+//        Animation livefabon = AnimationUtils.loadAnimation(this,R.anim.scale_off);
+//        mFloatingActionButton.setAnimation(livefabon);
         return super.onKeyDown(keyCode, event);
     }
 }

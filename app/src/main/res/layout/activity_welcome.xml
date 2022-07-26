@@ -7,13 +7,17 @@
     tools:context=".WelcomeActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/welcom_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:background="@drawable/welrer_background"
-        android:fitsSystemWindows="true"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="一切都是兴趣使然~"

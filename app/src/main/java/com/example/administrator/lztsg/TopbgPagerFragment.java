@@ -51,7 +51,12 @@ public class TopbgPagerFragment extends BaseFragment{
 
 
     @Override
-    public void onFinish(String title, String imageurl, String videourl) {
+    public void onFapHeroFinish(String title, String imageurl, String videourl, String duration) {
+
+    }
+
+    @Override
+    public void onHentaiFinish(String title, String imageurl, String videourl, String duration) {
 
     }
 

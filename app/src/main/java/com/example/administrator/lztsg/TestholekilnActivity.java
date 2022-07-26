@@ -4,15 +4,19 @@ package com.example.administrator.lztsg;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.lztsg.anima.ZoomOutPageTransformer;
+import com.example.administrator.lztsg.httpjson.FapHeroHttpJson;
+import com.example.administrator.lztsg.httpjson.HentaiJoiHttpJson;
 import com.example.administrator.lztsg.httpjson.HttpJsonResolution;
-import com.example.administrator.lztsg.httpjson.TestholekoHttpJson;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -26,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2;
 public class TestholekilnActivity extends AppCompatActivity{
     private static SetInto setmInto;
     private static TextView itv;
+    private WebView mWebView;
     private ImageView mImagetoing;
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager2,mTopbgViewPeger;
@@ -43,6 +48,15 @@ public class TestholekilnActivity extends AppCompatActivity{
         bindViews();
         LinearRecyclerView();
         initData();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("Into","激活");
+                Into();
+            }
+        },30000);
     }
 
     private void bindViews() {
@@ -51,6 +65,7 @@ public class TestholekilnActivity extends AppCompatActivity{
         mTopbgViewPeger = findViewById(R.id.vtop_pager);
         itv = findViewById(R.id.itv);
         mImagetoing = findViewById(R.id.iv_itembg);
+        mWebView = findViewById(R.id.web_gethtml);
     }
 
     //载入数据
@@ -122,6 +137,23 @@ public class TestholekilnActivity extends AppCompatActivity{
                 }
             }
         }).start();
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.addJavascriptInterface(new HentaiJoiHttpJson(), "HTMLOUT");
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                super.onPageFinished(view, url);
+            }
+        });
+        mWebView.loadUrl("https://www.xvideos.com/channels/wutfaced#_tabVideos");
     }
 
 
@@ -157,14 +189,33 @@ public class TestholekilnActivity extends AppCompatActivity{
     }
 
     public static void Into(){
-        TestholekoHttpJson.getData(new HttpJsonResolution() {
-            Handler handler = new Handler();
+        Handler handler = new Handler();
+
+        FapHeroHttpJson.getData(new HttpJsonResolution() {
+
             @Override
-            public void onFinish(final String title, final String imageurl, final String videourl) {
+            public void onFinish(final String title, final String imageurl, final String videourl, final String duration) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        setmInto.onFinish(title, imageurl, videourl);
+                        setmInto.onFapHeroFinish(title, imageurl, videourl, duration);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+
+        HentaiJoiHttpJson.getData(new HttpJsonResolution() {
+            @Override
+            public void onFinish(String title, String imageurl, String videourl, String duration) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setmInto.onHentaiFinish(title, imageurl, videourl, duration);
                     }
                 });
             }
@@ -178,6 +229,7 @@ public class TestholekilnActivity extends AppCompatActivity{
     }
 
     public interface SetInto{
-        void onFinish(String title, String imgurl, String videourl);
+        void onFapHeroFinish(String title, String imageurl, String videourl, String duration);
+        void onHentaiFinish(String title, String imageurl, String videourl, String duration);
     }
 }

@@ -9,14 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HtmlService {
-    private static int GOingUrl = 1;
 
-    public static void getHtml(final String path, final String videourl, final HttpCallbackListener listener){
+    public static void getHtml(final String path, final String videourl, final int GOingUrl, final HttpCallbackListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
-                //抓取百度首页的数据，网络访问的数据可能会产生一些异常的情况，建议操作写在try里面
                 //1,获取HttpURLConnection的实例
                 //新建一个url
                 URL url = null;
@@ -24,16 +22,21 @@ public class HtmlService {
                     if (GOingUrl == 1){
                         //第一次跑首页
                         url = new URL(path);
-                        GOingUrl = 2;
                     } else if (GOingUrl == 2){
                         //第二次跑视频链接
                         url = new URL(videourl);
                     }
                     connection = (HttpURLConnection) url.openConnection();
                     //2,设置http请求的参数
-                    connection.setRequestMethod("GET");//设置请求方式为GET
+
+//                    connection.setRequestProperty("Accept",
+//                            "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*");
+//                    connection.setRequestProperty("Accept-Language", "utf-8");
+//                    connection.setRequestProperty("UA-CPU", "x86");
+//                    connection.setRequestProperty("Accept-Encoding", "gzip");//为什么没有deflate呢
                     connection.setConnectTimeout(8000);//设置连接超时为8s
-                    connection.setReadTimeout(8000);//设置读取操作超时为8s
+                    connection.setReadTimeout(30000);//设置读取操作超时为30s
+                    connection.setRequestMethod("GET");//设置请求方式为GET
                     //3,调用connect（）方法连接远程资源，并对服务器响应进行判断
                     connection.connect();
                     int responsCode = connection.getResponseCode();//得到服务器响应的一个代码

@@ -18,7 +18,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,6 +32,7 @@ import java.util.TimerTask;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -48,6 +48,7 @@ public class LifanActivity extends AppCompatActivity {
     private LinearAdapter mLinearAdaoter;
     private LinearAdapter.ItemHolder mItemHolder;
     private ImageButton mImgButton,mSearchButton;
+    private CardView mCardView;
     private EditText mSearch;
     private RecyclerView mRecyclerView;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
@@ -79,6 +80,7 @@ public class LifanActivity extends AppCompatActivity {
         mSearchButton = findViewById(R.id.searchbutton);
         mToolbar = findViewById(R.id.toolbar);
         mRelativeLayoutSearch = findViewById(R.id.rela_search);
+        mCardView = findViewById(R.id.cardview);
     }
 
     //载入图片+标题
@@ -137,7 +139,7 @@ public class LifanActivity extends AppCompatActivity {
                 int realFirstPosition = Math.min(firstStaggeredGridPosition[0],firstStaggeredGridPosition[1]);
                 mItemHolder = (LinearAdapter.ItemHolder)mRecyclerView.getChildViewHolder(mRecyclerView.getChildAt(position - realFirstPosition));
                 //获取共享动画的View对象
-                ImageView card_info_image= mItemHolder.image;
+                ItemsRoundImageView card_info_image= (ItemsRoundImageView) mItemHolder.image;
                 //绑定共享空间，并赋予标签（便于寻找）
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LifanActivity.this,
                         Pair.<View, String>create(card_info_image, "item_info_image"));

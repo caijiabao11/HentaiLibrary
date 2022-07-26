@@ -9,4 +9,5 @@
     <color name="colorAllBagWhite">#FFFFFF</color>
     <color name="colorAllText">#2C2C2C</color>
     <color name="colorAllTextDark">#FFFFFF</color>
+    <color name="ThemeColor">#ff5c00</color>
 </resources>
