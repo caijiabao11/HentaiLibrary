@@ -65,7 +65,7 @@ public class LifanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lifan);
         setSupportActionBar(mToolbar);
-        bindViews();
+        init();
         onSearch();
         initData();
         LinearRecyclerView();
@@ -73,7 +73,7 @@ public class LifanActivity extends AppCompatActivity {
         SearchButtonOnClick();
     }
 
-    private void bindViews() {
+    private void init() {
         mRecyclerView = findViewById(R.id.run_main);
         mSearch = findViewById(R.id.edt_search);
         mImgButton = findViewById(R.id.imgbutton);
@@ -337,6 +337,8 @@ public class LifanActivity extends AppCompatActivity {
 
                     for (MultipleItem item:mAllData){
                         final Item value = (Item) item;
+                        //.startsWith   以指定字符串开头筛选（精准搜索）
+                        //.contains     以字符串中是否存在筛选（模糊搜索）
                         if (value.getTitle().contains(data)){
                             mData.add(value);
                         }

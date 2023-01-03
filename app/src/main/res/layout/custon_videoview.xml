@@ -10,16 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
     </FrameLayout>
 
     <ImageView
         android:id="@+id/poster"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
+        android:layout_height="200dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
         android:adjustViewBounds="true"
         android:background="#000000"
         android:scaleType="fitXY" />
@@ -73,7 +72,6 @@
             android:clickable="true"
             android:paddingLeft="20dp"
             android:text="clarity"
-
             android:textAlignment="center"
             android:textColor="#ffffff" />
 
@@ -85,6 +83,7 @@
             android:paddingRight="14dp"
             android:scaleType="centerInside"
             android:src="@drawable/jz_enlarge" />
+
     </LinearLayout>
 
     <ProgressBar
@@ -174,6 +173,19 @@
                 android:textColor="#ffffffff"
                 android:textSize="12.0sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_speed"
+            android:layout_width="42dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_toStartOf="@+id/battery_time_layout"
+            android:layout_toLeftOf="@+id/battery_time_layout"
+            android:gravity="center"
+            android:text="倍速"
+            android:textColor="#ffffffff" />
     </RelativeLayout>
 
     <ProgressBar
@@ -205,7 +217,6 @@
             android:src="@drawable/jz_click_play_selector" />
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/replay_text"
         android:layout_width="wrap_content"
@@ -216,6 +227,17 @@
         android:text="@string/replay"
         android:textColor="#ffffff"
         android:textSize="12sp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/lock"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/unlock"
+        android:scaleType="centerInside"
         android:visibility="invisible" />
 
     <LinearLayout

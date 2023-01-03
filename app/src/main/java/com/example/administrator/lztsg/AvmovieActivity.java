@@ -38,7 +38,7 @@ public class AvmovieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avmovie);
-        bindViews();
+        init();
         setview();
         ImageButtonOnClick();
         FloatingActionButtonreloadOnClick();
@@ -47,7 +47,7 @@ public class AvmovieActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
-    private void bindViews(){
+    private void init(){
         mWvMain = findViewById(R.id.wv);
         mToolbar = findViewById(R.id.toolbar);
         mImgButton = findViewById(R.id.imgbutton);

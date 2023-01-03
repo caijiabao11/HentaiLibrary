@@ -2,23 +2,35 @@ package com.example.administrator.lztsg;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class WelcomeActivity extends AppCompatActivity {
     private ImageView mImageView;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        init();
+        initData();
+    }
+
+    private void init() {
         mImageView = findViewById(R.id.welcom_bg);
+        mWebView = findViewById(R.id.web_gethtml);
+    }
+
+    private void initData() {
         Glide.with(MyApplication.getContext())
                 .load(R.drawable.video_bgimg_1)
                 .centerCrop()

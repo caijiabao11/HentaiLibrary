@@ -27,13 +27,13 @@ public class MoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more);
-        bindViews();
+        init();
         initData();
         LinearRecyclerView();
         ImageButtonOnClick();
     }
 
-    private void bindViews() {
+    private void init() {
         mImgButton = findViewById(R.id.imgbutton);
         mRecyclerView = findViewById(R.id.run_main);
     }

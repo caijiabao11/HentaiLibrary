@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bindViews();
+        init();
         setView();
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         onTabBtnrestOnClick();
     }
 
-    private void bindViews(){
+    private void init(){
         mWvMain = findViewById(R.id.wv);
         mIvbtnrest = findViewById(R.id.tabbtn_more);
         mToolbar = findViewById(R.id.toolbar);

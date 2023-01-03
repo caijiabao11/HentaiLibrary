@@ -16,11 +16,11 @@ public class SettingActivity extends AppCompatActivity {
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        bindViews();
+        init();
         ImageButtonOnClick();
     }
 
-    private void bindViews(){
+    private void init(){
         mImgButton = findViewById(R.id.imgbutton);
     }
 

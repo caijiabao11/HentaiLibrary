@@ -34,12 +34,23 @@ public class HtmlService {
 //                    connection.setRequestProperty("Accept-Language", "utf-8");
 //                    connection.setRequestProperty("UA-CPU", "x86");
 //                    connection.setRequestProperty("Accept-Encoding", "gzip");//为什么没有deflate呢
-                    connection.setConnectTimeout(8000);//设置连接超时为8s
+                    connection.setConnectTimeout(10000);//设置连接超时为8s
                     connection.setReadTimeout(30000);//设置读取操作超时为30s
                     connection.setRequestMethod("GET");//设置请求方式为GET
                     //3,调用connect（）方法连接远程资源，并对服务器响应进行判断
                     connection.connect();
                     int responsCode = connection.getResponseCode();//得到服务器响应的一个代码
+                    while (responsCode != HttpURLConnection.HTTP_OK){
+                            connection.connect();
+                            if (responsCode == HttpURLConnection.HTTP_OK) {
+                                break;
+                            } else {
+                                Log.d("服务器休息10秒","......");
+                                Thread.sleep(10000);
+                                //结束本次循环
+                                continue;
+                            }
+                    }
                     if (responsCode == HttpURLConnection.HTTP_OK){
                         //进行数据读取操作
                         //4,利用getInputStream方法访问资源
@@ -63,6 +74,8 @@ public class HtmlService {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.e("htmlservice请求错误回调", "run: "+ e );
+                    listener.onError(e);
                 } finally {
                   if (connection != null){
                       //5.请求完成后，关闭连接

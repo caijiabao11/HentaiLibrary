@@ -29,9 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mcontext;
     private List<MultipleItem> mItems;
-
-
-
     private ArrayList<MultipleItem> filterWords;
     private List<MultipleItem> mCopyInviteMessages;
     private OnItemClickListener mListener;
@@ -314,7 +311,6 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //Item点击接口
     public interface OnItemClickListener{
         void itemonClick(int position,List<MultipleItem> mItems);
-
         void itemHoldersonClick(int position);
     }
 }

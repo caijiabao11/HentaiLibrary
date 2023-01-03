@@ -97,6 +97,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"/>
         </LinearLayout>
+
     </RelativeLayout>
 
     <WebView
@@ -104,4 +105,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
+
 </RelativeLayout>

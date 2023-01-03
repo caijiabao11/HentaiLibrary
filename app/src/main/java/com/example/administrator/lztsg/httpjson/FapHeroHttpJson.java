@@ -1,6 +1,9 @@
 package com.example.administrator.lztsg.httpjson;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.example.administrator.lztsg.MyApplication;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +12,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FapHeroHttpJson {
@@ -17,6 +24,9 @@ public class FapHeroHttpJson {
     public static String videourl;
     public static ArrayList<String> Allname = new ArrayList<>(),Allimg = new ArrayList<>(),Allvideourl = new ArrayList<>(),Allduration = new ArrayList<>();
     public static String datas = null;
+    public static FileOutputStream fos;
+    public static FileInputStream fis;
+    private static Context context = MyApplication.getContext();
 
 //    public static void setmResolution(HttpJsonResolution resolution) {
 //        mResolution = resolution;
@@ -29,8 +39,17 @@ public class FapHeroHttpJson {
         HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
+                String sit = showInput();
+                Log.e("fis", "onFinish: " +(fis != null && response.length() > sit.length() ));
+                Log.e("fis+?", "onFinish: "+ fis);
+                if ((fis != null && response.length() > sit.length()) || fis == null){
+                    //内部存储源码
+                    showOutput(response);
+                    sit = response;
+                }
+
                 //生成遍历
-                Document document = Jsoup.parse(response,path);
+                Document document = Jsoup.parse(sit,path);
                 Elements divVideo = document.select("div.video-list")
                         .select(".video-rotate")
                         .select(".video-list-with-ads").get(0)
@@ -103,4 +122,57 @@ public class FapHeroHttpJson {
             }
         });
     }
+
+    public static void showOutput(String res) {
+        //写入内部存储文件
+
+        try {
+            fos = context.openFileOutput("FapHeroHtml.txt", Context.MODE_PRIVATE);
+            fos.write(res.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //资源关闭
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static String showInput() {
+        //读取内部存储文件
+        try {
+            fis = context.openFileInput("FapHeroHtml.txt");
+
+            int len = 0;
+            byte[] buf = new byte[1024];
+            String line = null;
+            while ((len = fis.read(buf)) != -1) {
+                line += new String(buf, 0, len);
+            }
+
+            return line;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //资源关闭
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }
+

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class TopbgPagerFragment extends BaseFragment{
+public class TopbgPagerFragment extends BaseFragment {
     private static final String KEY_POSITION = "position";
     private ImageView mImageView;
 
@@ -46,17 +46,6 @@ public class TopbgPagerFragment extends BaseFragment{
 
     @Override
     public void onDestroyFragment() {
-
-    }
-
-
-    @Override
-    public void onFapHeroFinish(String title, String imageurl, String videourl, String duration) {
-
-    }
-
-    @Override
-    public void onHentaiFinish(String title, String imageurl, String videourl, String duration) {
 
     }
 
