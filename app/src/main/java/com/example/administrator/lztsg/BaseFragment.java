@@ -25,7 +25,6 @@ public abstract class BaseFragment extends Fragment {
     private int position;
     private boolean isFirstLoad = true; //是否第一次加载
     public Context context;
-    public TestholekilnActivity application;
 
     public static void setInto(SetInto setInto){
         mSetInto = setInto;
@@ -40,7 +39,6 @@ public abstract class BaseFragment extends Fragment {
     public void onAttach(@NonNull Context ctx) {
         super.onAttach(ctx);
         context = ctx;
-        application = (TestholekilnActivity) ctx;
     }
 
     @Nullable

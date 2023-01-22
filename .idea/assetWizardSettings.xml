@@ -60,8 +60,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_mod_tv" />
-                            <entry key="sourceFile" value="C:\Users\Administrator\Downloads\TV.svg" />
+                            <entry key="outputName" value="ic_file_upload" />
+                            <entry key="sourceFile" value="D:\桌面\File-upload (1).svg" />
                           </map>
                         </option>
                       </PersistentState>

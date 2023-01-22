@@ -12,8 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.example.administrator.lztsg.items.CbirSitesItem;
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.More1Item;
 import com.example.administrator.lztsg.items.MoreItem;
@@ -37,6 +36,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEMONE = 1;
     private static final int ITEMTWO = 2;
     private static final int ITEMTHREE = 3;
+    private static final int ITEMFUOR = 4;
 
     LinearAdapter(List<MultipleItem> items,OnItemClickListener listener) {
         mItems = items;
@@ -60,6 +60,8 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return ITEMTWO;
             case TESTHOLE:
                 return ITEMTHREE;
+            case SEARCH_IMG:
+                return ITEMFUOR;
         }
         return -1;
     }
@@ -138,10 +140,10 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 //Glide设置图片圆角角度
 //                RoundedCorners roundedCorners = new RoundedCorners(50);
                 //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-                 RequestOptions options = RequestOptions.bitmapTransform(new RoundedCorners(50));
-//                RequestOptions options = new RequestOptions()
-//                        .transform(new RoundedCorners(10))
-//                        .diskCacheStrategy(DiskCacheStrategy.ALL);
+//                 RequestOptions options = RequestOptions.bitmapTransform(new RoundedCorners(50));
+//                 RequestOptions options1 = new RequestOptions()
+//                         .skipMemoryCache(true)
+//                         .diskCacheStrategy(DiskCacheStrategy.NONE);
                 Glide.with(MyApplication.getContext())
                         .load(item3.getmImageUrl())
                         .fitCenter()
@@ -151,6 +153,32 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 //设置Item持续时间
                 testholeHolder.duration.setText(item3.getmDuration());
                 testholeHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.itemonClick(position,mItems);
+                    }
+                });
+                break;
+            case SEARCH_IMG:
+                CbirSitesItem item4 = (CbirSitesItem) mItems.get(position);
+                CbirSitesHolder cbirSitesHolder = (CbirSitesHolder)holder;
+                //设置Item图片
+                Glide.with(MyApplication.getContext())
+                        .load(item4.getImageUrl())
+                        .fitCenter()
+                        .into(cbirSitesHolder.image);
+                //设置Item标题
+                cbirSitesHolder.title.setText(item4.getTitle());
+                //设置Item尺寸
+                cbirSitesHolder.size.setText(item4.getImgSize());
+                if(item4.getImgSize().equals("")){
+                    cbirSitesHolder.size.setVisibility(View.GONE);
+                }
+                //设置Item网址信息
+                cbirSitesHolder.domain.setText(item4.getDomain());
+                //设置Item其他信息
+                cbirSitesHolder.description.setText(item4.getDescriptionl());
+                cbirSitesHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mListener.itemonClick(position,mItems);
@@ -184,6 +212,11 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view = LayoutInflater
                     .from(parent.getContext()).inflate(R.layout.layout_testholekiln_item, parent, false);
             return new TestholeHolder(view);
+        } else if (viewType == ITEMFUOR){
+            //item==4，搜图item布局
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.layout_cbirsites_item, parent, false);
+            return new CbirSitesHolder(view);
         }
         return null;
     }
@@ -305,6 +338,23 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             image = item.findViewById(R.id.image_view);
             title = item.findViewById(R.id.text_title);
             duration = item.findViewById(R.id.text_duration);
+        }
+    }
+
+    class CbirSitesHolder extends RecyclerView.ViewHolder{
+        ImageView image;
+        TextView title;
+        TextView size;
+        TextView domain;
+        TextView description;
+
+        CbirSitesHolder(View item) {
+            super(item);
+            image = item.findViewById(R.id.image_view);
+            title = item.findViewById(R.id.text_title);
+            size = item.findViewById(R.id.text_imgsize);
+            domain = item.findViewById(R.id.text_domain);
+            description = item.findViewById(R.id.text_description);
         }
     }
 

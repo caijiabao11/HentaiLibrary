@@ -112,7 +112,7 @@ public class HentaiJoiHttpJson {
                         Log.e("text数据","text数据"+scriptEle.data());
                         //Allname.size() % 10== 0 &&  10数量的余0
                         if (Allname.size() == allvideoList.size() && resolution!=null) {
-                                int loging = 0;
+                            int loging = 0;
                             while (loging <= (Allname.size()-1)) {
                                 String title = Allname.get(loging);
                                 String imageurl = Allimg.get(loging);

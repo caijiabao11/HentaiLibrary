@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FapHeroHttpJson {
-    private static HttpJsonResolution mResolution;
     public static String path;
     public static String videourl;
     public static ArrayList<String> Allname = new ArrayList<>(),Allimg = new ArrayList<>(),Allvideourl = new ArrayList<>(),Allduration = new ArrayList<>();
@@ -62,7 +61,9 @@ public class FapHeroHttpJson {
                         //录入所有链接到videoList里面
                         videoList.add(divVideo.get(size).attr("abs:href"));
                     }
-                    videoList.add("https://spankbang.com/5jh6d/video/fap+hero+marcurial+2+reupload");
+//                    videoList.add("https://spankbang.com/5jh6d/video/fap+hero+marcurial+2+reupload");
+                    videoList.add("https://spankbang.com/417hp-cr1e4w/playlist/fap+hero+w+similar");
+                    videoList.add("https://spankbang.com/78yfh/video/simple+beat+training+06+full+by+martoise");
                     videoList.add("https://spankbang.com/3zejh-3nfmp0/playlist/favorites");
                     for (String urlinto:videoList){
                         //第二详细页视频链接
@@ -100,7 +101,7 @@ public class FapHeroHttpJson {
                         Log.e("text数据","text数据"+scriptEle.data());
                         //Allname.size() % 10== 0 &&  10数量的余0
                         if (Allname.size() == allvideoList.size() && resolution!=null) {
-                                int loging = 0;
+                            int loging = 0;
                             while (loging <= (Allname.size()-1)) {
                                 String title = Allname.get(loging);
                                 String imageurl = Allimg.get(loging);

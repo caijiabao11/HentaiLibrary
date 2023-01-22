@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.example.administrator.lztsg.items.More1Item;
 import com.example.administrator.lztsg.items.MoreItem;
@@ -16,9 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MoreActivity extends AppCompatActivity {
+public class MoreActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageButton mImgButton;
     private RecyclerView mRecyclerView;
+    private LinearLayout mBut_search_img;
     private LinearAdapter mLinearAdaoter;
     private LinearLayoutManager mLinearLayoutManager;
     private List<MultipleItem> mData;
@@ -30,12 +32,14 @@ public class MoreActivity extends AppCompatActivity {
         init();
         initData();
         LinearRecyclerView();
-        ImageButtonOnClick();
+        mImgButton.setOnClickListener(this);
+        mBut_search_img.setOnClickListener(this);
     }
 
     private void init() {
         mImgButton = findViewById(R.id.imgbutton);
         mRecyclerView = findViewById(R.id.run_main);
+        mBut_search_img = findViewById(R.id.but_search_img);
     }
     //载入数据
     private void initData(){
@@ -76,14 +80,18 @@ public class MoreActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mLinearAdaoter);
     }
 
-
-    //叉叉按钮点击事件
-    public void ImageButtonOnClick(){
-        mImgButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.imgbutton:
+                //叉叉按钮点击事件
                 finish();
-            }
-        });
+                break;
+            case R.id.but_search_img:
+                //
+                final Intent intent = new Intent(MoreActivity.this,SearchImgActivity.class);
+                startActivity(intent);
+
+        }
     }
 }

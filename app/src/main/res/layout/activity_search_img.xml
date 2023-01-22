@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222"
+    tools:context=".SearchImgActivity">
+
+    <ImageView
+        android:id="@+id/upload_img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"/>
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blurview"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        android:visibility="invisible"
+        app:realtimeBlurRadius="5dp"
+        app:realtimeOverlayColor="#8000"/>
+
+    <ImageView
+        android:id="@+id/upload_img"
+        android:layout_width="wrap_content"
+        android:layout_height="255dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"/>
+
+
+    <LinearLayout
+        android:id="@+id/buts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="550dp"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/but_select_img"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/search_img_bg"
+            android:textColor="#f9f9f9"
+            android:text="选择图片" />
+
+        <Button
+            android:id="@+id/but_upload"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_file_upload"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/cbirsites_itemmain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/cun_m_item_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:tabTextColor="@color/colorTextgray"
+                app:tabMode="scrollable"
+                app:tabGravity="fill"
+                app:tabIndicator="@drawable/layer_tab_indicator"
+                app:tabIndicatorColor="@color/colorPinke"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="3dp"
+                app:tabSelectedTextColor="#000"
+                app:tabMinWidth="50dp"
+                app:tabPadding="0dp"
+                app:tabPaddingBottom="4dp"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="10dp"
+                app:tabPaddingTop="0dp"
+                app:tabRippleColor="@null">
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/v_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

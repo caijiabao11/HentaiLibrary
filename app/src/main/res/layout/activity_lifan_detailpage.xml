@@ -8,33 +8,24 @@
     android:background="#fff"
     tools:context=".LifanDetailpageActivity">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:fitsSystemWindows="true"/>
+        android:layout_height="25dp"
+        android:fitsSystemWindows="true"/>
 
-        <ImageView
-            android:id="@+id/item_img"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:background="#222"
-            android:transitionName="item_info_image"
-            android:scaleType="centerCrop"/>
-
-    </RelativeLayout>
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/item_img"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
-        android:background="@drawable/cun_m_item_bg">
+        android:layout_height="200dp"
+        android:background="#222"
+        android:transitionName="item_info_image"
+        android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="200dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical">
@@ -76,8 +67,6 @@
 动漫原版女主角声优说话可爱，气喘吁吁，舔舐！！！
 人口增长的大爆炸以应对出生率下降的代价！！！"/>
         </LinearLayout>
-
-    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="70dp"

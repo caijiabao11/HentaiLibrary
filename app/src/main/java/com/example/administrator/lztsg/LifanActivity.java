@@ -45,6 +45,7 @@ import static com.example.administrator.lztsg.R.drawable.btn_search;
 import static com.example.administrator.lztsg.R.drawable.btn_search_notcolor;
 
 public class LifanActivity extends AppCompatActivity {
+    private static final String TAG = "LifanActivity";
     private LinearAdapter mLinearAdaoter;
     private LinearAdapter.ItemHolder mItemHolder;
     private ImageButton mImgButton,mSearchButton;
@@ -80,7 +81,7 @@ public class LifanActivity extends AppCompatActivity {
         mSearchButton = findViewById(R.id.searchbutton);
         mToolbar = findViewById(R.id.toolbar);
         mRelativeLayoutSearch = findViewById(R.id.rela_search);
-        mCardView = findViewById(R.id.cardview);
+//        mCardView = findViewById(R.id.cardview);
     }
 
     //载入图片+标题
@@ -128,7 +129,7 @@ public class LifanActivity extends AppCompatActivity {
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
                   final Intent intent = new Intent(getApplication(),LifanDetailpageActivity.class);
-//                //传递图片、标题信息
+                //传递图片、标题信息
                 Bundle bundle = new Bundle();
                 Item item = (Item) mItems.get(position);
                 bundle.putInt("itemImageId",item.getImageResId());
@@ -139,7 +140,8 @@ public class LifanActivity extends AppCompatActivity {
                 int realFirstPosition = Math.min(firstStaggeredGridPosition[0],firstStaggeredGridPosition[1]);
                 mItemHolder = (LinearAdapter.ItemHolder)mRecyclerView.getChildViewHolder(mRecyclerView.getChildAt(position - realFirstPosition));
                 //获取共享动画的View对象
-                ItemsRoundImageView card_info_image= (ItemsRoundImageView) mItemHolder.image;
+                ItemsRoundImageView card_info_image = (ItemsRoundImageView) mItemHolder.image;
+//                ImageView card_info_image = mItemHolder.image;
                 //绑定共享空间，并赋予标签（便于寻找）
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LifanActivity.this,
                         Pair.<View, String>create(card_info_image, "item_info_image"));
@@ -195,6 +197,12 @@ public class LifanActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 
     //返回箭头点击事件

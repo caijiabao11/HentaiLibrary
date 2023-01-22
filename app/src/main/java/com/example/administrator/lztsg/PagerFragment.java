@@ -64,10 +64,6 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public int getPackageName(){
-        return position = getArguments().getInt(KEY_POSITION);
-    }
-
     public void LinearRecyclerView() {
         //初始化线性布局管理器
         mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -78,7 +74,7 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
                 final Intent intent = new Intent(getActivity(), TestholekilnVideoActivity.class);
-//                //传递图片、标题信息
+                //传递图片、标题信息
                 Bundle bundle = new Bundle();
                 TestholeItem item = (TestholeItem) mItems.get(position);
                 bundle.putString("itemImageUrl", item.getmImageUrl());
@@ -228,7 +224,7 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
     }
 
     private void myDataAddOneTime(String title, String videourl, String imageurl, String format, int i) {
-        Log.e("激活成功" + title.toString(), "激活成功");
+        Log.e("激活成功" + title, "激活成功");
 
         if (position == i){
             mData.add(new TestholeItem(title,videourl,imageurl,format));

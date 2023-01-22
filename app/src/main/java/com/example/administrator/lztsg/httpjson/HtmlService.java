@@ -9,6 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HtmlService {
+    private static final int TINE_OUT = 10 * 1000;
+    private static final int READTIME_OUT = 30 * 1000;
 
     public static void getHtml(final String path, final String videourl, final int GOingUrl, final HttpCallbackListener listener){
         new Thread(new Runnable() {
@@ -34,23 +36,12 @@ public class HtmlService {
 //                    connection.setRequestProperty("Accept-Language", "utf-8");
 //                    connection.setRequestProperty("UA-CPU", "x86");
 //                    connection.setRequestProperty("Accept-Encoding", "gzip");//为什么没有deflate呢
-                    connection.setConnectTimeout(10000);//设置连接超时为8s
-                    connection.setReadTimeout(30000);//设置读取操作超时为30s
+                    connection.setConnectTimeout(TINE_OUT);//设置连接超时为8s
+                    connection.setReadTimeout(READTIME_OUT);//设置读取操作超时为30s
                     connection.setRequestMethod("GET");//设置请求方式为GET
                     //3,调用connect（）方法连接远程资源，并对服务器响应进行判断
                     connection.connect();
                     int responsCode = connection.getResponseCode();//得到服务器响应的一个代码
-                    while (responsCode != HttpURLConnection.HTTP_OK){
-                            connection.connect();
-                            if (responsCode == HttpURLConnection.HTTP_OK) {
-                                break;
-                            } else {
-                                Log.d("服务器休息10秒","......");
-                                Thread.sleep(10000);
-                                //结束本次循环
-                                continue;
-                            }
-                    }
                     if (responsCode == HttpURLConnection.HTTP_OK){
                         //进行数据读取操作
                         //4,利用getInputStream方法访问资源

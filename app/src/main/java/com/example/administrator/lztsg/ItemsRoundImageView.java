@@ -34,6 +34,17 @@ public class ItemsRoundImageView extends AppCompatImageView {
         init(context,attrs);
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int leftTopRadius,int rightTopRadius,int rightBottomRadius,int leftBottomRadius){
+        this.leftTopRadius = leftTopRadius;
+        this.rightTopRadius = rightTopRadius;
+        this.rightBottomRadius = rightBottomRadius;
+        this.leftBottomRadius = leftBottomRadius;
+    }
+
     private void init(Context context, AttributeSet attrs) {
         if (Build.VERSION.SDK_INT < 18) {
             setLayerType(View.LAYER_TYPE_SOFTWARE, null);
