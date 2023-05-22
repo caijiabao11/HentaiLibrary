@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.WhiteNoiseActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/testholekiln_item_dycz_img" />
+
+    <com.example.administrator.lztsg.CustomJZMp3
+        android:id="@+id/noise_mp3"
+        android:layout_width="1dp"
+        android:layout_height="1dp"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/v_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blurview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        app:realtimeBlurRadius="50dp"
+        app:realtimeOverlayColor="#8000" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            app:cardCornerRadius="100dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/testholekiln_item_dycz_img" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tit"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="【白噪音】2小时_在太空舱里安静的休息"
+            android:textColor="@color/colorAllTextDark"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/but_player"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_play" />
+
+        <com.example.administrator.lztsg.MyChronometer
+            android:id="@+id/time_cmeter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:countDown="true"
+            android:gravity="center"
+            android:textColor="@color/colorAllTextDark"
+            android:textSize="50dp"
+            android:visibility="invisible"
+            app:countDown="true" />
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="200dp"
+            android:background="@drawable/noise_timeing_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.example.administrator.lztsg.PickerView
+                android:id="@+id/picler"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/but_sleepmore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_sleep_more" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

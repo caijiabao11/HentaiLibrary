@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#fff"
-    tools:context=".SettingActivity">
+    tools:context=".activity.SettingActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -42,5 +42,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/settingsFragment"
-            android:name="com.example.administrator.lztsg.SettingActivity$SettingsFragment"/>
+            android:name="com.example.administrator.lztsg.activity.SettingActivity$SettingsFragment"/>
 </LinearLayout>

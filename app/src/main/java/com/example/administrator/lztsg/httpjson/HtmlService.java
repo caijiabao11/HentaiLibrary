@@ -30,11 +30,7 @@ public class HtmlService {
                     }
                     connection = (HttpURLConnection) url.openConnection();
                     //2,设置http请求的参数
-
-//                    connection.setRequestProperty("Accept",
-//                            "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*");
-//                    connection.setRequestProperty("Accept-Language", "utf-8");
-//                    connection.setRequestProperty("UA-CPU", "x86");
+//                   connection.setRequestProperty("User-Agent","Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36");
 //                    connection.setRequestProperty("Accept-Encoding", "gzip");//为什么没有deflate呢
                     connection.setConnectTimeout(TINE_OUT);//设置连接超时为8s
                     connection.setReadTimeout(READTIME_OUT);//设置读取操作超时为30s

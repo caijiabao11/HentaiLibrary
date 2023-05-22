@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 
+import com.example.administrator.lztsg.activity.TestholekilnActivity;
+
 import androidx.core.app.NotificationCompat;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -31,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 manager.createNotificationChannel(channel);
             }
             //创建意图 setContentIntent的参数PendingIntent
-            Intent intent1 = new Intent(context,TestholekilnActivity.class);
+            Intent intent1 = new Intent(context, TestholekilnActivity.class);
             //参数：上下文环境，请求码，Intent，标记
             PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent1,0);
 

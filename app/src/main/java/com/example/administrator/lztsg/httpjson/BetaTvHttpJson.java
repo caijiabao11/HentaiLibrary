@@ -20,8 +20,8 @@ public class BetaTvHttpJson {
 
     public static void getData(final HttpJsonResolution resolution){
         //主页链接
-//        path = "https://hanime1.me/search?query=&genre=&sort=%E4%BB%96%E5%80%91%E5%9C%A8%E7%9C%8B&year=&month=&duration=";
-        path = "https://www.underhentai.net/random/?nc";
+        path = "https://hanime1.me/";
+//        path = "https://www.underhentai.net/random/?nc";
         int GOingUrl = 1;
         HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             private BetaTvHttpJson httpJson;

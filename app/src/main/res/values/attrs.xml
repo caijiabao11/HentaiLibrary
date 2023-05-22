@@ -7,4 +7,8 @@
         <attr name="right_bottom_radius" format="dimension"/>
         <attr name="left_bottom_radius" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="MyChronometer">
+        <attr name="format" format="string" localization="suggested" />
+        <attr name="countDown" format="boolean"/>
+    </declare-styleable>
 </resources>

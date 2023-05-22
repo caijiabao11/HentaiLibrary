@@ -50,8 +50,7 @@ public class FapHeroHttpJson {
                 //生成遍历
                 Document document = Jsoup.parse(sit,path);
                 Elements divVideo = document.select("div.video-list")
-                        .select(".video-rotate")
-                        .select(".video-list-with-ads").get(0)
+                        .select(".video-rotate").get(1)
                         .select("div.video-item a[href]")
                         .select(".thumb");
                 if (divVideo != null){
@@ -63,7 +62,7 @@ public class FapHeroHttpJson {
                     }
 //                    videoList.add("https://spankbang.com/5jh6d/video/fap+hero+marcurial+2+reupload");
                     videoList.add("https://spankbang.com/417hp-cr1e4w/playlist/fap+hero+w+similar");
-                    videoList.add("https://spankbang.com/78yfh/video/simple+beat+training+06+full+by+martoise");
+//                    videoList.add("https://spankbang.com/78yfh/video/simple+beat+training+06+full+by+martoise");
                     videoList.add("https://spankbang.com/3zejh-3nfmp0/playlist/favorites");
                     for (String urlinto:videoList){
                         //第二详细页视频链接

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#99000000">
+
+    <q.rorbin.verticaltablayout.VerticalTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicator_width="4dp"
+        app:indicator_gravity="right"
+        app:indicator_color="@color/colorPinke"
+        app:tab_height="20dp"
+        app:tab_margin="40dp"
+        android:visibility="visible"
+        app:tab_mode="scrollable">
+    </q.rorbin.verticaltablayout.VerticalTabLayout>
+
+</LinearLayout>

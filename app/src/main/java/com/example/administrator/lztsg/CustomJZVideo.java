@@ -3,21 +3,36 @@ package com.example.administrator.lztsg;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.tabs.TabLayout;
 
 import cn.jzvd.JZDataSource;
 import cn.jzvd.JZUtils;
 import cn.jzvd.JzvdStd;
+import q.rorbin.verticaltablayout.VerticalTabLayout;
+import q.rorbin.verticaltablayout.adapter.TabAdapter;
+import q.rorbin.verticaltablayout.widget.ITabView;
+import q.rorbin.verticaltablayout.widget.QTabView;
+import q.rorbin.verticaltablayout.widget.TabView;
 
 public class CustomJZVideo extends JzvdStd {
     private boolean isLockScreen;
     private ImageView lockIv;
     private TextView tvSpeed;
+    private VerticalTabLayout mTabLayout;
+    private TabLayout layout;
+    private PopupWindow popupWindow;
     int currentSpeedIndex = 2;
     float starX, startY;
+    private String[] mSpeedIndex={"2.0X","1.5X","1.2X","1.0X","0.7X","0.5X"};
     Context context;
 
     public CustomJZVideo(Context context) {
@@ -28,6 +43,7 @@ public class CustomJZVideo extends JzvdStd {
     public CustomJZVideo(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        initData();
     }
 
     @Override
@@ -39,6 +55,62 @@ public class CustomJZVideo extends JzvdStd {
         lockIv.setOnClickListener(this);
         tvSpeed = findViewById(R.id.tv_speed);
         tvSpeed.setOnClickListener(this);
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupview = inflater.inflate(R.layout.popupwindow_speedview, null);
+        popupWindow = new PopupWindow(popupview,300,
+                ViewGroup.LayoutParams.MATCH_PARENT, true);
+
+        mTabLayout = popupview.findViewById(R.id.tab_layout);
+    }
+
+    private void initData() {
+//        mTabLayout.getTabAt(3);
+        mTabLayout.setTabSelected(3);
+        mTabLayout.setTabAdapter(new TabAdapter() {
+            @Override
+            public int getCount() {
+                return mSpeedIndex.length;
+            }
+
+            @Override
+            public ITabView.TabBadge getBadge(int position) {
+                return null;
+            }
+
+            @Override
+            public ITabView.TabIcon getIcon(int position) {
+                return null;
+            }
+
+            @Override
+            public ITabView.TabTitle getTitle(int position) {
+
+                return new QTabView.TabTitle.Builder()
+                        .setContent(mSpeedIndex[position])
+                        .setTextColor(getResources().getColor(R.color.colorPinke),getResources().getColor(R.color.colorAllTextDark))
+                        .setTextSize(15)
+                        .build();
+            }
+
+            @Override
+            public int getBackground(int position) {
+                return 0;
+            }
+        });
+
+        mTabLayout.addOnTabSelectedListener(new VerticalTabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabView tab, int position) {
+                onClickSpeed(position);
+                Toast.makeText(context,mSpeedIndex[position],Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabReselected(TabView tab, int position) {
+
+            }
+        });
     }
 
     @Override
@@ -58,14 +130,14 @@ public class CustomJZVideo extends JzvdStd {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (screen == SCREEN_FULLSCREEN && isLockScreen){
+                if (screen == SCREEN_FULLSCREEN && isLockScreen) {
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (screen == SCREEN_FULLSCREEN && isLockScreen){
+                if (screen == SCREEN_FULLSCREEN && isLockScreen) {
                     //&& Math.abs(Math.abs(event.getX() - starX)) > ViewConfiguration.get(getContext()).getScaledTouchSlop()  && Math.abs(Math.abs(event.getY() - startY)) > ViewConfiguration.get(getContext()).getScaledTouchSlop()
-                    if (event.getX() == starX || event.getY() == startY){
+                    if (event.getX() == starX || event.getY() == startY) {
                         startDismissControlViewTimer();
                         onClickUiToggle();
                         bottomProgressBar.setVisibility(VISIBLE);
@@ -103,34 +175,44 @@ public class CustomJZVideo extends JzvdStd {
                 }
                 break;
             case R.id.tv_speed:
-                if (currentSpeedIndex == 6) {
-                    currentSpeedIndex = 0;
-                } else {
-                    currentSpeedIndex += 1;
-                }
-                mediaInterface.setSpeed(getSpeedFromIndex(currentSpeedIndex));
-                tvSpeed.setText(getSpeedFromIndex(currentSpeedIndex) + "X");
-                jzDataSource.objects[0] = currentSpeedIndex;
+                //倍数弹窗选择
+                changeUiToPlayingClear(); //隐藏其他控件
+                popupWindow.showAsDropDown(tvSpeed);
                 break;
         }
     }
 
+    private void onClickSpeed(int SpeedIndex) {
+        mediaInterface.setSpeed(getSpeedFromIndex(SpeedIndex));
+        if (SpeedIndex == 3){
+            tvSpeed.setText("倍数");
+        }else{
+            tvSpeed.setText(getSpeedFromIndex(SpeedIndex) + "X");
+        }
+        jzDataSource.objects[0] = SpeedIndex;
+    }
+
     private float getSpeedFromIndex(int index) {
         float ret = 0f;
-        if (index == 0) {
-            ret = 0.5f;
-        } else if (index == 1) {
-            ret = 0.75f;
-        } else if (index == 2) {
-            ret = 1.0f;
-        } else if (index == 3) {
-            ret = 1.25f;
-        } else if (index == 4) {
-            ret = 1.5f;
-        } else if (index == 5) {
-            ret = 1.75f;
-        } else if (index == 6) {
-            ret = 2.0f;
+        switch (index){
+            case 0:
+                ret = 2.0f;
+                break;
+            case 1:
+                ret = 1.5f;
+                break;
+            case 2:
+                ret = 1.2f;
+                break;
+            case 3:
+                ret = 1.0f;
+                break;
+            case 4:
+                ret = 0.7f;
+                break;
+            case 5:
+                ret = 0.5f;
+                break;
         }
         return ret;
     }
@@ -250,6 +332,7 @@ public class CustomJZVideo extends JzvdStd {
         super.onCompletion();
         //播放完毕显示最后一帧画面
         posterImageView.setVisibility(GONE);
+        popupWindow.dismiss();
     }
 
     @Override
@@ -264,6 +347,7 @@ public class CustomJZVideo extends JzvdStd {
         //不全屏时
         super.gotoNormalScreen();
         titleTextView.setVisibility(View.INVISIBLE);
+
     }
 
     @Override

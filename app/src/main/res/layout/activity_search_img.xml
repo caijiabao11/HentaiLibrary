@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#222"
-    tools:context=".SearchImgActivity">
+    tools:context=".activity.SearchImgActivity">
 
     <ImageView
         android:id="@+id/upload_img_bg"
@@ -48,7 +48,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/ic_file_upload"/>
+            android:background="@drawable/ic_cloud_upload"/>
 
     </LinearLayout>
 

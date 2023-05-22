@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MoreActivity">
+    tools:context=".activity.MoreActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -62,6 +62,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/but_asmr"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="12dp"
@@ -113,6 +114,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/but_white_npose"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="6dp"
