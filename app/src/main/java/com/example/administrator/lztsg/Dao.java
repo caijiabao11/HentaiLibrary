@@ -54,6 +54,59 @@ public class Dao {
         db.close();
     }
 
+    public void query(String table, String wherestr, String obj,String orsql) {
+        int index, index1, index2, index3, index4, index5, index6 = 0;
+        int preferences, mass;
+        String id, name, Introduction, imgurl, tag = null;
+        //查詢
+        String sql = "select * from " + table + " where " + wherestr + " like "+ obj;
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            switch (table) {
+                case Constants.TABLE_NAME_MIAN:
+                    index = cursor.getColumnIndex("_id");
+                    index1 = cursor.getColumnIndex("name");
+                    index2 = cursor.getColumnIndex("Introduction");
+                    index3 = cursor.getColumnIndex("preferences");
+                    index4 = cursor.getColumnIndex("imgurl");
+                    index5 = cursor.getColumnIndex("itemmassid");
+                    index6 = cursor.getColumnIndex("itemtag");
+
+                    id = cursor.getString(index);
+                    name = cursor.getString(index1);
+                    Introduction = cursor.getString(index2);
+                    preferences = cursor.getInt(index3);
+                    imgurl = cursor.getString(index4);
+                    mass = cursor.getInt(index5);
+                    tag = cursor.getString(index6);
+                    detalist.add(new Item(id, name, Introduction, preferences, imgurl, mass, tag));
+                    break;
+                case Constants.TABLE_NAME_MASS:
+                    index = cursor.getColumnIndex("mass_id");
+                    index1 = cursor.getColumnIndex("massname");
+                    index2 = cursor.getColumnIndex("massimgurl");
+                    id = cursor.getString(index);
+                    name = cursor.getString(index1);
+                    imgurl = cursor.getString(index2);
+
+                    detaMasslist.add(new Item(id, name,imgurl));
+                    break;
+                case Constants.TABLE_NAME_TAG:
+                    index = cursor.getColumnIndex("tag_id");
+                    index1 = cursor.getColumnIndex("tagname");
+
+                    id = cursor.getString(index);
+                    name = cursor.getString(index1);
+
+                    detaTaglist.add(new Item(id, name));
+                    break;
+            }
+        }
+        cursor.close();
+        db.close();
+    }
+
     public void query(String table, String obj) {
         int index, index1, index2, index3, index4, index5, index6 = 0;
         int preferences, mass;
@@ -85,10 +138,12 @@ public class Dao {
                 case Constants.TABLE_NAME_MASS:
                     index = cursor.getColumnIndex("mass_id");
                     index1 = cursor.getColumnIndex("massname");
+                    index2 = cursor.getColumnIndex("massimgurl");
                     id = cursor.getString(index);
                     name = cursor.getString(index1);
+                    imgurl = cursor.getString(index2);
 
-                    detaMasslist.add(new Item(id, name));
+                    detaMasslist.add(new Item(id, name,imgurl));
                     break;
                 case Constants.TABLE_NAME_TAG:
                     index = cursor.getColumnIndex("tag_id");
@@ -136,10 +191,12 @@ public class Dao {
                 case Constants.TABLE_NAME_MASS:
                     index = cursor.getColumnIndex("mass_id");
                     index1 = cursor.getColumnIndex("massname");
+                    index2 = cursor.getColumnIndex("massimgurl");
                     id = cursor.getString(index);
                     name = cursor.getString(index1);
+                    imgurl = cursor.getString(index2);
 
-                    detaMasslist.add(new Item(id, name));
+                    detaMasslist.add(new Item(id, name,imgurl));
                     break;
                 case Constants.TABLE_NAME_TAG:
                     index = cursor.getColumnIndex("tag_id");

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.administrator.lztsg.R;
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.MultipleItem;
+import com.example.administrator.lztsg.utils.DensityUtils;
 import com.example.administrator.lztsg.utils.HideUtils;
 
 import java.util.List;
@@ -36,21 +37,26 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
     private LinearAdapter mLinearAdaoter;
     private LinearAdapter.ItemHolder mItemHolder;
     private ImageButton mImgButton, mSearchButton;
-    private Button mBut_more, mBut_live, mBut_mass, mBut_label;
-    private EditText mSearch;
+    public static Button mBut_more, mBut_live, mBut_mass, mBut_label;
+    public static EditText mSearch;
     private RecyclerView mRecyclerView;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private RelativeLayout mRelativeLayoutSearch;
     private LifanMoreFragment mLifanMoreFragment = new LifanMoreFragment();
     private LifanLiveFragment mLifanLiveFragment = new LifanLiveFragment();
+    private LifanMassFragment mLifanMassFragment = new LifanMassFragment();
+    private LifanTagFragment mLifanTagFragment = new LifanTagFragment();
+    private LifanMass_putFragment mLifanMass_putFragment;
+    private LifanTag_putFragment mLifanTag_putFragment;
+    public static Fragment currentFragment;
     private LinearLayout mTab_main;
     private Toolbar mToolbar;
     private List<MultipleItem> mData, mAllData;
-    private Fragment mFrag1;
-    private Fragment mFrag2;
-    private Fragment mFrag3;
-    private Fragment mFrag4;
-    private int nowselecttab;
+    public static Fragment mFrag1;
+    private static Fragment mFrag2;
+    private static Fragment mFrag3;
+    private static Fragment mFrag4;
+    public static int nowselecttab;
     public int[] firstStaggeredGridPosition = {0, 0};
     public int[] lastStaggeredGridPosition = {0, 0};
 
@@ -160,13 +166,14 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void afterTextChanged(Editable s) {
                 //这是文本框改变之后 会执行的动作
-                doChangeColor(mSearch.toString().trim());
-
+                if (!(currentFragment instanceof LifanTagFragment)){
+                    doChangeColor(mSearch.toString().trim());
+                }
             }
 
             private void doChangeColor(String text) {
                 String data = mSearch.getText().toString();
-                switch (nowselecttab){
+                switch (nowselecttab) {
                     case 0:
                         mData = LifanMoreFragment.mData;
                         mAllData = LifanMoreFragment.mAllData;
@@ -175,9 +182,70 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
                         mData = LifanLiveFragment.mData;
                         mAllData = LifanLiveFragment.mAllData;
                         break;
+                    case 2:
+                        if (currentFragment instanceof LifanMassFragment){
+                            mData = LifanMassFragment.mData;
+                            mAllData = LifanMassFragment.mAllData;
+                        } else{
+                            mData = LifanMass_putFragment.mData;
+                            mAllData = LifanMass_putFragment.mAllData;
+                        }
+                        break;
+                    case 3:
+                        if (currentFragment instanceof LifanTagFragment){
+                            mData = LifanTagFragment.mData;
+                            mAllData = LifanTagFragment.mAllData;
+                        } else{
+                            mData = LifanTag_putFragment.mData;
+                            mAllData = LifanTag_putFragment.mAllData;
+                        }
+                        break;
                 }
-                mData.clear();
+                if (mData != null){
+                    mData.clear();
+                }
+                // 判断当前展示的Fragment是哪个Fragment的实例
+                if (currentFragment instanceof LifanMoreFragment ||
+                        currentFragment instanceof LifanLiveFragment ||
+                        currentFragment instanceof LifanMassFragment ||
+                        currentFragment instanceof LifanMass_putFragment) {
 
+                    querySelectArrTit(data,mAllData);
+
+                } else if (currentFragment instanceof LifanMass_putFragment){
+                    querySelectArrTit(data,mAllData);
+                } else if (currentFragment instanceof LifanTagFragment) {
+
+//                    querySelectArrTag(data,mAllData);
+                } else if (currentFragment instanceof LifanTag_putFragment) {
+                    if (mData != null && mAllData != null){
+                        querySelectArrTit(data,mAllData);
+                    }
+                }
+
+                //刷新
+                if (mLifanMoreFragment.mLinearAdaoter != null) {
+                    mLifanMoreFragment.mLinearAdaoter.notifyDataSetChanged();
+                }
+                if (mLifanLiveFragment.mLinearAdaoter != null) {
+                    mLifanLiveFragment.mLinearAdaoter.notifyDataSetChanged();
+                }
+                if (mLifanMassFragment.mLinearAdaoter != null) {
+                    mLifanMassFragment.mLinearAdaoter.notifyDataSetChanged();
+                }
+                if (mLifanMass_putFragment.mLinearAdaoter != null){
+                    mLifanMass_putFragment.mLinearAdaoter.notifyDataSetChanged();
+                }
+                if (mLifanTagFragment.mLinearAdaoter != null) {
+                    mLifanTagFragment.mLinearAdaoter.notifyDataSetChanged();
+                }
+                if (mLifanTag_putFragment.mLinearAdaoter != null) {
+                    mLifanTag_putFragment.mLinearAdaoter.notifyDataSetChanged();
+                }
+            }
+
+            private void querySelectArrTit(String data, List<MultipleItem> mAllData) {
+                //搜索title
                 for (MultipleItem item : mAllData) {
                     final Item value = (Item) item;
                     //.startsWith   以指定字符串开头筛选（精准搜索）
@@ -186,14 +254,21 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
                         mData.add(value);
                     }
                 }
-                //刷新
-                if( mLifanMoreFragment.mLinearAdaoter != null){
-                    mLifanMoreFragment.mLinearAdaoter.notifyDataSetChanged();
-                }
-                if (mLifanLiveFragment.mLinearAdaoter != null){
-                    mLifanLiveFragment.mLinearAdaoter.notifyDataSetChanged();
+            }
+
+            private void querySelectArrTag(String data, List<MultipleItem> mAllData) {
+                //搜索mass
+                for (MultipleItem item : mAllData) {
+                    final Item value = (Item) item;
+                    //.startsWith   以指定字符串开头筛选（精准搜索）
+                    //.contains     以字符串中是否存在筛选（模糊搜索）
+                    if (value.getmTag().contains(data)) {
+                        mData.add(value);
+                    }
                 }
             }
+
+
         });
 
     }
@@ -222,9 +297,11 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.but_mass:
                 selectTab(2);
+                nowselecttab = 2;
                 break;
             case R.id.but_label:
                 selectTab(3);
+                nowselecttab = 3;
                 break;
         }
     }
@@ -237,47 +314,46 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         switch (index) {
             case 0:
                 mBut_more.setBackground(getResources().getDrawable(R.drawable.but_more_radius_bg_black));
-                mFrag1 = new LifanMoreFragment();
+                if (mFrag1 == null) {
+                    mFrag1 = new LifanMoreFragment();
+                    currentFragment = mFrag1;
+                }
                 fragmentTransaction.replace(R.id.fragmentLayout, mFrag1);
-//                if (mFrag1 == null) {
-//                    mFrag1 = new LifanMoreFragment();
-//                    fragmentTransaction.add(R.id.fragmentLayout, mFrag1);
-//                } else {
-//                    fragmentTransaction.show(mFrag1);
-//                }
                 break;
             case 1:
                 mBut_live.setBackground(getResources().getDrawable(R.drawable.but_like_radius_bg_black));
-                mFrag2 = new LifanLiveFragment();
+                if (mFrag2 == null) {
+                    mFrag2 = new LifanLiveFragment();
+                    currentFragment = mFrag2;
+                }
                 fragmentTransaction.replace(R.id.fragmentLayout, mFrag2);
-//                if (mFrag2 == null) {
-//                    mFrag2 = new LifanLiveFragment();
-//                    fragmentTransaction.add(R.id.fragmentLayout, mFrag2);
-//                } else {
-//                    fragmentTransaction.show(mFrag2);
-//                }
                 break;
             case 2:
                 mBut_mass.setBackground(getResources().getDrawable(R.drawable.but_mass_radius_bg_black));
                 if (mFrag3 == null) {
-                    mFrag3 = new LifanLiveFragment();
-                    fragmentTransaction.add(R.id.fragmentLayout, mFrag3);
-                } else {
-                    fragmentTransaction.show(mFrag3);
+                    mFrag3 = new LifanMassFragment();
+                    currentFragment = mFrag3;
                 }
+                fragmentTransaction.replace(R.id.fragmentLayout, mFrag3);
                 break;
             case 3:
                 mBut_label.setBackground(getResources().getDrawable(R.drawable.but_label_radius_bg_black));
                 if (mFrag4 == null) {
-                    mFrag4 = new LifanLiveFragment();
-                    fragmentTransaction.add(R.id.fragmentLayout, mFrag4);
-                } else {
-                    fragmentTransaction.show(mFrag4);
+                    mFrag4 = new LifanTagFragment();
+                    currentFragment = mFrag4;
                 }
+                fragmentTransaction.replace(R.id.fragmentLayout, mFrag4);
                 break;
         }
         fragmentTransaction.commit();
-        mSearch.getText().clear();//清空输入框
+        if (!(currentFragment instanceof LifanTagFragment)){
+            if (LifanTagFragment.butcode == 1){
+                LifanTagFragment.butcode = 0;
+                LifanTagFragment.OnAnimButonTag(-DensityUtils.dip2px(this,100),0);
+            }
+            mSearch.getText().clear();//清空输入框
+        }
+
     }
 
     //将全部的Fragment隐藏
@@ -287,7 +363,6 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         }
         if (mFrag2 != null) {
             fragmentTransaction.hide(mFrag2);
-//            fragmentTransaction.remove(mFrag2);
         }
         if (mFrag3 != null) {
             fragmentTransaction.hide(mFrag3);
@@ -305,4 +380,16 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         mBut_label.setBackground(getResources().getDrawable(R.drawable.but_label_radius_bg_white));
     }
 
+    //监听返回键事件，进行返回上个事务处理
+    @Override
+    public void onBackPressed() {
+        // 检查后退栈是否为空
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            // 弹出后退栈中的上一个事务
+            getSupportFragmentManager().popBackStack();
+        } else {
+            // 如果后退栈为空，则执行默认的返回操作
+            super.onBackPressed();
+        }
+    }
 }

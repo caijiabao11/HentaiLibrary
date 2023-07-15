@@ -9,10 +9,10 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.example.administrator.lztsg.Constants;
 import com.example.administrator.lztsg.Dao;
 import com.example.administrator.lztsg.DatabaseHelper;
 import com.example.administrator.lztsg.ItemsRoundImageView;
@@ -33,20 +33,21 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
 import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 
-public class LifanLiveFragment extends Fragment implements View.OnClickListener  {
+public class LifanMass_putFragment extends Fragment implements View.OnClickListener {
+    private LifanActivity lifanActivity;
     public static LinearAdapter mLinearAdaoter;
     private static LinearAdapter.ItemHolder mItemHolder;
     private static StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private static RecyclerView mRecyclerView;
     public static Dao dao;
     private static Context context;
-    public static boolean mQieHuan = LifanMoreFragment.mQieHuan;
-    public static List<MultipleItem> mData;
-    public static List<MultipleItem> mAllData;
+    public static boolean mQieHuan = true;
+    public static List<MultipleItem> mData, mAllData;
     public static int[] firstStaggeredGridPosition = {0, 0};
     public static int[] lastStaggeredGridPosition = {0, 0};
     private ImageButton imageButton;
     private LinearLayout mTab_main;
+    private EditText mSearch;
 
     @Override
     public void onAttach(@NonNull Context ctx) {
@@ -57,7 +58,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_lifan_more,container,false);
+        View rootview = inflater.inflate(R.layout.fragment_lifan_more, container, false);
         initView(rootview);
         initData(context);
 
@@ -68,50 +69,32 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
         mRecyclerView = view.findViewById(R.id.run_main);
         imageButton = getActivity().findViewById(R.id.imgbutton);
         mTab_main = getActivity().findViewById(R.id.tab_main);
+        mSearch = getActivity().findViewById(R.id.edt_search);
     }
+
+    //载入图片+标题
     private void initData(Context context) {
-        this.mData = new ArrayList<>();
-        this.mAllData = new ArrayList<>();
-        imageButton.setOnClickListener(this);
-        DatabaseHelper helper = new DatabaseHelper(context);
-        helper.getWritableDatabase();
-
-        dao = new Dao(context);
-        dao.query(Constants.TABLE_NAME_MIAN,"preferences","1");
-        dao.query(Constants.TABLE_NAME_MASS,"mass_id");
-        dao.query(Constants.TABLE_NAME_TAG,"tag_id");
-        int indeax = dao.detalist.size();
-//        int indeax = LifanDetailpageActivity.mData.size();
-        int i = 0;
-        while (i < indeax){
-            Item a = (Item) dao.detalist.get(i);
-//            Item a = (Item) LifanDetailpageActivity.mData.get(i);
-            String id = a.getId();
-            String title = a.getTitle();
-            String introduction = a.getIntroduction();
-            int preferences = a.getPreferences();
-            String imgurl = a.getImgurl();
-            int mass = a.getmMassid();
-            String tag = a.getmTag();
-            String putmass = getMassname(mass);
-            mData.add(new Item(id,title,introduction,preferences,imgurl,putmass,tag));
-            i++;
-        }
-        mAllData.addAll(mData);
-        LinearRecyclerView(mQieHuan);
-    }
-
-    private String getMassname(int id) {
-        String putindex = "" + id;
-        for (MultipleItem item :  dao.detaMasslist) {
-            final Item value = (Item) item;
-            //.startsWith   以指定字符串开头筛选（精准搜索）
-            //.contains     以字符串中是否存在筛选（模糊搜索）
-            if (value.getId().startsWith(putindex)) {
-                return value.getTitle();
+        mSearch.getText().clear();//清空输入框
+        if (dao == null) {
+            this.mData = new ArrayList<>();
+            this.mAllData = new ArrayList<>();
+            imageButton.setOnClickListener(this);
+            DatabaseHelper helper = new DatabaseHelper(context);
+            helper.getWritableDatabase();
+            String masstit = getArguments().getString("itemMasstit");
+            for (MultipleItem item : LifanMoreFragment.mData) {
+                final Item value = (Item) item;
+                //.startsWith   以指定字符串开头筛选（精准搜索）
+                //.contains     以字符串中是否存在筛选（模糊搜索）
+                if (value.getmMassTit().startsWith(masstit)) {
+                    mData.add(value);
+                }
             }
+            mAllData.addAll(mData);
+            LinearRecyclerView(mQieHuan);
+        } else {
+            LinearRecyclerView(mQieHuan);
         }
-        return null;
     }
 
     public void LinearRecyclerView(boolean mQieHuan) {
@@ -132,7 +115,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
         mLinearAdaoter = new LinearAdapter(mData, mQieHuan, new LinearAdapter.OnItemClickListener() {
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
-                if (isAdded()){
+                if (isAdded()) {
                     final Intent intent = new Intent(context, LifanDetailpageActivity.class);
                     //传递图片、标题、喜好、简介、番号信息
                     Bundle bundle = new Bundle();
@@ -145,7 +128,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
                     bundle.putString("itemImgurl", item.getImgurl());
                     bundle.putString("itemMasstit", item.getmMassTit());
                     bundle.putString("itemTag", item.getmTag());
-                    bundle.putInt("item1Position",position);
+                    bundle.putInt("itemPosition", position);
 
                     intent.putExtras(bundle);
 //                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
@@ -231,4 +214,5 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
                 break;
         }
     }
+
 }

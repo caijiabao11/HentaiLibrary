@@ -28,6 +28,7 @@ public class HentaiJoiHttpJson {
     public static String sethtml;
     public static FileOutputStream fos = null;
     public static FileInputStream fis = null;
+    public static int deurl;//失效链接数量
     private static Context context = MyApplication.getContext();
 
 //    public static void setmResolution(HttpJsonResolution resolution) {
@@ -56,8 +57,11 @@ public class HentaiJoiHttpJson {
                 //生成遍历
                 String sit = showInput();
 
-                if ((fis != null && response.length() > sit.length() ) ||  fis == null){
+                if ((sit != null && fis != null && sethtml.length() > sit.length() ) ||  fis == null){
                     //内部存储源码
+                    showOutput(sethtml);
+                    sit = sethtml;
+                }else if (sit == null){
                     showOutput(sethtml);
                     sit = sethtml;
                 }
@@ -73,12 +77,17 @@ public class HentaiJoiHttpJson {
                     for (int size = 0; size < divVideo.size(); size++) {
                         //录入所有链接到videoList里面
                         videoList.add(divVideo.get(size).attr("abs:href"));
+
                     }
                     //遍历videoList
                     for (String urlinto:videoList){
                         //第二详细页视频链接
                         videourl = urlinto;
-                        indata(videourl, resolution,videoList);
+                        if (urlinto.contains("verification_video")) {
+                            videoList.remove(urlinto);
+                        }else {
+                            indata(videourl, resolution,videoList);
+                        }
                     }
                 }
             }
@@ -110,22 +119,26 @@ public class HentaiJoiHttpJson {
                         httpJson.Allduration.add(json.getString("duration"));
 
                         Log.e("text数据","text数据"+scriptEle.data());
-                        //Allname.size() % 10== 0 &&  10数量的余0
-                        if (Allname.size() == allvideoList.size() && resolution!=null) {
-                            int loging = 0;
-                            while (loging <= (Allname.size()-1)) {
-                                String title = Allname.get(loging);
-                                String imageurl = Allimg.get(loging);
-                                String videourl = Allvideourl.get(loging);
-                                String duration = Allduration.get(loging);
-                                //回调onFinish方法
-                                resolution.onFinish(title, imageurl, videourl, duration);
-                                loging ++;
-                            }
-                        }
+
                     } catch (JSONException e){
                         e.printStackTrace();
+                        Log.e("视频链接失效", "run: "+ e );
+                        deurl++;
                     }
+
+                //Allname.size() % 10== 0 &&  10数量的余0
+                if (Allname.size() == allvideoList.size() - deurl && resolution!=null) {
+                    int loging = 0;
+                    while (loging <= (Allname.size()-1)) {
+                        String title = Allname.get(loging);
+                        String imageurl = Allimg.get(loging);
+                        String videourl = Allvideourl.get(loging);
+                        String duration = Allduration.get(loging);
+                        //回调onFinish方法
+                        resolution.onFinish(title, imageurl, videourl, duration);
+                        loging ++;
+                    }
+                }
             }
 
             @Override

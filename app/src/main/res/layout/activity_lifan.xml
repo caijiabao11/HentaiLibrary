@@ -62,6 +62,17 @@
                 android:background="@drawable/but_label_radius_bg_white"
                 style="?android:attr/borderlessButtonStyle"/>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/but_querytags"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="540dp"
+                android:src="@drawable/ic_query_whach"
+                android:clickable="true"
+                app:elevation="0dp"
+                app:pressedTranslationZ="0dp"
+                app:maxImageSize="35dp"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +81,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/activitys_radius_bg"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +99,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:text="H e n t a i"
-                    android:textColor="@color/colorAllText"
+                    android:textColor="@color/colorTextTitle"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -97,17 +107,14 @@
             <EditText
                 android:id="@+id/edt_search"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/activity_edit_bg"
                 android:imeOptions="actionSearch"
-                android:lines="1"
-                android:maxLength="16"
-                android:paddingLeft="5dp"
-                android:singleLine="true"
-                android:textFontWeight="1" />
+                android:paddingLeft="5dp"/>
 
             <FrameLayout
                 android:id="@+id/fragmentLayout"
@@ -119,6 +126,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:text="A S M R"
-                android:textColor="@color/colorAllText"
+                android:textColor="@color/colorTextTitle"
                 android:textSize="20sp" />
 
             <EditText

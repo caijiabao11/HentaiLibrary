@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -19,6 +20,7 @@ import com.example.administrator.lztsg.ItemsRoundImageView;
 import com.example.administrator.lztsg.R;
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.MultipleItem;
+import com.example.administrator.lztsg.utils.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +35,22 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
 import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 
-public class LifanLiveFragment extends Fragment implements View.OnClickListener  {
+public class LifanTag_putFragment extends Fragment implements View.OnClickListener {
+    private LifanActivity lifanActivity;
     public static LinearAdapter mLinearAdaoter;
     private static LinearAdapter.ItemHolder mItemHolder;
     private static StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private static RecyclerView mRecyclerView;
     public static Dao dao;
     private static Context context;
-    public static boolean mQieHuan = LifanMoreFragment.mQieHuan;
-    public static List<MultipleItem> mData;
-    public static List<MultipleItem> mAllData;
+    public static boolean mQieHuan = true;
+    public static List<MultipleItem> mData, mAllData;
+    public static ArrayList<String> tagarrid;
     public static int[] firstStaggeredGridPosition = {0, 0};
     public static int[] lastStaggeredGridPosition = {0, 0};
     private ImageButton imageButton;
     private LinearLayout mTab_main;
+    private EditText mSearch;
 
     @Override
     public void onAttach(@NonNull Context ctx) {
@@ -57,7 +61,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_lifan_more,container,false);
+        View rootview = inflater.inflate(R.layout.fragment_lifan_more, container, false);
         initView(rootview);
         initData(context);
 
@@ -68,8 +72,16 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
         mRecyclerView = view.findViewById(R.id.run_main);
         imageButton = getActivity().findViewById(R.id.imgbutton);
         mTab_main = getActivity().findViewById(R.id.tab_main);
+        mSearch = getActivity().findViewById(R.id.edt_search);
     }
+
+    //载入图片+标题
     private void initData(Context context) {
+        if (LifanTagFragment.butcode == 1){
+            LifanTagFragment.butcode = 0;
+            LifanTagFragment.OnAnimButonTag(-DensityUtils.dip2px(context,100),0);
+        }
+        mSearch.getText().clear();//清空输入框
         this.mData = new ArrayList<>();
         this.mAllData = new ArrayList<>();
         imageButton.setOnClickListener(this);
@@ -77,42 +89,61 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
         helper.getWritableDatabase();
 
         dao = new Dao(context);
-        dao.query(Constants.TABLE_NAME_MIAN,"preferences","1");
-        dao.query(Constants.TABLE_NAME_MASS,"mass_id");
-        dao.query(Constants.TABLE_NAME_TAG,"tag_id");
-        int indeax = dao.detalist.size();
-//        int indeax = LifanDetailpageActivity.mData.size();
-        int i = 0;
-        while (i < indeax){
-            Item a = (Item) dao.detalist.get(i);
-//            Item a = (Item) LifanDetailpageActivity.mData.get(i);
-            String id = a.getId();
-            String title = a.getTitle();
-            String introduction = a.getIntroduction();
-            int preferences = a.getPreferences();
-            String imgurl = a.getImgurl();
-            int mass = a.getmMassid();
-            String tag = a.getmTag();
-            String putmass = getMassname(mass);
-            mData.add(new Item(id,title,introduction,preferences,imgurl,putmass,tag));
-            i++;
+        tagarrid = getArguments().getStringArrayList("itemTagarrid");
+        String orsql = "";
+        int tagsum = 0;
+        for (String value : tagarrid){
+            String querystr = "'%\"" + value + "\"%'";
+            if (tagarrid.size() > 0 && tagsum < tagarrid.size()){
+                tagsum++;
+                String likes = " AND itemtag LIKE ";
+                orsql += querystr + likes;
+            }
+            if (tagarrid.size() == tagsum){
+                orsql += querystr;
+            }
         }
+        dao.query(Constants.TABLE_NAME_MIAN,"itemtag",orsql,"");
+
+//            for (MultipleItem item : LifanMoreFragment.mData) {
+//                final Item value = (Item) item;
+//                int tagsum = 0;
+//                //.startsWith   以指定字符串开头筛选（精准搜索）
+//                //.contains     以字符串中是否存在筛选（模糊搜索）
+//                try {
+//                    JSONArray tagarr = new JSONArray(value.getmTag());
+//                    for (int i = 0; i <= tagarr.length(); i++) {
+//                        for (String tagid : tagarrid){
+//                            if (tagarr.get(i).equals(tagid)) {
+//                                tagsum++;
+//                            }
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                if (tagarrid.size() == tagsum){
+//                    mData.add(value);
+//                }
+//            }
+
+        mData.addAll(dao.detalist);
         mAllData.addAll(mData);
         LinearRecyclerView(mQieHuan);
     }
 
-    private String getMassname(int id) {
-        String putindex = "" + id;
-        for (MultipleItem item :  dao.detaMasslist) {
-            final Item value = (Item) item;
-            //.startsWith   以指定字符串开头筛选（精准搜索）
-            //.contains     以字符串中是否存在筛选（模糊搜索）
-            if (value.getId().startsWith(putindex)) {
-                return value.getTitle();
-            }
-        }
-        return null;
-    }
+//    private String getMassname(int id) {
+//        String putindex = "" + id;
+//        for (MultipleItem item : dao.detaMasslist) {
+//            final Item value = (Item) item;
+//            //.startsWith   以指定字符串开头筛选（精准搜索）
+//            //.contains     以字符串中是否存在筛选（模糊搜索）
+//            if (value.getId().startsWith(putindex)) {
+//                return value.getTitle();
+//            }
+//        }
+//        return null;
+//    }
 
     public void LinearRecyclerView(boolean mQieHuan) {
         if (mQieHuan) {
@@ -132,7 +163,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
         mLinearAdaoter = new LinearAdapter(mData, mQieHuan, new LinearAdapter.OnItemClickListener() {
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
-                if (isAdded()){
+                if (isAdded()) {
                     final Intent intent = new Intent(context, LifanDetailpageActivity.class);
                     //传递图片、标题、喜好、简介、番号信息
                     Bundle bundle = new Bundle();
@@ -145,7 +176,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
                     bundle.putString("itemImgurl", item.getImgurl());
                     bundle.putString("itemMasstit", item.getmMassTit());
                     bundle.putString("itemTag", item.getmTag());
-                    bundle.putInt("item1Position",position);
+                    bundle.putInt("itemPosition", position);
 
                     intent.putExtras(bundle);
 //                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
@@ -231,4 +262,7 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
                 break;
         }
     }
+
+    //点击返回上一页面而不是退出浏览器 优先级:视频播放全屏-网页回退-关闭页面
+
 }

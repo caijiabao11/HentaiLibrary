@@ -4,10 +4,18 @@
     <color name="colorPrimaryDark">#2B3954</color>
     <color name="colorAccent">#AF4FB0</color>
     <color name="colorPinke">#E33C64</color>
+
     <color name="colorTextgray">#707070</color>
     <color name="colorSearch">#222222</color>
+
     <color name="colorAllBagWhite">#FFFFFF</color>
     <color name="colorAllText">#2C2C2C</color>
     <color name="colorAllTextDark">#FFFFFF</color>
+
+    <color name="colorTextTitle">#333333</color>//标题颜色
+    <color name="colorTextContent">#666666</color>//内容颜色
+    <color name="colorTextHelper">#999999</color>//辅助颜色
+    <color name="colorTextDisabled">#CCCCCC</color>//置灰颜色
+
     <color name="ThemeColor">#ff5c00</color>
 </resources>

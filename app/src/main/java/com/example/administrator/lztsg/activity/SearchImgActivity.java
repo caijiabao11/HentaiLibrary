@@ -1,11 +1,13 @@
 package com.example.administrator.lztsg.activity;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -31,8 +33,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -92,7 +92,7 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
                 TextView textView = new TextView(SearchImgActivity.this);
                 float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX,16,getResources().getDisplayMetrics());
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
-                textView.setTextColor(getResources().getColor(R.color.colorSearch));
+                textView.setTextColor(getResources().getColor(R.color.colorTextTitle));
                 textView.setText(tab.getText());
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
                 textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -171,10 +171,12 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void chooseFile() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent,100);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 100);
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.setType("image/*");
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        startActivityForResult(intent,100);
         dataarroenindex = 0;
     }
 
@@ -230,12 +232,24 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
             case 100:
-                if (resultCode == RESULT_OK){
-                    String uri = data.getDataString();
-                    try {
-                        queryImage(URLDecoder.decode(uri,"UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
+                if (resultCode == RESULT_OK && data != null){
+//                    String uri = data.getDataString();
+                    Uri selectedImageUri = data.getData();
+                    String imagePath = getRealPathFromUri(this, selectedImageUri);
+                    //判断文件是否存在
+                    if (imagePath != null) {
+                        File imageFile = new File(imagePath);
+                        filePath = imagePath;
+                        mBlurview.setVisibility(View.VISIBLE);
+                        if (imageFile.exists()) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                            mImg_Upload.setImageBitmap(bitmap);
+
+                            Glide.with(this)
+                                    .load(bitmap)
+                                    .centerCrop()
+                                    .into(mBg_upload_img);
+                        }
                     }
                 }
                 break;
@@ -244,35 +258,16 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
     }
 
     //处理图片数据 得到图片PATH
-    private void queryImage(String data) {
-        String _path = "_data";
-        String _album = "bucket_display_name";
-        int idx = data.lastIndexOf(":");
-        String id = null;
-        if (idx != -1) {
-            id = data.substring(idx + 1);
+    public String getRealPathFromUri(Context context, Uri uri) {
+        String realPath = null;
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            realPath = cursor.getString(columnIndex);
+            cursor.close();
         }
-        Log.d("onActivityResult","id:" + id);
-        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, "_id=" + id, null, null);
-        if (cursor.moveToFirst()) {
-            String path = cursor.getString(cursor.getColumnIndex(_path));
-            String album = cursor.getString(cursor.getColumnIndex(_album));
-            Log.d("test", "filePath: " + path);
-            filePath = path;
-            mBlurview.setVisibility(View.VISIBLE);
-            File f = new File(path);
-            if (f.exists()) {
-                Bitmap b = BitmapFactory.decodeFile(path);
-                mImg_Upload.setImageBitmap(b);
-
-                Glide.with(this)
-                        .load(Bitmap.createBitmap(b))
-                        .centerCrop()
-                        .into(mBg_upload_img);
-            }
-
-        }
-        cursor.close();
+        return realPath;
     }
 
     @Override

@@ -25,6 +25,7 @@ public class FapHeroHttpJson {
     public static String datas = null;
     public static FileOutputStream fos;
     public static FileInputStream fis;
+    public static int deurl;//失效链接数量
     private static Context context = MyApplication.getContext();
 
 //    public static void setmResolution(HttpJsonResolution resolution) {
@@ -98,27 +99,32 @@ public class FapHeroHttpJson {
                         httpJson.Allduration.add(json.getString("duration"));
 
                         Log.e("text数据","text数据"+scriptEle.data());
-                        //Allname.size() % 10== 0 &&  10数量的余0
-                        if (Allname.size() == allvideoList.size() && resolution!=null) {
-                            int loging = 0;
-                            while (loging <= (Allname.size()-1)) {
-                                String title = Allname.get(loging);
-                                String imageurl = Allimg.get(loging);
-                                String videourl = Allvideourl.get(loging);
-                                String duration = Allduration.get(loging);
-                                //回调onFinish方法
-                                resolution.onFinish(title, imageurl, videourl, duration);
-                                loging ++;
-                            }
-                        }
+
                     } catch (JSONException e){
                         e.printStackTrace();
+                        Log.e("视频链接失效", "run: "+ e );
+                        deurl++;
                     }
+
+                //Allname.size() % 10== 0 &&  10数量的余0
+                if (Allname.size() == allvideoList.size() - deurl && resolution!=null) {
+                    int loging = 0;
+                    while (loging <= (Allname.size()-1)) {
+                        String title = Allname.get(loging);
+                        String imageurl = Allimg.get(loging);
+                        String videourl = Allvideourl.get(loging);
+                        String duration = Allduration.get(loging);
+                        //回调onFinish方法
+                        resolution.onFinish(title, imageurl, videourl, duration);
+                        loging ++;
+                    }
+                }
             }
 
             @Override
             public void onError(Exception e) {
                 //错误回调
+
             }
         });
     }

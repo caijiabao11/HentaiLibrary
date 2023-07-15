@@ -22,14 +22,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="2dp"
-                android:textColor="@color/colorTextgray"
+                android:textColor="@color/colorTextHelper"
                 android:textSize="10sp"
                 android:text="Day"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:textColor="@color/colorAllText"
+                android:textColor="@color/colorTextTitle"
                 android:textSize="@dimen/text_main_summary"
                 android:textStyle="bold"
                  android:text="2"/>
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorAllText"
+            android:textColor="@color/colorTextTitle"
             android:textSize="@dimen/text_main_title"
             android:text="管理天数"/>
     </LinearLayout>
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorAllText"
+            android:textColor="@color/colorTextTitle"
             android:textSize="@dimen/text_main_summary"
             android:textStyle="bold"
             android:text="1"/>
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorAllText"
+            android:textColor="@color/colorTextTitle"
             android:textSize="@dimen/text_main_title"
             android:text="LV"/>
     </LinearLayout>
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:textColor="@color/colorAllText"
+                android:textColor="@color/colorTextTitle"
                 android:textSize="@dimen/text_main_summary"
                 android:textStyle="bold"
                 android:text="10"/>
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="2dp"
-                android:textColor="@color/colorTextgray"
+                android:textColor="@color/colorTextHelper"
                 android:textSize="10sp"
                 android:text="回"/>
         </LinearLayout>
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorAllText"
+            android:textColor="@color/colorTextTitle"
             android:textSize="@dimen/text_main_title"
             android:text="计数"/>
     </LinearLayout>

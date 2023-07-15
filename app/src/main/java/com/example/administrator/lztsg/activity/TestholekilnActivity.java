@@ -81,7 +81,7 @@ public class TestholekilnActivity extends AppCompatActivity{
                 TextView textView = new TextView(TestholekilnActivity.this);
                 float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 16, getResources().getDisplayMetrics());
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize);
-                textView.setTextColor(getResources().getColor(R.color.colorSearch));
+                textView.setTextColor(getResources().getColor(R.color.colorTextTitle));
                 textView.setText(tab.getText());
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
                 textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -149,7 +149,7 @@ public class TestholekilnActivity extends AppCompatActivity{
                 super.onPageFinished(view, url);
             }
         });
-//        mWebView.loadUrl("https://www.xvideos.com/channels/wutfaced#_tabVideos");
+        mWebView.loadUrl("https://www.xvideos.com/channels/wutfaced#_tabVideos");
 
         sp = getSharedPreferences("user", Context.MODE_PRIVATE);
         if (sp != null){

@@ -80,7 +80,7 @@ public class LifanDetailpageActivity extends AppCompatActivity {
         mItemTitView.setText(bundle.getString("itemTitle"));
         mItemIntroductionView.setText(bundle.getString("itemIntroduction"));
         mItemIdView.setText(bundle.getString("itemId"));
-        mItemMass.setText(bundle.getString("itemMassid"));
+        mItemMass.setText(bundle.getString("itemMasstit"));
         preferences = bundle.getInt("itemPreferences");
         position = bundle.getInt("itemPosition");
         position1 = bundle.getInt("item1Position");
@@ -149,8 +149,17 @@ public class LifanDetailpageActivity extends AppCompatActivity {
     private Chip createChiptext(String str) {
         Chip chip = new Chip(this);
         chip.setText(str);
+//        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#AF4FB0")));
+//        chip.setTextColor(getResources().getColor(R.color.colorAllTextDark));
+        if (LifanTag_putFragment.tagarrid != null){
+            for (String tagid : LifanTag_putFragment.tagarrid){
+                if (str.equals(getTagname(tagid))){
+                    chip.setChecked(true);
+                }
+            }
+        }
         chip.setCloseIconVisible(false);
-        chip.setClickable(true);
+        chip.setClickable(false);
 
         return chip;
     }

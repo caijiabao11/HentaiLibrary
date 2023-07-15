@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
             android:text="summary"
-            android:textColor="@color/colorTextgray"
+            android:textColor="@color/colorTextHelper"
             android:textSize="10dp" />
 
     </RelativeLayout>

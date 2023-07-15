@@ -20,9 +20,16 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
     <style name="LifanDetailpageTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="colorOnSecondary">@color/colorAllBagWhite</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="chipStyle">@style/MyChipStyle</item>
+    </style>
+
+    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+<!--        <item name="chipBackgroundColor">@color/colorTextgray</item>-->
+        <item name="android:textColor">@color/colorAllText</item>
     </style>
 </resources>

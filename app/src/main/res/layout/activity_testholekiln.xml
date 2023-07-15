@@ -51,7 +51,7 @@
                 android:layout_marginRight="75dp"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/text_main_title"
-                android:textColor="@color/colorTextgray"
+                android:textColor="@color/colorTextHelper"
                 android:text="打卡提醒"/>
 
             <Switch
@@ -75,7 +75,7 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                app:tabTextColor="@color/colorTextgray"
+                app:tabTextColor="@color/colorTextHelper"
                 app:tabMode="scrollable"
                 app:tabGravity="fill"
                 app:tabIndicator="@drawable/layer_tab_indicator"

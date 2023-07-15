@@ -11,13 +11,19 @@ public class Item implements MultipleItem {
     private int mPreferences;
     private String mImgurl;
     private int mMassid;
-    private String mMass_id;
+    private String mMasstit;
     private String mTag;
     Context context;
 
     public Item(String id, String title) {
         mId = id;
         mTitle = title;
+    }
+
+    public Item(String id, String title,String imgurl) {
+        mId = id;
+        mTitle = title;
+        mImgurl = imgurl;
     }
 
     public Item(String id, String title, String introduction, int preferences, String imgurl,int massid,String tag) {
@@ -30,13 +36,13 @@ public class Item implements MultipleItem {
         mTag = tag;
     }
 
-    public Item(String id, String title, String introduction, int preferences, String imgurl,String massid,String tag) {
+    public Item(String id, String title, String introduction, int preferences, String imgurl,String masstit,String tag) {
         mId = id;
         mTitle = title;
         mIntroduction = introduction;
         mPreferences = preferences;
         mImgurl = imgurl;
-        mMass_id = massid;
+        mMasstit = masstit;
         mTag = tag;
     }
 
@@ -97,12 +103,12 @@ public class Item implements MultipleItem {
         mTag = tag;
     }
 
-    public String getmMass_id() {
-        return mMass_id;
+    public String getmMassTit() {
+        return mMasstit;
     }
 
-    public void setmMass_id(String mass_id) {
-        mMass_id = mass_id;
+    public void setmMassTit(String masstit) {
+        mMasstit = masstit;
     }
 
     public ItemType getItemType() {

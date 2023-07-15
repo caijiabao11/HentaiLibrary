@@ -54,7 +54,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/colorAllText"
+            android:textColor="@color/colorTextTitle"
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="14sp" />
@@ -78,7 +78,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="#555"
+            android:textColor="@color/colorTextContent"
             android:ellipsize="end"
             android:maxLines="1"
             android:textSize="12sp" />

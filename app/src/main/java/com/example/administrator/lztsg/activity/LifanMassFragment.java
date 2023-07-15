@@ -1,11 +1,7 @@
 package com.example.administrator.lztsg.activity;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +11,6 @@ import android.widget.LinearLayout;
 import com.example.administrator.lztsg.Constants;
 import com.example.administrator.lztsg.Dao;
 import com.example.administrator.lztsg.DatabaseHelper;
-import com.example.administrator.lztsg.ItemsRoundImageView;
 import com.example.administrator.lztsg.R;
 import com.example.administrator.lztsg.items.Item;
 import com.example.administrator.lztsg.items.MultipleItem;
@@ -26,6 +21,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -33,7 +30,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
 import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 
-public class LifanLiveFragment extends Fragment implements View.OnClickListener  {
+public class LifanMassFragment extends Fragment implements View.OnClickListener  {
     public static LinearAdapter mLinearAdaoter;
     private static LinearAdapter.ItemHolder mItemHolder;
     private static StaggeredGridLayoutManager mStaggeredGridLayoutManager;
@@ -70,35 +67,32 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
         mTab_main = getActivity().findViewById(R.id.tab_main);
     }
     private void initData(Context context) {
-        this.mData = new ArrayList<>();
-        this.mAllData = new ArrayList<>();
-        imageButton.setOnClickListener(this);
-        DatabaseHelper helper = new DatabaseHelper(context);
-        helper.getWritableDatabase();
+        if (dao == null){
+            this.mData = new ArrayList<>();
+            this.mAllData = new ArrayList<>();
+            imageButton.setOnClickListener(this);
+            DatabaseHelper helper = new DatabaseHelper(context);
+            helper.getWritableDatabase();
 
-        dao = new Dao(context);
-        dao.query(Constants.TABLE_NAME_MIAN,"preferences","1");
-        dao.query(Constants.TABLE_NAME_MASS,"mass_id");
-        dao.query(Constants.TABLE_NAME_TAG,"tag_id");
-        int indeax = dao.detalist.size();
-//        int indeax = LifanDetailpageActivity.mData.size();
-        int i = 0;
-        while (i < indeax){
-            Item a = (Item) dao.detalist.get(i);
-//            Item a = (Item) LifanDetailpageActivity.mData.get(i);
-            String id = a.getId();
-            String title = a.getTitle();
-            String introduction = a.getIntroduction();
-            int preferences = a.getPreferences();
-            String imgurl = a.getImgurl();
-            int mass = a.getmMassid();
-            String tag = a.getmTag();
-            String putmass = getMassname(mass);
-            mData.add(new Item(id,title,introduction,preferences,imgurl,putmass,tag));
-            i++;
+            dao = new Dao(context);
+            dao.query(Constants.TABLE_NAME_MASS,"mass_id");
+            int indeax = dao.detaMasslist.size();
+            int i = 0;
+            while (i < indeax){
+                Item a = (Item) dao.detaMasslist.get(i);
+
+                String id = a.getId();
+                String title = a.getTitle();
+                String imgurl = a.getImgurl();
+
+                mData.add(new Item(id,title,imgurl));
+                i++;
+            }
+            mAllData.addAll(mData);
+            LinearRecyclerView(mQieHuan);
+        }else{
+            LinearRecyclerView(mQieHuan);
         }
-        mAllData.addAll(mData);
-        LinearRecyclerView(mQieHuan);
     }
 
     private String getMassname(int id) {
@@ -133,36 +127,20 @@ public class LifanLiveFragment extends Fragment implements View.OnClickListener 
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
                 if (isAdded()){
-                    final Intent intent = new Intent(context, LifanDetailpageActivity.class);
-                    //传递图片、标题、喜好、简介、番号信息
-                    Bundle bundle = new Bundle();
+                    //传递社团标题、
                     Item item = (Item) mItems.get(position);
 
-                    bundle.putString("itemId", item.getId());
-                    bundle.putString("itemTitle", item.getTitle());
-                    bundle.putString("itemIntroduction", item.getIntroduction());
-                    bundle.putInt("itemPreferences", item.getPreferences());
-                    bundle.putString("itemImgurl", item.getImgurl());
-                    bundle.putString("itemMasstit", item.getmMassTit());
-                    bundle.putString("itemTag", item.getmTag());
-                    bundle.putInt("item1Position",position);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    intent.putExtras(bundle);
-//                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-                    int realFirstPosition = 0;
-                    if (mQieHuan) {
-                        realFirstPosition = Math.min(firstStaggeredGridPosition[0], lastStaggeredGridPosition[0]);
-                    } else if (mQieHuan == false) {
-                        realFirstPosition = Math.min(firstStaggeredGridPosition[0], lastStaggeredGridPosition[1]);
-                    }
-                    mItemHolder = (LinearAdapter.ItemHolder) mRecyclerView.getChildViewHolder(mRecyclerView.getChildAt(position - realFirstPosition));
-                    //获取共享动画的View对象
-                    ItemsRoundImageView card_info_image = (ItemsRoundImageView) mItemHolder.image;
-//                ImageView card_info_image = mItemHolder.image;
-                    //绑定共享空间，并赋予标签（便于寻找）
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                            Pair.<View, String>create(card_info_image, "item_info_image"));
-                    startActivity(intent, options.toBundle());
+                    LifanMass_putFragment mFrag5 = new LifanMass_putFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("itemMasstit",item.getTitle());
+                    mFrag5.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.fragmentLayout, mFrag5);
+                    fragmentTransaction.addToBackStack(null);
+                    LifanActivity.currentFragment = mFrag5;
+                    fragmentTransaction.commit();
                 }
             }
 

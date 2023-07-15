@@ -45,7 +45,7 @@
                 android:layout_marginTop="20dp"
                 android:maxWidth="250dp"
                 android:text="Titles"
-                android:textColor="#000"
+                android:textColor="@color/colorTextTitle"
                 android:textSize="18sp" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="JADX-001 "
-                android:textColor="@color/colorTextgray"
+                android:textColor="@color/colorTextHelper"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -78,18 +78,18 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:text="制造商"
-                    android:textColor="@color/colorAllText"
+                    android:textColor="@color/colorTextContent"
                     android:textSize="14sp"/>
 
             </LinearLayout>
 
             <com.google.android.material.chip.ChipGroup
-                style="@style/Widget.MaterialComponents.Chip.Action"
+                style="@style/Widget.MaterialComponents.ChipGroup"
                 android:id="@+id/item_tag"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:chipSpacing="5dp"/>
+                app:chipSpacingVertical="1dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                                     先和精灵公主一起试试吧！！！
                                     动漫原版女主角声优说话可爱，气喘吁吁，舔舐！！！
                                     人口增长的大爆炸以应对出生率下降的代价！！！"
-                    android:textColor="#000"
+                    android:textColor="@color/colorTextContent"
                     android:textSize="14sp" />
 
             </LinearLayout>

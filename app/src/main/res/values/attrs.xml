@@ -11,4 +11,7 @@
         <attr name="format" format="string" localization="suggested" />
         <attr name="countDown" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="Mychip">
+        <attr name="chipStyle" format="reference" />
+    </declare-styleable>
 </resources>

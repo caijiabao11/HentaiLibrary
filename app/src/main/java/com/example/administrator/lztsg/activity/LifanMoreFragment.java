@@ -34,6 +34,7 @@ import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
 import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 
 public class LifanMoreFragment extends Fragment implements View.OnClickListener {
+    private LifanActivity lifanActivity;
     public static LinearAdapter mLinearAdaoter;
     private static LinearAdapter.ItemHolder mItemHolder;
     private static StaggeredGridLayoutManager mStaggeredGridLayoutManager;
@@ -56,7 +57,7 @@ public class LifanMoreFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_lifan_more,container,false);
+        View rootview = inflater.inflate(R.layout.fragment_lifan_more, container, false);
         initView(rootview);
         initData(context);
 
@@ -71,61 +72,43 @@ public class LifanMoreFragment extends Fragment implements View.OnClickListener 
 
     //载入图片+标题
     private void initData(Context context) {
-        this.mData = new ArrayList<>();
-        this.mAllData = new ArrayList<>();
-        imageButton.setOnClickListener(this);
-//        int i = 1;
-//        while (i <= 1113) {
-//            Object localObject1 = getResources();
-//            Object localObject2 = new StringBuilder();
-//            ((StringBuilder) localObject2).append("img_");
-//            ((StringBuilder) localObject2).append(i);
-//            int j = ((Resources) localObject1).getIdentifier(((StringBuilder) localObject2).toString(), "drawable", "com.example.administrator.lztsg");
-//            try {
-//                localObject1 = String.format(getResources().getString(R.string.title_ + i), new Object[0]);
-//                localObject2 = this.mData;
-//                StringBuilder localStringBuilder = new StringBuilder();
-//                //输出标题
-//                localStringBuilder.append("");
-//                localStringBuilder.append((String) localObject1);
-//                ((List) localObject2).add(new Item(j, localStringBuilder.toString()) {
-//                });
-//
-//            } catch (NumberFormatException localNumberFormatException) {
-//                localNumberFormatException.printStackTrace();
-//            }
-//            i += 1;
-//        }
-        DatabaseHelper helper = new DatabaseHelper(context);
-        helper.getWritableDatabase();
+        if (dao == null) {
+            this.mData = new ArrayList<>();
+            this.mAllData = new ArrayList<>();
+            imageButton.setOnClickListener(this);
+            DatabaseHelper helper = new DatabaseHelper(context);
+            helper.getWritableDatabase();
 
-        dao = new Dao(context);
-        dao.query(Constants.TABLE_NAME_MIAN,"name");
+            dao = new Dao(context);
+            dao.query(Constants.TABLE_NAME_MIAN, "name");
 //        dao.query(Constants.TABLE_NAME_MIAN,"name","1+2＝パラダイス");
-        dao.query(Constants.TABLE_NAME_MASS,"mass_id");
-        dao.query(Constants.TABLE_NAME_TAG,"tag_id");
-        int indeax = dao.detalist.size();
-        int i = 0;
-        while (i < indeax){
-            Item a = (Item) dao.detalist.get(i);
-            String id = a.getId();
-            String title = a.getTitle();
-            String introduction = a.getIntroduction();
-            int preferences = a.getPreferences();
-            String imgurl = a.getImgurl();
-            int mass = a.getmMassid();
-            String tag = a.getmTag();
-            String putmass = getMassname(mass);
-            mData.add(new Item(id,title,introduction,preferences,imgurl,putmass,tag));
-            i++;
+            dao.query(Constants.TABLE_NAME_MASS, "mass_id");
+            dao.query(Constants.TABLE_NAME_TAG, "tag_id");
+            int indeax = dao.detalist.size();
+            int i = 0;
+            while (i < indeax) {
+                Item a = (Item) dao.detalist.get(i);
+                String id = a.getId();
+                String title = a.getTitle();
+                String introduction = a.getIntroduction();
+                int preferences = a.getPreferences();
+                String imgurl = a.getImgurl();
+                int mass = a.getmMassid();
+                String tag = a.getmTag();
+                String putmass = getMassname(mass);
+                mData.add(new Item(id, title, introduction, preferences, imgurl, putmass, tag));
+                i++;
+            }
+            mAllData.addAll(mData);
+            LinearRecyclerView(mQieHuan);
+        } else {
+            LinearRecyclerView(mQieHuan);
         }
-        mAllData.addAll(mData);
-        LinearRecyclerView(mQieHuan);
     }
 
     private String getMassname(int id) {
         String putindex = "" + id;
-        for (MultipleItem item :  dao.detaMasslist) {
+        for (MultipleItem item : dao.detaMasslist) {
             final Item value = (Item) item;
             //.startsWith   以指定字符串开头筛选（精准搜索）
             //.contains     以字符串中是否存在筛选（模糊搜索）
@@ -133,7 +116,7 @@ public class LifanMoreFragment extends Fragment implements View.OnClickListener 
                 return value.getTitle();
             }
         }
-       return null;
+        return null;
     }
 
     public void LinearRecyclerView(boolean mQieHuan) {
@@ -154,7 +137,7 @@ public class LifanMoreFragment extends Fragment implements View.OnClickListener 
         mLinearAdaoter = new LinearAdapter(mData, mQieHuan, new LinearAdapter.OnItemClickListener() {
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
-                if (isAdded()){
+                if (isAdded()) {
                     final Intent intent = new Intent(context, LifanDetailpageActivity.class);
                     //传递图片、标题、喜好、简介、番号信息
                     Bundle bundle = new Bundle();
@@ -165,9 +148,9 @@ public class LifanMoreFragment extends Fragment implements View.OnClickListener 
                     bundle.putString("itemIntroduction", item.getIntroduction());
                     bundle.putInt("itemPreferences", item.getPreferences());
                     bundle.putString("itemImgurl", item.getImgurl());
-                    bundle.putString("itemMassid", item.getmMass_id());
+                    bundle.putString("itemMasstit", item.getmMassTit());
                     bundle.putString("itemTag", item.getmTag());
-                    bundle.putInt("itemPosition",position);
+                    bundle.putInt("itemPosition", position);
 
                     intent.putExtras(bundle);
 //                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();

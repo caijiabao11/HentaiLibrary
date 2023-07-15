@@ -83,7 +83,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="白噪音"
-                    android:textColor="@color/colorAllText"
+                    android:textColor="@color/colorTextTitle"
                     android:textSize="@dimen/text_main_title" />
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="搜图"
-                    android:textColor="@color/colorAllText"
+                    android:textColor="@color/colorTextTitle"
                     android:textSize="@dimen/text_main_title" />
             </LinearLayout>
 
@@ -135,7 +135,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="白噪音"
-                    android:textColor="@color/colorAllText"
+                    android:textColor="@color/colorTextTitle"
                     android:textSize="@dimen/text_main_title" />
             </LinearLayout>
 
@@ -160,7 +160,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="白噪音"
-                    android:textColor="@color/colorAllText"
+                    android:textColor="@color/colorTextTitle"
                     android:textSize="@dimen/text_main_title" />
             </LinearLayout>
 
@@ -170,12 +170,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="功能区"
-            android:textColor="#2c2c2c"
+            android:textColor="@color/colorTextTitle"
             android:textSize="26sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/run_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 </LinearLayout>
