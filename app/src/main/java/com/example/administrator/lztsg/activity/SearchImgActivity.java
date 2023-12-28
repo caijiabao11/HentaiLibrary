@@ -1,8 +1,10 @@
 package com.example.administrator.lztsg.activity;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,12 +39,14 @@ import java.io.File;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 public class SearchImgActivity extends AppCompatActivity implements View.OnClickListener {
     private static SetInto mSetInto;
+    private static final int WRITE_PERMISSION = 0x01;
     private Button mBut_SelectImg,mBut_Upload;
     private ImageView mImg_Upload,mBg_upload_img;
     private RelativeLayout mCbirSites_Itemmain;
@@ -64,6 +68,7 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_search_img);
         init();
         LinearRecyclerView();
+        requestWritePermission();
         initData();
         mBut_SelectImg.setOnClickListener(this);
         mBut_Upload.setOnClickListener(this);
@@ -170,6 +175,27 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                finish();
+            }
+        }
+    }
+
+    private void requestWritePermission() {
+        // 检查是否已经获得了读取外部存储的权限
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // 请求读取外部存储的权限
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+
     private void chooseFile() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 100);
@@ -193,10 +219,11 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
                     UploadUtils.uploadFile(new File(filePath), uploadUrl, new HttpLoadDataResolution() {
                         @Override
                         public void onFinish(String imageurl, String size, String title, String titleurl, String domain, String description) {
+                            mSetInto.onYandexFinish(imageurl, size, title, titleurl, domain, description);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mSetInto.onYandexFinish(imageurl, size, title, titleurl, domain, description);
+
                                 }
                             });
                         }
@@ -238,18 +265,38 @@ public class SearchImgActivity extends AppCompatActivity implements View.OnClick
                     String imagePath = getRealPathFromUri(this, selectedImageUri);
                     //判断文件是否存在
                     if (imagePath != null) {
+
+//                        Uri imageUri = Uri.fromFile(new File(imagePath));
+//                        filePath = imageUri.getPath();
+//                        mBlurview.setVisibility(View.VISIBLE);
+//                        mImg_Upload.setImageURI(imageUri);
+
                         File imageFile = new File(imagePath);
-                        filePath = imagePath;
+                        Uri imageUri = Uri.fromFile(imageFile);
+                        filePath = imageUri.getPath();
                         mBlurview.setVisibility(View.VISIBLE);
                         if (imageFile.exists()) {
-                            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
                             mImg_Upload.setImageBitmap(bitmap);
+//                            mImg_Upload.setImageURI(imageUri);
 
                             Glide.with(this)
                                     .load(bitmap)
                                     .centerCrop()
                                     .into(mBg_upload_img);
                         }
+//                        // 检查是否已经获得了读取外部存储的权限
+//                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                                != PackageManager.PERMISSION_GRANTED) {
+//                            // 请求读取外部存储的权限
+//                            ActivityCompat.requestPermissions(this,
+//                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                                    1);
+//                        } else {
+//                            // 已经获得了读取外部存储的权限，可以继续操作
+//                            // 在这里加载图片
+//
+//                        }
                     }
                 }
                 break;

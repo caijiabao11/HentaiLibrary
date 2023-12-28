@@ -2,11 +2,15 @@ package com.example.administrator.lztsg.httpjson;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,43 +19,44 @@ public class BetaTvHttpJson {
     public static String path;
     public static String videourl;
     public static ArrayList<String> Allname = new ArrayList<>(),Allimg = new ArrayList<>(),Allvideourl = new ArrayList<>(),Allduration = new ArrayList<>();
-    public static String datas = null,imgsrc;
+    public static String datas = null,imgsrc,name;
 
 
     public static void getData(final HttpJsonResolution resolution){
         //主页链接
-        path = "https://hanime1.me/";
-//        path = "https://www.underhentai.net/random/?nc";
+        int page = getPageTotal();
+        path = "https://www.2cyavcut.cfd/index.php/vodtype/43-"+ page +".html";
         int GOingUrl = 1;
-        HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
-            private BetaTvHttpJson httpJson;
-
-
+        HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 //生成遍历
-                Document document = Jsoup.parse(response, path);
-//                Elements divVideo = document.select("div.row").select(".no-gutter")
-//                        .select("div.col-xs-6")
-//                        .select("div.hover-lighter a[href]");
-                Elements divVideo = document.select("div.content-table table tbody>tr").eq(0)
-                        .select("td.c8 a[href]");
-                Elements imgSrc = document.select("div.loading")
-                        .select("img.img-responsive").eq(0);
-                if (divVideo != null) {
-                    ArrayList<String> videoList = new ArrayList<String>();
+                Document document = Jsoup.parse(response,path);
+                Elements divVideourl = document.select("div.margin-fix")
+                        .select(".item>a[href]");
+
+                Elements divImg = divVideourl.select("div.img>.thumb");
+
+                if (divVideourl != null){
+                    ArrayList<String> itemList = new ArrayList<String>();
+                    ArrayList<String> titList = new ArrayList<String>();
+                    ArrayList<String> thumbList = new ArrayList<String>();
                     //判断获取筛选标签
-                    for (int size = 0; size < divVideo.size(); size++) {
+                    for (int size=0;size<divVideourl.size();size++){
                         //录入所有链接到videoList里面
-                        videoList.add(divVideo.get(size).attr("abs:href" )+ "#ustream");
+                        itemList.add(divVideourl.get(size).attr("abs:href"));
+                        titList.add(divVideourl.get(size).attr("title"));
+                        thumbList.add(divImg.get(size).attr("src"));
                     }
-                    //遍历videoList
-                    for (String urlinto:videoList){
-                        //第二详细页视频链接
-                        videourl = urlinto;
-                        indata(videourl, resolution,videoList);
+
+                    int random = getRandomVideo();
+                    //第二详细页视频链接
+                    if (itemList.size() >= random){
+                        videourl = itemList.get(random);
+                        name = titList.get(random);
+                        imgsrc = thumbList.get(random);
+                        indata(videourl,resolution);
                     }
-                    imgsrc =imgSrc.attr("src");
                 }
             }
 
@@ -62,54 +67,33 @@ public class BetaTvHttpJson {
         });
     }
 
-    public static void indata(final String videourl, final HttpJsonResolution resolution, final ArrayList<String> allvideoList) {
+    public static void indata(final String videourl, final HttpJsonResolution resolution) {
         int GOingUrl = 2;
-        HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
+        HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             private BetaTvHttpJson httpJson;
 
             @Override
             public void onFinish(String response) {
                 //成功回调
                 Document doc = Jsoup.parse(response);
-                //选择器选择scriprt type="application/ld+json"
-//                Element scriptEle = doc.select("script[type=\"application/ld+json\"]").first();
-                Elements scriptEle = doc.select("script");
-                String pattern = "(?<=(\\$\\(\"#ustream\"\\)\\.append.{1,20}src=\\\\\")).*?(?=(\\\\\"))";
-                String str = String.valueOf(scriptEle.get(14));
-                Pattern r = Pattern.compile(pattern);
-                Matcher m = r.matcher(str);
-                if(m.find()) {
-                    Log.d("获取的数据为","获取的数据为"+m.group(0));
-                    String videourl = m.group(0) + "?ads=false";
-                    indataoen(videourl, resolution);
-                } else {
-                    Log.d("没找到","没找到");
+                //选择器选择scriprt type="text/javascript"
+                Element scriptEle = doc.select("script[type=\"text/javascript\"]").get(6);
+
+                Element tit = doc.select("div.headline>h1").first();
+                //标题
+//                name = tit.text();
+
+                String javascriptCode = scriptEle.data();
+                String playerDataString = javascriptCode.substring(javascriptCode.indexOf("{"), javascriptCode.lastIndexOf("}") + 1);
+                try{
+                    JSONObject json = new JSONObject(playerDataString);
+                    String url = json.getString("url");
+                    String videourl = "https://www.2cyavcut.cfd/addons/dplayer/?url=" + url;
+                    indataoen(videourl,resolution);
+                    Log.d("url", "onFinish: "+url);
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-//                    try{
-////                        scriptEle.data();
-////                        JSONObject json = new JSONObject(scriptEle.data());
-////                        httpJson.Allname.add(json.getString("name"));
-////                        httpJson.Allimg.add(json.getJSONArray("thumbnailUrl").getString(0));
-////                        httpJson.Allvideourl.add(json.getString("contentUrl"));
-////                        httpJson.Allduration.add(json.getString("uploadDate"));
-////
-////                        Log.e("text数据","text数据"+scriptEle.data());
-//                        //Allname.size() % 10== 0 &&  10数量的余0
-//                        if (Allname.size() == allvideoList.size() && resolution!=null) {
-//                                int loging = 0;
-//                            while (loging <= (Allname.size()-1)) {
-//                                String title = Allname.get(loging);
-//                                String imageurl = Allimg.get(loging);
-//                                String videourl = Allvideourl.get(loging);
-//                                String duration = Allduration.get(loging);
-//                                //回调onFinish方法
-//                                resolution.onFinish(title, imageurl, videourl, duration);
-//                                loging ++;
-//                            }
-//                        }
-//                    } catch (JSONException e){
-//                        e.printStackTrace();
-//                    }
             }
 
             @Override
@@ -120,18 +104,27 @@ public class BetaTvHttpJson {
     }
     public static void indataoen(final String videourl, final HttpJsonResolution resolution){
         int GOingUrl = 2;
-        HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
+        HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 Document doc = Jsoup.parse(response);
-                Elements videom3u8 = doc.select("video source[src]");
-                Elements img = doc.select("video");
+                Element videom3u8 = doc.select("script[type=\"text/javascript\"]").get(2);
+
+
+
+//                Elements videom3u8 = doc.select("video source[src]");
+//                Elements img = doc.select("video");
                 if(videom3u8 != null){
-                    String title = doc.title();
+                    String title = name;
                     String imageurl = imgsrc;
-                    String videourl = videom3u8.attr("src");
+                    String videourl = "";
                     String duration = "";
 
+                    Pattern pattern = Pattern.compile("var urls = \"(.*?)\";");
+                    Matcher matcher = pattern.matcher(videom3u8.data());
+                    if (matcher.find()) {
+                        videourl = matcher.group(1);
+                    }
                     Log.d("Video is ok !!!", videourl);
                     resolution.onFinish(title,imageurl,videourl,duration);
 
@@ -143,5 +136,19 @@ public class BetaTvHttpJson {
 
             }
         });
+    }
+
+    public static int getPageTotal(){
+        //随机范围1-13
+        Random random = new Random();
+        int randomNumber = random.nextInt(13) + 1;
+        return randomNumber;
+    }
+
+    public static int getRandomVideo(){
+        //随机范围0-36
+        Random random = new Random();
+        int randomNumber = random.nextInt(36);
+        return randomNumber;
     }
 }

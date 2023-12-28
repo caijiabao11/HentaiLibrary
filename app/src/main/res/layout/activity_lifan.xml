@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E5E5"
     android:orientation="vertical"
+    android:background="@color/colorBg"
     tools:context=".activity.LifanActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -108,13 +108,17 @@
                 android:id="@+id/edt_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/activity_edit_bg"
+                android:textCursorDrawable="@drawable/custom_cursor"
                 android:imeOptions="actionSearch"
-                android:paddingLeft="5dp"/>
+                android:lines="1"
+                android:maxLength="16"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textFontWeight="1" />
 
             <FrameLayout
                 android:id="@+id/fragmentLayout"

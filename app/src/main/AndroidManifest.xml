@@ -4,10 +4,17 @@
     package="com.example.administrator.lztsg">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:name=".MyApplication"
@@ -34,21 +41,11 @@
         <activity
             android:name=".activity.LifanActivity"
             android:label="@string/ic_menu_lifan"
-            android:theme="@style/ImageTranslucentTheme" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.LifanDetailpageActivity"
             android:label="@string/nullname"
             android:theme="@style/LifanDetailpageTheme" />
-        <activity
-            android:name=".activity.AvmovieActivity"
-            android:label="@string/ic_meun_avmovie"
-            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.MmdActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -81,6 +78,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
+            android:name=".activity.ScreenCastingActivity"
+            android:label="@string/ic_menu_screencasting"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
             android:name=".activity.SearchImgActivity"
             android:label="@string/ic_menu_searchimg"
             android:theme="@style/ImageTranslucentTheme" />
@@ -91,15 +92,33 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
-            android:name=".activity.AsmrActivity"
+            android:name=".activity.HpoiActivity"
+            android:label="@string/ic_menu_hpoi"
             android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".activity.HpoiDetailpageActivity"
+            android:label="@string/ic_menu_hpoi_item"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".activity.AsmrActivity"
+            android:theme="@style/AsmrDetailpageTheme"/>
+        <activity
+            android:name=".activity.AsmrDetailpageActivity"
+            android:theme="@style/AsmrDetailpageTheme"/>
         <service android:name=".LongRunningService" />
+        <service android:name=".MusicPlayerService"
+            android:enabled="true"
+            android:exported="true"/>
+        <service android:name="org.fourthline.cling.android.AndroidUpnpServiceImpl" />
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="com.lztsg.alarmreceiver_start" />
                 <action android:name="com.lztsg.alarmreceiver_stop" />
+
+                <action android:name="com.lztsg.musicplayer_start" />
             </intent-filter>
+
         </receiver>
     </application>
 

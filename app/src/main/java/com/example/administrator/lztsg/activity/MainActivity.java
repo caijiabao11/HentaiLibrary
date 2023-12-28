@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -15,22 +14,15 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.example.administrator.lztsg.R;
-import com.google.android.material.navigation.NavigationView;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import static com.example.administrator.lztsg.R.id.drawer_layout;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     private WebView mWvMain;
     private ImageView mIvbtnrest;
     private Toolbar mToolbar;
-    private DrawerLayout mDrawer;
-    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +31,6 @@ public class MainActivity extends AppCompatActivity
         init();
         setView();
         setSupportActionBar(mToolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
-        toggle.syncState();
-        mNavigationView.setNavigationItemSelectedListener(this);
 
         onTabBtnrestOnClick();
     }
@@ -52,8 +39,6 @@ public class MainActivity extends AppCompatActivity
         mWvMain = findViewById(R.id.wv);
         mIvbtnrest = findViewById(R.id.tabbtn_more);
         mToolbar = findViewById(R.id.toolbar);
-        mDrawer = findViewById(drawer_layout);
-        mNavigationView = findViewById(R.id.nav_view);
     }
 
     public void setView(){
@@ -108,44 +93,6 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    //侧滑栏列表跳转
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_lifan){
-            final Intent intent = new Intent(this,LifanActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_avmovie){
-            final Intent intent = new Intent(this, AvmovieActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_mmd){
-            final Intent intent = new Intent(this,MmdActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_setting){
-            final Intent intent = new Intent(this,SettingActivity.class);
-            startActivity(intent);
-        }
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //在这里处理

@@ -12,10 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CunzhiHellHttpJson {
@@ -30,28 +29,26 @@ public class CunzhiHellHttpJson {
     public static int okvidos;//另一个网站成功链接数量
     private static Context context = MyApplication.getContext();
 
-//    public static void setmResolution(HttpJsonResolution resolution) {
-//        mResolution = resolution;
-//    }
 
     public static void getData(final HttpJsonResolution resolution){
         //主页链接
         path = "https://spankbang.com/5nzsi/video/porn";
 
         int GOingUrl = 1;
-        HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
+        HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 //生成遍历
-                String sit = showInput();
+                FileIOStream fileIOStream = new FileIOStream(context);
+                File fileDir = context.getFilesDir(); // 或者使用 getCacheDir() 获取缓存目录
+                File outputFile = new File(fileDir, "CunZhiHtml.txt");// 本地保存的文件路径和名称
 
-                if ((fis != null && response.length() > sit.length() ) ||  fis == null){
-
+                String sit = fileIOStream.showInput(outputFile);
+                if(!outputFile.exists() || outputFile.exists() && response.length() > sit.length()){
                     //内部存储源码
-                    showOutput(response);
+                    fileIOStream.showOutput(outputFile,response);
                     sit = response;
                 }
-
                 Document document = Jsoup.parse(sit,path);
                 Elements divVideo = document.select("div.video-list")
                         .select(".video-rotate").get(1)
@@ -83,7 +80,7 @@ public class CunzhiHellHttpJson {
 
     public static void indata(final String videourl, final HttpJsonResolution resolution, final ArrayList<String> allvideoList) {
         int GOingUrl = 2;
-        HtmlService.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
+        HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             private CunzhiHellHttpJson httpJson;
             private String oenUrl = "https://spankbang.com/5nzsi/video/";
             private String toUrl = "https://sharesome.com/api/videos?user=694125&limit=12&page=2";
@@ -161,57 +158,5 @@ public class CunzhiHellHttpJson {
                 //错误回调
             }
         });
-    }
-
-    public static void showOutput(String res) {
-        //写入内部存储文件
-        try {
-            fos = context.openFileOutput("CunZhiHtml.txt", Context.MODE_PRIVATE);
-            fos.write(res.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            //资源关闭
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static String showInput() {
-        //读取内部存储文件
-        try {
-            fis = context.openFileInput("CunZhiHtml.txt");
-
-            int len = 0;
-            byte[] buf = new byte[1024];
-//            StringBuilder sb = new StringBuilder();//动态拼接
-            String line = null;
-            while ((len = fis.read(buf)) != -1) {
-                line += new String(buf, 0, len);
-            }
-
-            return line;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            //资源关闭
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_margin="10dp"
+    android:elevation="8dp">
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#ffffffff"
+        app:cardCornerRadius="10.0dip"
+        app:cardElevation="10.0dip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#ffffffff"
+                app:cardCornerRadius="10.0dip"
+                app:cardElevation="0.0dip">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="215dp">
+
+                    <ImageView
+                        android:id="@+id/image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:transitionName="item_info_image"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/text_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/video_time_bg"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="RJ01083310"
+                        android:textColor="#fff"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:id="@+id/text_release"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/video_time_bg"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="2023-08-18"
+                        android:textColor="#fff"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorTextTitle"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="【繁体中文版】チンカス汚ちんぽを放課後にオモチャにしたがる隣の席の淫乱優等生"
+                android:textSize="14sp" />
+            <com.google.android.material.chip.ChipGroup
+                style="@style/Widget.MaterialComponents.ChipGroup"
+                android:id="@+id/item_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                app:chipSpacingHorizontal="5dp"
+                app:chipSpacingVertical="-10dp">
+            </com.google.android.material.chip.ChipGroup>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tag_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="#fff"
+                app:checkedIconVisible="false"
+                app:chipBackgroundColor="#FF5722"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

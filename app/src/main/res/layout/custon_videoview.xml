@@ -26,63 +26,106 @@
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/jz_bottom_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:gravity="center"
+        android:orientation="vertical"
         android:visibility="invisible">
 
-        <TextView
-            android:id="@+id/current"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:text="00:00"
-            android:textColor="#ffffff" />
+            android:orientation="horizontal">
 
-        <SeekBar
-            android:id="@+id/bottom_seek_progress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1.0"
-            android:background="@null"
-            android:max="100"
-            android:maxHeight="4dp"
-            android:minHeight="1dp"
-            android:paddingLeft="12dp"
-            android:paddingTop="8dp"
-            android:paddingRight="12dp"
-            android:paddingBottom="8dp"
-            android:progressDrawable="@drawable/jz_bottom_seek_progress"
-            android:thumb="@drawable/jz_bottom_seek_poster" />
+            <SeekBar
+                android:id="@+id/bottom_seek_progress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:background="@null"
+                android:max="100"
+                android:maxHeight="4dp"
+                android:minHeight="1dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="8dp"
+                android:progressDrawable="@drawable/jz_bottom_seek_progress"
+                android:thumb="@drawable/jz_bottom_seek_poster" />
 
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textColor="#ffffff" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/clarity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingLeft="20dp"
-            android:text="clarity"
-            android:textAlignment="center"
-            android:textColor="#ffffff" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
 
-        <ImageView
-            android:id="@+id/fullscreen"
-            android:layout_width="52.5dp"
-            android:layout_height="fill_parent"
-            android:paddingLeft="14dp"
-            android:paddingRight="14dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/jz_enlarge" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_alignParentLeft="true">
+
+                <TextView
+                    android:id="@+id/current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="@color/colorTextTitleWhite" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textColor="@color/colorTextContentWhite" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="@color/colorTextContentWhite" />
+
+                <TextView
+                    android:id="@+id/clarity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:paddingLeft="20dp"
+                    android:text="clarity"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff" />
+
+            </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true">
+
+               <TextView
+                   android:id="@+id/tv_speed"
+                   android:layout_width="42dp"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="倍速"
+                   android:textColor="#ffffffff" />
+
+               <ImageView
+                   android:id="@+id/fullscreen"
+                   android:layout_width="52.5dp"
+                   android:layout_height="fill_parent"
+                   android:paddingLeft="14dp"
+                   android:paddingRight="14dp"
+                   android:scaleType="centerInside"
+                   android:src="@drawable/jz_enlarge" />
+
+           </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -90,7 +133,7 @@
         android:id="@+id/bottom_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="1.5dp"
+        android:layout_height="2dp"
         android:layout_alignParentBottom="true"
         android:max="100"
         android:progressDrawable="@drawable/jz_bottom_progress" />
@@ -174,18 +217,6 @@
                 android:textSize="12.0sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_speed"
-            android:layout_width="42dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="13dp"
-            android:layout_marginRight="13dp"
-            android:layout_toStartOf="@+id/battery_time_layout"
-            android:layout_toLeftOf="@+id/battery_time_layout"
-            android:gravity="center"
-            android:text="倍速"
-            android:textColor="#ffffffff" />
     </RelativeLayout>
 
     <ProgressBar

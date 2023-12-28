@@ -14,12 +14,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.administrator.lztsg.MyApplication;
 import com.example.administrator.lztsg.R;
+import com.example.administrator.lztsg.items.AsmrItem;
 import com.example.administrator.lztsg.items.CbirSitesItem;
+import com.example.administrator.lztsg.items.Hpoidetailpageitem;
+import com.example.administrator.lztsg.items.Hpoiitem;
 import com.example.administrator.lztsg.items.Item;
-import com.example.administrator.lztsg.items.More1Item;
 import com.example.administrator.lztsg.items.MoreItem;
 import com.example.administrator.lztsg.items.MultipleItem;
 import com.example.administrator.lztsg.items.TestholeItem;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +50,16 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEMTWO = 2;
     private static final int ITEMTHREE = 3;
     private static final int ITEMFUOR = 4;
+    private static final int ITEMFIVE = 5;
+    private static final int ITEMSIX = 6;
 
     LinearAdapter(List<MultipleItem> items, OnItemClickListener listener) {
+        mItems = items;
+        mListener = listener;
+
+    }
+    LinearAdapter(Context context,List<MultipleItem> items, OnItemClickListener listener) {
+        mcontext = context;
         mItems = items;
         mListener = listener;
 
@@ -69,12 +85,16 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return ITEMZERO;
             case MORE:
                 return ITEMONE;
-            case MORE1:
+            case ASMR:
                 return ITEMTWO;
             case TESTHOLE:
                 return ITEMTHREE;
             case SEARCH_IMG:
                 return ITEMFUOR;
+            case HPOI:
+                return ITEMFIVE;
+            case HPOIDETAILPAGE:
+                return ITEMSIX;
         }
         return -1;
     }
@@ -135,17 +155,28 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
                 break;
-            case MORE1:
-                More1Item item2 = (More1Item) mItems.get(position);
-                More1Holder more1Holder = (More1Holder) holder;
+            case ASMR:
+                AsmrItem item2 = (AsmrItem) mItems.get(position);
+                AsmrHolder asmrHolder = (AsmrHolder) holder;
                 //设置Item图片
-                more1Holder.image.setImageResource(item2.getImageResId());
+                Glide.with(MyApplication.getContext())
+                        .load(item2.getCoverUrl())
+                        .fitCenter()
+                        .into(asmrHolder.image);
                 //设置Item文字
-                more1Holder.title.setText(item2.getTitle());
-                more1Holder.itemView.setOnClickListener(new View.OnClickListener() {
+                asmrHolder.title.setText(item2.getTitle());
+                //设置Item编号
+                asmrHolder.id.setText("RJ0"+ item2.getId());
+                //设置Item日期
+                asmrHolder.release.setText(item2.getRelease());
+                //设置Item标签
+                addTag(asmrHolder.tags,item2.getTags());
+
+                asmrHolder.name.setText(item2.getName());
+                asmrHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.itemHoldersonClick(position);
+                        mListener.itemonClick(position,mItems);
                     }
                 });
                 break;
@@ -202,6 +233,42 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
                 break;
+            case HPOI:
+                final Hpoiitem item5 = (Hpoiitem) mItems.get(position);
+                final HpoiHolder hpoiHolder = (HpoiHolder) holder;
+                //设置Item图片
+                Glide.with(MyApplication.getContext())
+                        .load(item5.getmImgurl())
+                        .placeholder(R.drawable.none)
+                        .centerCrop()
+                        .into(hpoiHolder.image);
+                //设置Item文字
+                hpoiHolder.title.setText(item5.getmTitle());
+                //设置点击事件
+                hpoiHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.itemonClick(position, mItems,item5.getUrl());
+                    }
+                });
+                break;
+            case HPOIDETAILPAGE:
+                final Hpoidetailpageitem item6 = (Hpoidetailpageitem) mItems.get(position);
+                final HpoiDetailPageHolder hpoiDetailPageHolder = (HpoiDetailPageHolder) holder;
+                //设置Item图片
+                Glide.with(MyApplication.getContext())
+                        .load(item6.getmImgurl())
+                        .placeholder(R.drawable.none)
+                        .centerCrop()
+                        .into(hpoiDetailPageHolder.image);
+                //设置点击事件
+                hpoiDetailPageHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.itemonClick(position, mItems);
+                    }
+                });
+                break;
         }
     }
 
@@ -228,10 +295,10 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .from(parent.getContext()).inflate(R.layout.more_item, parent, false);
             return new MoreHolder(view);
         } else if (viewType == ITEMTWO) {
-            //item==2，更多功能item布局1
+            //item==2，Asmritem布局
             view = LayoutInflater
-                    .from(parent.getContext()).inflate(R.layout.more_item1, parent, false);
-            return new More1Holder(view);
+                    .from(parent.getContext()).inflate(R.layout.layout_asmr_item, parent, false);
+            return new AsmrHolder(view);
         } else if (viewType == ITEMTHREE) {
             //item==3，试炼洞窑item布局
             view = LayoutInflater
@@ -242,8 +309,42 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view = LayoutInflater
                     .from(parent.getContext()).inflate(R.layout.layout_cbirsites_item, parent, false);
             return new CbirSitesHolder(view);
+        } else if (viewType == ITEMFIVE) {
+            //item==5，手办图鉴item布局
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.layout_hpoi_item, parent, false);
+            return new HpoiHolder(view);
+        } else if (viewType == ITEMSIX) {
+            //item==6，手办图鉴详细页item布局
+            view = LayoutInflater
+                    .from(parent.getContext()).inflate(R.layout.layout_hpoidetailpage_item, parent, false);
+            return new HpoiDetailPageHolder(view);
         }
         return null;
+    }
+
+    private void addTag(ChipGroup chipGroup, JSONArray tagarr) {
+        chipGroup.removeAllViews(); // 清除之前的标签
+        try {
+            for (int i = 0; i < tagarr.length(); i++) {
+                JSONObject obj = (JSONObject) tagarr.get(i);
+
+                String tag_id = obj.getString("id");
+                String tag = obj.getString("name");
+                chipGroup.addView(createChiptext(tag));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Chip createChiptext(String str) {
+        Chip chip = new Chip(mcontext);
+        chip.setText(str);
+        chip.setTextSize(13);
+        chip.setCloseIconVisible(false);
+        chip.setClickable(true);
+        return chip;
     }
 
     public Filter getFilter() {
@@ -342,15 +443,21 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    class More1Holder extends RecyclerView.ViewHolder {
+    class AsmrHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView title;
+        TextView id,release,title;
+        ChipGroup tags;
+        Chip name;
 
-        More1Holder(View item) {
+        AsmrHolder(View item) {
             super(item);
             image = item.findViewById(R.id.image_view);
+            id = item.findViewById(R.id.text_id);
+            release = item.findViewById(R.id.text_release);
             title = item.findViewById(R.id.text_title);
+            tags = item.findViewById(R.id.item_tag);
+            name = item.findViewById(R.id.tag_name);
         }
     }
 
@@ -385,10 +492,34 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    //手办图鉴item
+    class HpoiHolder extends RecyclerView.ViewHolder {
+
+        ImageView image;
+        TextView title;
+
+        HpoiHolder(View item) {
+            super(item);
+            image = item.findViewById(R.id.image_view);
+            title = item.findViewById(R.id.text_title);
+        }
+    }
+
+    //手办图鉴详细页item
+    class HpoiDetailPageHolder extends RecyclerView.ViewHolder {
+
+        ImageView image;
+
+        HpoiDetailPageHolder(View item) {
+            super(item);
+            image = item.findViewById(R.id.image_view);
+        }
+    }
+
     //Item点击接口
     public interface OnItemClickListener {
         void itemonClick(int position, List<MultipleItem> mItems);
-
+        void itemonClick(int position, List<MultipleItem> mItems,String url);
         void itemHoldersonClick(int position);
     }
 }

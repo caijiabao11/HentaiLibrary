@@ -145,6 +145,11 @@ public class LifanMassFragment extends Fragment implements View.OnClickListener 
             }
 
             @Override
+            public void itemonClick(int position, List<MultipleItem> mItems, String url) {
+
+            }
+
+            @Override
             public void itemHoldersonClick(int position) {
 
             }

@@ -27,9 +27,27 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="chipStyle">@style/MyChipStyle</item>
     </style>
+    <style name="AsmrDetailpageTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="chipStyle">@style/MyChipStyle</item>
+    </style>
 
     <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
 <!--        <item name="chipBackgroundColor">@color/colorTextgray</item>-->
         <item name="android:textColor">@color/colorAllText</item>
     </style>
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/but_more_radius_bg_black</item>
+    </style>
+
+<!--    <style name="TimePickerDialogAnimation" parent="Theme.AppCompat.Light.Dialog">-->
+<!--        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>-->
+<!--        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>-->
+<!--    </style>-->
 </resources>

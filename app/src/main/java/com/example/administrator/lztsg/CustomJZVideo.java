@@ -3,16 +3,24 @@ package com.example.administrator.lztsg;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jzvd.JZDataSource;
 import cn.jzvd.JZUtils;
@@ -28,8 +36,12 @@ public class CustomJZVideo extends JzvdStd {
     private ImageView lockIv;
     private TextView tvSpeed;
     private VerticalTabLayout mTabLayout;
+    private LinearLayout layout_bottom,start_layout;
+    private RelativeLayout layout_top;
     private TabLayout layout;
     private PopupWindow popupWindow;
+    private TimerTask mDismissControlViewTimerTask;
+    private long startTime,diffTime;
     int currentSpeedIndex = 2;
     float starX, startY;
     private String[] mSpeedIndex={"2.0X","1.5X","1.2X","1.0X","0.7X","0.5X"};
@@ -55,6 +67,10 @@ public class CustomJZVideo extends JzvdStd {
         lockIv.setOnClickListener(this);
         tvSpeed = findViewById(R.id.tv_speed);
         tvSpeed.setOnClickListener(this);
+
+        layout_bottom = findViewById(R.id.layout_bottom);
+        layout_top = findViewById(R.id.layout_top);
+        start_layout = findViewById(R.id.start_layout);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popupview = inflater.inflate(R.layout.popupwindow_speedview, null);
@@ -123,31 +139,125 @@ public class CustomJZVideo extends JzvdStd {
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                //按下
                 starX = event.getX();
                 startY = event.getY();
+                startTime = System.currentTimeMillis();
                 if (screen == SCREEN_FULLSCREEN && isLockScreen) {
                     return true;
                 }
+                Log.d(TAG, "onTouch: "+"按下");
                 break;
             case MotionEvent.ACTION_MOVE:
+                //移动
                 if (screen == SCREEN_FULLSCREEN && isLockScreen) {
                     return true;
                 }
+                long currentTime = System.currentTimeMillis();
+                diffTime = currentTime - startTime;
+                if (diffTime > 500) {
+                    // ACTION_MOVE超过五秒的处理逻辑
+                    // ...
+                }
+                Log.d(TAG, "onTouch: "+"移动" + diffTime);
                 break;
             case MotionEvent.ACTION_UP:
+                //抬起
                 if (screen == SCREEN_FULLSCREEN && isLockScreen) {
                     //&& Math.abs(Math.abs(event.getX() - starX)) > ViewConfiguration.get(getContext()).getScaledTouchSlop()  && Math.abs(Math.abs(event.getY() - startY)) > ViewConfiguration.get(getContext()).getScaledTouchSlop()
-                    if (event.getX() == starX || event.getY() == startY) {
+                    if (Math.abs(event.getX() - starX) < 1 && Math.abs(event.getY() - startY) < 1) {
+                        Log.d(TAG,"触发开启定时任务");
                         startDismissControlViewTimer();
                         onClickUiToggle();
                         bottomProgressBar.setVisibility(VISIBLE);
                     }
+
                     return true;
+
+                }
+                // 清除startTime
+                startTime = 0;
+                Log.d(TAG, "onTouch: "+"抬起"+ diffTime);
+                //视图控件显示隐藏动画
+                int visibility = bottomContainer.getVisibility();
+                if (visibility == VISIBLE && Math.abs(event.getX() - starX) < 1 && Math.abs(event.getY() - startY) < 1){
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha_off);
+                    bottomContainer.startAnimation(animation);
+                    topContainer.startAnimation(animation);
+                    startButton.startAnimation(animation);
+                    lockIv.startAnimation(animation);
+                }else if (visibility == INVISIBLE && Math.abs(event.getX() - starX) < 1 && Math.abs(event.getY() - startY) < 1){
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
+                    bottomContainer.startAnimation(animation);
+                    topContainer.startAnimation(animation);
+                    startButton.startAnimation(animation);
+                    lockIv.startAnimation(animation);
                 }
                 break;
         }
         return super.onTouch(v, event);
 
+    }
+
+    public void startDismissControlViewTimer() {
+        cancelDismissControlViewTimer();
+        DISMISS_CONTROL_VIEW_TIMER = new Timer();
+        mDismissControlViewTimerTask  = new DismissControlViewTimerTask();
+        DISMISS_CONTROL_VIEW_TIMER.schedule(mDismissControlViewTimerTask, 5000);
+    }
+
+    public void cancelDismissControlViewTimer() {
+        if (DISMISS_CONTROL_VIEW_TIMER != null) {
+            DISMISS_CONTROL_VIEW_TIMER.cancel();
+            Log.d(TAG,"触发关闭定时任务DISMISS_CONTROL_VIEW_TIMER");
+        }
+        if (mDismissControlViewTimerTask != null) {
+            mDismissControlViewTimerTask.cancel();
+            Log.d(TAG,"触发关闭定时任务mDismissControlViewTimerTask");
+        }
+    }
+
+    private class DismissControlViewTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            // 执行控制视图的消失动画
+            dissmissControlView1();
+//            layout_bottom.startAnimation(animation);
+//            layout_top.startAnimation(animation);
+        }
+    }
+
+
+    public void dissmissControlView1() {
+        if (state != STATE_NORMAL
+                && state != STATE_ERROR
+                && state != STATE_AUTO_COMPLETE) {
+            post(() -> {
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha_off);
+
+//                layout_bottom.startAnimation(animation);
+//                layout_top.startAnimation(animation);
+//                lockIv.startAnimation(animation);
+//                start_layout.startAnimation(animation);
+                int visibility = bottomContainer.getVisibility();
+                if (visibility == VISIBLE){
+                    Log.d(TAG,"触发自然隐藏视图");
+                    bottomContainer.startAnimation(animation);
+                    topContainer.startAnimation(animation);
+                    startButton.startAnimation(animation);
+                    lockIv.startAnimation(animation);
+                    bottomContainer.setVisibility(View.INVISIBLE);
+                    topContainer.setVisibility(View.INVISIBLE);
+                    startButton.setVisibility(View.INVISIBLE);
+                    lockIv.setVisibility(View.INVISIBLE);
+                }
+
+
+                if (screen != SCREEN_TINY) {
+                    bottomProgressBar.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     @Override
@@ -326,6 +436,8 @@ public class CustomJZVideo extends JzvdStd {
         //设置播放时屏幕状态
         titleTextView.setVisibility(View.INVISIBLE);
     }
+
+
 
     @Override
     public void onCompletion() {

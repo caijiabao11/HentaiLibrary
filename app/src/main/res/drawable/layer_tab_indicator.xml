@@ -4,9 +4,11 @@
     android:width="30dp"
     android:gravity="center|bottom">
     <shape>
-        <corners android:radius="1.5dp"/>
-        <size android:height="3dp"/>
-        <solid android:color="@color/colorPinke"/>
+        <corners android:radius="5dp"/>
+<!--        <corners android:radius="1.5dp"/>-->
+        <size android:height="30dp"/>
+<!--        <size android:height="3dp"/>-->
+        <solid android:color="#fff"/>
     </shape>
 </item>
 </layer-list>

@@ -30,8 +30,8 @@ public class BetaTvActivity extends AppCompatActivity implements ScreenRotateUti
     private ImageView mLed_load,mLed_ok;
     private Button mButPlayer,mButNextUrl,mButHolp,mButStart;
     private boolean isFirstLoad = true;
-    private String url = "https://v.avgigi.com/acg/watch/107254/video.m3u8";
-    private String mp3url = "https://raw.kiko-play-niptan.one/media/stream/daily/2023-01-24/RJ418120/%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF02%E3%80%80%E6%B2%BB%E7%99%82%E6%BA%96%E5%82%99(%E5%8B%83%E8%B5%B7%E3%83%91%E3%83%BC%E3%83%88)%E3%83%BB%E3%83%97%E3%83%AC%E3%82%A4%E5%86%85%E5%AE%B9%E3%80%8A%E6%A1%9C%E8%89%AF%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E6%A1%83%E7%8B%90%E3%81%A1%E3%82%83%E3%82%93%E3%81%AE%E3%83%80%E3%83%96%E3%83%AB%E3%83%95%E3%82%A7%E3%83%A9%E3%83%81%E3%82%AA%E3%80%8B.mp3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FzbXIub25lIiwic3ViIjoiY2FpaG9tZSIsImF1ZCI6Imh0dHBzOi8vYXNtci5vbmUvYXBpIiwibmFtZSI6ImNhaWhvbWUiLCJncm91cCI6InVzZXIiLCJpYXQiOjE2NzMzNjQwNzAsImV4cCI6MTcwNDkwMDA3MH0.aDQmPPO7pgH-opf1J6Gz6CuFgx2XuOSo2SQL0t77taU";
+//    private String url = "https://v.avgigi.com/acg/watch/107254/video.m3u8";
+//    private String mp3url = "https://raw.kiko-play-niptan.one/media/stream/daily/2023-01-24/RJ418120/%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF02%E3%80%80%E6%B2%BB%E7%99%82%E6%BA%96%E5%82%99(%E5%8B%83%E8%B5%B7%E3%83%91%E3%83%BC%E3%83%88)%E3%83%BB%E3%83%97%E3%83%AC%E3%82%A4%E5%86%85%E5%AE%B9%E3%80%8A%E6%A1%9C%E8%89%AF%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E6%A1%83%E7%8B%90%E3%81%A1%E3%82%83%E3%82%93%E3%81%AE%E3%83%80%E3%83%96%E3%83%AB%E3%83%95%E3%82%A7%E3%83%A9%E3%83%81%E3%82%AA%E3%80%8B.mp3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FzbXIub25lIiwic3ViIjoiY2FpaG9tZSIsImF1ZCI6Imh0dHBzOi8vYXNtci5vbmUvYXBpIiwibmFtZSI6ImNhaWhvbWUiLCJncm91cCI6InVzZXIiLCJpYXQiOjE2NzMzNjQwNzAsImV4cCI6MTcwNDkwMDA3MH0.aDQmPPO7pgH-opf1J6Gz6CuFgx2XuOSo2SQL0t77taU";
 //        private String url = "https://video.storangeunderh.com/manifest/802.m3u8?videoData=pTZmAga7wsqiW4q&p=/&f=playlist.m3u8";
 
 
@@ -45,21 +45,21 @@ public class BetaTvActivity extends AppCompatActivity implements ScreenRotateUti
         mButNextUrl.setOnClickListener(this);
         mButHolp.setOnClickListener(this);
         mButStart.setOnClickListener(this);
-        mCustomJZVideo.setUp(mp3url,"");
-
-        Glide.with(MyApplication.getContext())
-                .load("https://api.asmr.one/api/cover/418120.jpg?type=main")
-                .fitCenter()
-                .into(mCustomJZVideo.posterImageView);
-    }
-
-    private void setview(String videourl,String imgsrc) {
-
-//        CustomJZVideo.setVideoImageDisplayType(CustomJZVideo.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT);
+//        mCustomJZVideo.setUp(mp3url,"");
+//
 //        Glide.with(MyApplication.getContext())
-//                .load(imgsrc)
+//                .load("https://api.asmr.one/api/cover/418120.jpg?type=main")
 //                .fitCenter()
 //                .into(mCustomJZVideo.posterImageView);
+    }
+
+    private void setview(String tit,String videourl,String imgsrc) {
+        mCustomJZVideo.setUp(videourl,tit);
+//        CustomJZVideo.setVideoImageDisplayType(CustomJZVideo.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT);
+        Glide.with(MyApplication.getContext())
+                .load(imgsrc)
+                .fitCenter()
+                .into(mCustomJZVideo.posterImageView);
         //预加载
 //        mCustomJZVideo.startPreloading();//开始预加载，加载完等待播放
 //        mCustomJZVideo.startVideoAfterPreloading();//如果预加载完会开始播放，如果未加载则开始加载
@@ -93,7 +93,7 @@ public class BetaTvActivity extends AppCompatActivity implements ScreenRotateUti
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        setview(videourl,imageurl);
+                        setview(title,videourl,imageurl);
                     }
                 });
             }

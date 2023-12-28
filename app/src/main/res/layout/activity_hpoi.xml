@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBg"
+    tools:context=".activity.HpoiActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:fitsSystemWindows="true" />
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="700dp"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:background="@drawable/activitys_radius_bg"-->
+<!--        android:orientation="vertical">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_margin="15dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:text="H p o i"-->
+<!--                android:textColor="@color/colorTextTitle"-->
+<!--                android:textSize="20sp" />-->
+<!--        </LinearLayout>-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/edt_search"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:minHeight="40dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            android:background="@drawable/activity_edit_bg"-->
+<!--            android:imeOptions="actionSearch"-->
+<!--            android:paddingLeft="5dp"/>-->
+
+<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/fragmentLayout"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginLeft="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginRight="10dp" />&ndash;&gt;-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <androidx.viewpager2.widget.ViewPager2-->
+<!--                android:id="@+id/v_pager"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:layout_marginBottom="10dp"/>-->
+
+<!--            <com.google.android.material.tabs.TabLayout-->
+<!--                android:id="@+id/tab_layout"-->
+<!--                android:layout_width="105dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                app:tabTextColor="@color/colorTextHelper"-->
+<!--                app:tabMode="scrollable"-->
+<!--                app:tabIndicator="@drawable/layer_tab_indicator"-->
+<!--                app:tabIndicatorColor="#fff"-->
+<!--                app:tabIndicatorFullWidth="false"-->
+<!--                app:tabIndicatorHeight="3dp"-->
+<!--                app:tabSelectedTextColor="#000"-->
+<!--                app:tabMinWidth="30dp"-->
+<!--                app:tabPadding="0dp"-->
+<!--                app:tabRippleColor="@null">-->
+<!--            </com.google.android.material.tabs.TabLayout>-->
+
+<!--        </LinearLayout>-->
+
+<!--    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/activitys_radius_bg"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="H p o i"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/activity_edit_bg"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:imeOptions="actionSearch"
+            android:lines="1"
+            android:maxLength="16"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textFontWeight="1" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/v_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="105dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    app:tabTextColor="@color/colorTextHelper"
+                    android:background="@null"
+                    app:tabMode="scrollable"
+                    app:tabIndicator="@drawable/layer_tab_indicator"
+                    app:tabIndicatorColor="#fff"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabSelectedTextColor="#000"
+                    app:tabMinWidth="30dp"
+                    app:tabPadding="0dp"
+                    app:tabRippleColor="@null"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -20,29 +20,29 @@ public class MyToast {
     private static final int ContentID = R.id.toast_text;
     private static final int LayoutID = R.layout.layout_toastmsg;
 
-    public MyToast(Context context) {
-        this.context = context;
+    public static Toast makeText(Context context, CharSequence text, int duration,int gravity) {
+        Toast toast = new Toast(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(LayoutID, null); // 自定义Toast的布局文件
+
+        TextView textView = layout.findViewById(ContentID);
+        toast.setView(layout);
+        toast.setDuration(duration);
+        toast.setGravity(gravity,0,0);
+
+        textView.setText(text);
+        textView.setTextColor(context.getResources().getColor(R.color.colorAllTextDark));
+
+        View toastView = toast.getView();
+        playtoast_anim_in(toastView);
+
+        toast.setDuration(duration);
+        toast.setView(layout);
+
+        return toast;
     }
 
-    public void makeText(CharSequence text,int duration,int gravity) {
-        if (toast == null) {
-            toast = new Toast(context);
-            View view = LayoutInflater.from(context).inflate(LayoutID, null, false);
-            textView = view.findViewById(ContentID);
-            toast.setView(view);
-            toast.setDuration(duration);
-            toast.setGravity(gravity,0,0);
-            textView.setText(text);
-            textView.setTextColor(context.getResources().getColor(R.color.colorAllTextDark));
-
-            View toastView = toast.getView();
-
-            playtoast_anim_in(toastView);
-        }
-
-    }
-
-    private void playtoast_anim_in(View v) {
+    private static void playtoast_anim_in(View v) {
         // 创建一个平移动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, "translationY", 500, 0);
         animator.setDuration(1000);
@@ -64,42 +64,10 @@ public class MyToast {
 
     }
 
-    private void playtoast_anim_out(View v) {
+    private static void playtoast_anim_out(View v) {
         // 创建一个平移动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, "translationY", 0, 500);
         animator.setDuration(1000);
         animator.start();
-    }
-
-    public void setGravity(int gravity) {
-        toast.setGravity(gravity, 0, 0);
-    }
-
-    public void setText(String text) {
-        textView.setText(text);
-    }
-
-    public void show() {
-        toast.show();
-    }
-
-    public void setShowTime(int time) {
-        toast.setDuration(time);
-    }
-
-    public void setTextColor(int color) {
-        textView.setTextColor(color);
-    }
-
-    public void setTextSize(float size) {
-        textView.setTextSize(size);
-    }
-
-    public int getAnimations() {
-        return animations;
-    }
-
-    public void setAnimations(int animations) {
-        this.animations = animations;
     }
 }

@@ -86,8 +86,10 @@ public class LifanMass_putFragment extends Fragment implements View.OnClickListe
                 final Item value = (Item) item;
                 //.startsWith   以指定字符串开头筛选（精准搜索）
                 //.contains     以字符串中是否存在筛选（模糊搜索）
-                if (value.getmMassTit().startsWith(masstit)) {
-                    mData.add(value);
+                if (value.getmMassTit() != null){
+                    if (value.getmMassTit().startsWith(masstit) ) {
+                        mData.add(value);
+                    }
                 }
             }
             mAllData.addAll(mData);
@@ -147,6 +149,11 @@ public class LifanMass_putFragment extends Fragment implements View.OnClickListe
                             Pair.<View, String>create(card_info_image, "item_info_image"));
                     startActivity(intent, options.toBundle());
                 }
+            }
+
+            @Override
+            public void itemonClick(int position, List<MultipleItem> mItems, String url) {
+
             }
 
             @Override

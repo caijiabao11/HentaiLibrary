@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E5E5"
     android:orientation="vertical"
+    android:background="@color/colorBg"
     tools:context=".activity.AsmrActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -18,53 +18,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E5E5E5"
+        android:layout_weight="9"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="right"
             android:orientation="vertical"
             android:visibility="visible">
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_more"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but_more_radius_bg_black" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_live"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but_like_radius_bg_white" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_mass"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but_mass_radius_bg_white" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_label"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but_label_radius_bg_white" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_vas"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but_voiceactor_radius_bg_white" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_random"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but_random_radius_bg_white" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/but_sleepmore"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
@@ -72,13 +80,13 @@
 
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:background="@drawable/activitys_radius_bg"
+            android:layout_margin="10dp"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,15 +101,84 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/activity_edit_bg"
+                android:textCursorDrawable="@drawable/custom_cursor"
                 android:imeOptions="actionSearch"
                 android:lines="1"
                 android:maxLength="16"
-                android:paddingLeft="5dp"
+                android:padding="5dp"
                 android:singleLine="true"
                 android:textFontWeight="1" />
+
+<!--            <androidx.core.widget.NestedScrollView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <androidx.viewpager2.widget.ViewPager2-->
+<!--                        android:id="@+id/v_pager"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        android:layout_marginBottom="10dp"/>-->
+
+<!--                    <com.google.android.material.tabs.TabLayout-->
+<!--                        android:id="@+id/tab_layout"-->
+<!--                        android:layout_width="105dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_gravity="center_horizontal"-->
+<!--                        app:tabTextColor="@color/colorTextHelper"-->
+<!--                        android:background="@null"-->
+<!--                        app:tabMode="scrollable"-->
+<!--                        app:tabIndicator="@drawable/layer_tab_indicator"-->
+<!--                        app:tabIndicatorColor="#fff"-->
+<!--                        app:tabIndicatorFullWidth="false"-->
+<!--                        app:tabIndicatorHeight="3dp"-->
+<!--                        app:tabSelectedTextColor="#000"-->
+<!--                        app:tabMinWidth="30dp"-->
+<!--                        app:tabPadding="0dp"-->
+<!--                        app:tabRippleColor="@null"/>-->
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.core.widget.NestedScrollView>-->
+
+            <FrameLayout
+                android:id="@+id/fragmentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
+
     </LinearLayout>
 
+<!--    <FrameLayout-->
+<!--        android:id="@+id/fragmentLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_weight="0.2"-->
+<!--        android:layout_alignParentBottom="true"/>-->
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_weight="0.2"
+        android:layout_alignParentBottom="true"/>
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/fragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_weight="0.2"-->
+<!--        android:visibility="invisible"-->
+<!--        android:name="com.example.administrator.lztsg.activity.MusicPlayerFragment"-->
+<!--        android:layout_alignParentBottom="true"/>-->
 
 </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBg"
     tools:context=".activity.WhiteNoiseActivity">
 
     <ImageView
@@ -70,7 +71,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_play" />
+            android:background="@drawable/ic_play_white" />
 
         <com.example.administrator.lztsg.MyChronometer
             android:id="@+id/time_cmeter"

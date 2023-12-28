@@ -105,45 +105,11 @@ public class LifanTag_putFragment extends Fragment implements View.OnClickListen
         }
         dao.query(Constants.TABLE_NAME_MIAN,"itemtag",orsql,"");
 
-//            for (MultipleItem item : LifanMoreFragment.mData) {
-//                final Item value = (Item) item;
-//                int tagsum = 0;
-//                //.startsWith   以指定字符串开头筛选（精准搜索）
-//                //.contains     以字符串中是否存在筛选（模糊搜索）
-//                try {
-//                    JSONArray tagarr = new JSONArray(value.getmTag());
-//                    for (int i = 0; i <= tagarr.length(); i++) {
-//                        for (String tagid : tagarrid){
-//                            if (tagarr.get(i).equals(tagid)) {
-//                                tagsum++;
-//                            }
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                if (tagarrid.size() == tagsum){
-//                    mData.add(value);
-//                }
-//            }
-
         mData.addAll(dao.detalist);
         mAllData.addAll(mData);
         LinearRecyclerView(mQieHuan);
     }
 
-//    private String getMassname(int id) {
-//        String putindex = "" + id;
-//        for (MultipleItem item : dao.detaMasslist) {
-//            final Item value = (Item) item;
-//            //.startsWith   以指定字符串开头筛选（精准搜索）
-//            //.contains     以字符串中是否存在筛选（模糊搜索）
-//            if (value.getId().startsWith(putindex)) {
-//                return value.getTitle();
-//            }
-//        }
-//        return null;
-//    }
 
     public void LinearRecyclerView(boolean mQieHuan) {
         if (mQieHuan) {
@@ -195,6 +161,11 @@ public class LifanTag_putFragment extends Fragment implements View.OnClickListen
                             Pair.<View, String>create(card_info_image, "item_info_image"));
                     startActivity(intent, options.toBundle());
                 }
+            }
+
+            @Override
+            public void itemonClick(int position, List<MultipleItem> mItems, String url) {
+
             }
 
             @Override
@@ -262,7 +233,5 @@ public class LifanTag_putFragment extends Fragment implements View.OnClickListen
                 break;
         }
     }
-
-    //点击返回上一页面而不是退出浏览器 优先级:视频播放全屏-网页回退-关闭页面
 
 }

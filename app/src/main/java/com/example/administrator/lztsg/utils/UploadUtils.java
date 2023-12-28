@@ -2,7 +2,7 @@ package com.example.administrator.lztsg.utils;
 
 import android.util.Log;
 
-import com.example.administrator.lztsg.httpjson.HtmlService;
+import com.example.administrator.lztsg.httpjson.HtmlServiceOkHttp;
 import com.example.administrator.lztsg.httpjson.HttpCallbackListener;
 import com.example.administrator.lztsg.httpjson.HttpLoadDataResolution;
 
@@ -28,7 +28,63 @@ public class UploadUtils {
     private static String path;
     private static String videourl;
 
-    public static int uploadFile(File file, String requestURL, final HttpLoadDataResolution resolution) {
+    public static void uploadFile(File file, String requestURL, final HttpLoadDataResolution resolution) {
+//        if (file != null && file.exists()) {
+//            Log.d("test", "upload start");
+//            try {
+//                // 创建文件输入流
+//                FileInputStream fis = new FileInputStream(file);
+//                // 创建字节数组输出流
+//                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//                // 创建缓冲区
+//                byte[] buffer = new byte[1024];
+//                int bytesRead;
+//                // 从文件输入流读取数据，并写入字节数组输出流
+//                while ((bytesRead = fis.read(buffer)) != -1) {
+//                    bos.write(buffer, 0, bytesRead);
+//                }
+//                // 关闭输入流和输出流
+//                fis.close();
+//                bos.close();
+//                // 获取字节数组
+//                byte[] bytes = bos.toByteArray();
+//
+//                // 创建请求体
+//                RequestBody body = new MultipartBody.Builder()
+//                        .setType(MultipartBody.FORM)
+//                        .addFormDataPart("image", file.getName(),
+//                                RequestBody.create(MediaType.parse("image/*"), bytes))
+//                        .build();
+//
+//                HtmlServiceOkHttp.postHtml(requestURL, body, new HttpCallbackListener() {
+//                    @Override
+//                    public void onFinish(String response) {
+//                        try {
+//                            JSONObject json = new JSONObject(response);
+//                            String loadurl = json.getString("url");
+//                            if (loadurl.contains("preview")) {
+//                                loadurl = loadurl.replace("preview", "orig");
+//                            }
+//                            Log.d("test", "upload end");
+//                            path = "https://yandex.com/images/search?rpt=imageview&url=" + loadurl;
+//                            Log.d("test", "upload: " + response);
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        getData(resolution);
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//
+//                    }
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         try {
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -81,12 +137,11 @@ public class UploadUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return 0;
     }
 
     public static void getData(final HttpLoadDataResolution resolution) {
         int GOingUrl = 1;
-        HtmlService.getHtml(path, "", GOingUrl, new HttpCallbackListener() {
+        HtmlServiceOkHttp.getHtml(path, "", GOingUrl, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 //生成遍历

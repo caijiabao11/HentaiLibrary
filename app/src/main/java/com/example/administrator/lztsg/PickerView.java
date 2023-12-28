@@ -310,4 +310,7 @@ public class PickerView extends View {
     {
         void onSelect(String text);
     }
+
+    public static class MusicPlayerService {
+    }
 }

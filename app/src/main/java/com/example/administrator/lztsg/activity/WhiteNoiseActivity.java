@@ -79,11 +79,9 @@ public class WhiteNoiseActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onSelect(String text) {
-                MyToast myToast = new MyToast(WhiteNoiseActivity.this);
-                myToast.makeText(text + "分钟",1000, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM);
-                myToast.show();
-//                Toast.makeText(WhiteNoiseActivity.this, "选择了 " + text,
-//                        Toast.LENGTH_SHORT).show();
+                MyToast.makeText(WhiteNoiseActivity.this,text + "分钟",
+                        1000, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM).show();
+
                 //选择的分钟
                 batetime = (Integer.parseInt(text) * 1000) * 60;
                 if (text.equals("0")) {

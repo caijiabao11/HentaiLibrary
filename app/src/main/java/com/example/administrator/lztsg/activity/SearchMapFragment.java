@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +75,11 @@ public class SearchMapFragment extends BaseFragment implements SearchImgActivity
             }
 
             @Override
+            public void itemonClick(int position, List<MultipleItem> mItems, String url) {
+
+            }
+
+            @Override
             public void itemHoldersonClick(int position) {
 
             }
@@ -124,19 +131,19 @@ public class SearchMapFragment extends BaseFragment implements SearchImgActivity
         YandexTitleurl.add(titleurl);
         YandexDomain.add(domain);
         YandexDescription.add(description);
-        myDataAddOneTime(imageurl, size, title, titleurl, domain, description, 0);
+        myDataAddOneTime(imageurl, size, title, titleurl, domain, description);
     }
 
-    private void myDataAddOneTime(String imageurl, String size, String title, String titleurl, String domain, String description, int i) {
+    private void myDataAddOneTime(String imageurl, String size, String title, String titleurl, String domain, String description) {
         Log.e("激活成功" + title, "激活成功");
-
-        if (position == i) {
-            mData.add(new CbirSitesItem(imageurl, size, title, titleurl, domain, description));
-            mLinearAdaoter.notifyDataSetChanged();
-//            if (YandexTitle.size() > 0 ) {
-//                mLoading.setVisibility(View.GONE);
-//            }
-        }
-
+        mData.add(new CbirSitesItem(imageurl, size, title, titleurl, domain, description));
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                // 在这里进行UI界面的访问或修改操作
+                mLinearAdaoter.notifyDataSetChanged();
+            }
+        });
     }
 }

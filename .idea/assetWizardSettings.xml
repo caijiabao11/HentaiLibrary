@@ -60,8 +60,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_query_whach" />
-                            <entry key="sourceFile" value="D:\桌面\完成 (1).svg" />
+                            <entry key="autoMirrored" value="true" />
+                            <entry key="outputName" value="ic_music_last_24" />
+                            <entry key="sourceFile" value="C:\Users\Administrator\Downloads\分组 4 (4).svg" />
                           </map>
                         </option>
                       </PersistentState>

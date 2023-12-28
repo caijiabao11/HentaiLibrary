@@ -24,16 +24,15 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/nav_header_desc"
             android:layout_marginLeft="12dp"
-            app:riv_border_color="#ccc"
             app:riv_oval="true"
             android:src="@mipmap/ic_launcher_lizhitusuguang_icon_round" />
         <ImageButton
             android:id="@+id/imgbutton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_margin="12dp"
-            android:background="@drawable/ic_close_black"/>
+            android:background="@drawable/ic_setting_black"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,8 +42,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/cun_m_bg">
 
-        <include
-            layout="@layout/text_main"/>
+        <include layout="@layout/text_main" />
 
     </LinearLayout>
     <LinearLayout
@@ -140,6 +138,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/but_hpoi"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
@@ -148,18 +147,18 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_heiye_notcolor" />
+                    android:background="@drawable/btn_heiye_hpoi" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:text="白噪音"
+                    android:text="手办图鉴"
                     android:textColor="@color/colorTextTitle"
                     android:textSize="@dimen/text_main_title" />
             </LinearLayout>

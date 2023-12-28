@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -115,10 +116,8 @@ public class LifanDetailpageActivity extends AppCompatActivity {
                 ClipboardManager cmb = (ClipboardManager) MyApplication.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 cmb.setText(mItemTitView.getText());
 
-                MyToast myToast = new MyToast(LifanDetailpageActivity.this);
-
-                myToast.makeText("复制成功啦，快去粘贴吧:)", 1000, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM);
-                myToast.show();
+                MyToast.makeText(LifanDetailpageActivity.this,"复制成功啦，快去粘贴吧:)",
+                        1000, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM).show();
                 return false;
             }
         });
@@ -136,10 +135,17 @@ public class LifanDetailpageActivity extends AppCompatActivity {
     }
 
     private void addTag(ChipGroup chipGroup, JSONArray tagarr) {
+        // 创建一个LayoutParams对象
+        chipGroup.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, // 宽度为自适应
+                LinearLayout.LayoutParams.WRAP_CONTENT ));// 高度为自适应
         try {
             for (int i = 0; i <= tagarr.length(); i++) {
                 String tag = getTagname(tagarr.getString(i));
                 chipGroup.addView(createChiptext(tag));
+                // 设置Chip之间的间距
+                chipGroup.setChipSpacingHorizontal(10); // 设置水平间距
+                chipGroup.setChipSpacingVertical(-10); // 设置垂直间距
             }
         } catch (JSONException e) {
             e.printStackTrace();

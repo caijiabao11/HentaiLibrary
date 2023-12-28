@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import com.example.administrator.lztsg.LoadingView;
 import com.example.administrator.lztsg.R;
 import com.example.administrator.lztsg.items.MultipleItem;
 import com.example.administrator.lztsg.items.TestholeItem;
+
+import org.json.JSONArray;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -83,6 +87,11 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
                 bundle.putString("itemVideo", item.getmVideoUrl());
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+
+            @Override
+            public void itemonClick(int position, List<MultipleItem> mItems, String url) {
+
             }
 
             @Override
@@ -226,6 +235,16 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
         myDataAddOneTime(title,videourl,imageurl,format, 2);
     }
 
+    @Override
+    public void onHpoiFinish(String title, String imageurl, String url) {
+
+    }
+
+    @Override
+    public void onAsmrFinish(String id, String title, String name, String release, JSONArray vas, JSONArray tags, String CoverUrl) {
+
+    }
+
     private void myDataAddOneTime(String title, String videourl, String imageurl, String format, int i) {
         Log.e("激活成功" + title, "激活成功");
 
@@ -235,7 +254,14 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
             if (CunzhiHellTitle.size() > 0 || HentaiJoiTitle.size() > 0 || FapHeroTitle.size() > 0) {
                 mLoadingView.setVisibility(View.GONE);
             }
-            mLinearAdaoter.notifyDataSetChanged();
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    // 在这里进行UI界面的访问或修改操作
+                    mLinearAdaoter.notifyDataSetChanged();
+                }
+            });
         }
     }
 
