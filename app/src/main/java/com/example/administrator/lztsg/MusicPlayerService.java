@@ -7,7 +7,15 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Gravity;
 
+import com.example.administrator.lztsg.activity.MusicPlayerItemActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +25,8 @@ public class MusicPlayerService extends Service {
     public static MediaPlayer mediaPlayer;
     private final IBinder binder = new MyBinder();
     public static String mediaStreamUrl,title,icon;
-    public static int progress;
+    public static JSONArray item_Audios;
+    public static int progress,currentAudeoIndex;
     private TimerTask previousTimerTask;
 
     @Nullable
@@ -30,19 +39,7 @@ public class MusicPlayerService extends Service {
         public MusicPlayerService getService() {
             return MusicPlayerService.this;
         }
-        //判断是否处于播放状态
-        public boolean isPlaying(){
-            return mediaPlayer.isPlaying();
-        }
 
-        //播放或暂停歌曲
-        public void play() {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-            } else {
-                mediaPlayer.start();
-            }
-        }
 
         //返回歌曲的长度，单位为毫秒
         public int getDuration(){
@@ -74,6 +71,12 @@ public class MusicPlayerService extends Service {
             mediaStreamUrl = intent.getStringExtra("mediaStreamUrl");
             title = intent.getStringExtra("title");
             icon = intent.getStringExtra("icon");
+            currentAudeoIndex = intent.getIntExtra("currentAudeoIndex",0);
+            try {
+                item_Audios = new JSONArray(intent.getStringExtra("itemAudios"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
@@ -94,8 +97,18 @@ public class MusicPlayerService extends Service {
         mediaPlayer = MediaPlayer.create(this, Uri.parse(mediaStreamUrl));
         // 播放新的音频文件
         mediaPlayer.start();
+
+        // 设置播放完成监听器
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // 当当前歌曲播放完成时，自动播放下一曲
+                nextplay(currentAudeoIndex);
+            }
+        });
+
         // 发送广播通知歌曲
-        Intent i = new Intent(this,AlarmReceiver.class);
+        Intent i = new Intent(this,MusicPlayerReceiver.class);
         i.setAction("com.lztsg.musicplayer_start");
         i.putExtra("title",title);
         i.putExtra("icon",icon);
@@ -125,14 +138,57 @@ public class MusicPlayerService extends Service {
         previousTimerTask = timerTask;
     }
 
-    public String getMediaStreamUrl(){
-        return mediaStreamUrl;
+    public static void nextplay(int index) {
+        //下一曲
+        index++;
+        currentAudeoIndex = index;
+        if (currentAudeoIndex < item_Audios.length()) {
+            try {
+                JSONObject item1 = (JSONObject) item_Audios.get(currentAudeoIndex);
+                MusicPlayerService.title = item1.getString("title");
+                MusicPlayerService.mediaStreamUrl = item1.getString("mediaStreamUrl");
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(MusicPlayerService.mediaStreamUrl);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (MusicPlayerItemActivity.mItem_tit != null && MusicPlayerItemActivity.mItem_tit != null){
+            MusicPlayerItemActivity.mItem_tit.setText(MusicPlayerService.title);
+            MusicPlayerItemActivity.mItem_tit.invalidate();// 刷新TextView的UI
+        }
     }
-    public String getTitle(){
-        return title;
-    }
-    public String getIcon(){
-        return icon;
+
+    public static void lastplay(int index) {
+        //上一曲
+        index--;
+        currentAudeoIndex = index;
+        if (currentAudeoIndex < item_Audios.length() && currentAudeoIndex >= 0) {
+            try {
+                JSONObject item1 = (JSONObject) item_Audios.get(currentAudeoIndex);
+                MusicPlayerService.title = item1.getString("title");
+                MusicPlayerService.mediaStreamUrl = item1.getString("mediaStreamUrl");
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(MusicPlayerService.mediaStreamUrl);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if (currentAudeoIndex < 0){
+            MyToast.makeText(MyApplication.getContext(),"已经到顶啦~~",
+                    1000, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM).show();
+        }
+        if (MusicPlayerItemActivity.mItem_tit != null && MusicPlayerItemActivity.mItem_tit != null){
+            MusicPlayerItemActivity.mItem_tit.setText(MusicPlayerService.title);
+            MusicPlayerItemActivity.mItem_tit.invalidate();// 刷新TextView的UI
+        }
     }
 
 

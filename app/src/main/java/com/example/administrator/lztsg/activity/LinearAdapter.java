@@ -35,7 +35,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mcontext;
     private List<MultipleItem> mItems;
     private ArrayList<MultipleItem> filterWords;
@@ -58,7 +58,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mListener = listener;
 
     }
-    LinearAdapter(Context context,List<MultipleItem> items, OnItemClickListener listener) {
+    public LinearAdapter(Context context, List<MultipleItem> items, OnItemClickListener listener) {
         mcontext = context;
         mItems = items;
         mListener = listener;
@@ -443,7 +443,7 @@ class LinearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    class AsmrHolder extends RecyclerView.ViewHolder {
+    public class AsmrHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView id,release,title;

@@ -34,7 +34,7 @@ public class AsmrHttpJson {
 
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 try {
                     JSONObject json = new JSONObject(response);
@@ -57,6 +57,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override
@@ -71,7 +72,7 @@ public class AsmrHttpJson {
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
 
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //成功回调
                 try {
                     JSONArray json = new JSONArray(response);
@@ -80,6 +81,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override
@@ -94,7 +96,7 @@ public class AsmrHttpJson {
         int GOingUrl = 1;
         HtmlServiceOkHttp.getHtml(path,"",GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
 
                 try {
                     JSONObject json = new JSONObject(response);
@@ -109,6 +111,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override
@@ -126,7 +129,7 @@ public class AsmrHttpJson {
 
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 try {
 //                    JSONObject json = new JSONObject(response);
@@ -145,6 +148,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override
@@ -162,7 +166,7 @@ public class AsmrHttpJson {
 
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 try {
                     JSONArray jsonArray = new JSONArray(response);
@@ -179,6 +183,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override
@@ -196,7 +201,7 @@ public class AsmrHttpJson {
 
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 try {
                     JSONArray jsonArray = new JSONArray(response);
@@ -213,6 +218,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override
@@ -230,7 +236,7 @@ public class AsmrHttpJson {
 
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 try {
                     JSONObject json = new JSONObject(response);
@@ -253,6 +259,7 @@ public class AsmrHttpJson {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return response;
             }
 
             @Override

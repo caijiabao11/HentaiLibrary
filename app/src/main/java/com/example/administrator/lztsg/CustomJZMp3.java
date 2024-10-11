@@ -96,7 +96,7 @@ public class CustomJZMp3 extends JzvdStd {
             switch (TAG){
                 case "AsmrDetailpageActivity":
                     mp3List = new JSONArray(AsmrDetailpageActivity.allurl.toString());
-                    currentVideoIndex = AsmrDetailpageActivity.currentVideoIndex;
+                    currentVideoIndex = AsmrDetailpageActivity.currentAudeoIndex;
                     break;
             }
         } catch (JSONException e) {

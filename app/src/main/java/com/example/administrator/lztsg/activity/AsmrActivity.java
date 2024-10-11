@@ -1,18 +1,27 @@
 package com.example.administrator.lztsg.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.administrator.lztsg.MyTimePickerDialog;
+import com.example.administrator.lztsg.PlayerStateViewModel;
 import com.example.administrator.lztsg.R;
 import com.example.administrator.lztsg.utils.HideUtils;
 
@@ -20,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 public class AsmrActivity extends AppCompatActivity  implements View.OnClickListener {
     public static ImageButton mBut_more, mBut_live, mBut_mass, mBut_label,mBut_vas,mBut_random,mBut_Sleepmore;
@@ -36,21 +46,22 @@ public class AsmrActivity extends AppCompatActivity  implements View.OnClickList
     public static EditText mSearch;
     public static String data;
     public static int nowselecttab;
+
+    private PlayerStateViewModel playerStateViewModel;
     // 创建BroadcastReceiver实例
-//    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (intent.getAction().equals("com.lztsg.musicplayer_stop")) {
-//                Log.d("获取广播", "暂停音乐");
-//                MusicPlayerFragment.but_player.setImageResource(R.drawable.ic_music_play_24);
-//            }
-//            if (intent.getAction().equals("com.lztsg.musicplayer_play")) {
-//
-//                Log.d("获取广播", "播放音乐");
-//                MusicPlayerFragment.but_player.setImageResource(R.drawable.ic_music_pause_24);
-//            }
-//        }
-//    };
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("com.lztsg.musicplayer_stop")) {
+                Log.d("AsmrActivity获取广播", "暂停音乐");
+                playerStateViewModel.setData(false);
+            }
+            if (intent.getAction().equals("com.lztsg.musicplayer_play")) {
+                Log.d("AsmrActivity获取广播", "播放音乐");
+                playerStateViewModel.setData(true);
+            }
+        }
+    };
     public static int[] firstStaggeredGridPosition = {0, 0};
     public static int[] lastStaggeredGridPosition = {0, 0};
     // 标志用于控制是否执行TextWatcher中的操作
@@ -65,16 +76,18 @@ public class AsmrActivity extends AppCompatActivity  implements View.OnClickList
         initEvents();
         onSearch();
         addFragment(musicPlayerFragment);
+
         //默认选第一个Tab
         selectTab(0);
 
+        playerStateViewModel = new ViewModelProvider(this).get(PlayerStateViewModel.class);
 
         // 创建IntentFilter并添加广播的Action
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("com.lztsg.musicplayer_play");
-//        intentFilter.addAction("com.lztsg.musicplayer_stop");
-//        // 注册BroadcastReceiver
-//        registerReceiver(broadcastReceiver, intentFilter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.lztsg.musicplayer_play");
+        intentFilter.addAction("com.lztsg.musicplayer_stop");
+        // 注册BroadcastReceiver
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void addFragment(MusicPlayerFragment fragment) {
@@ -210,12 +223,20 @@ public class AsmrActivity extends AppCompatActivity  implements View.OnClickList
                 break;
             case 6:
                 mBut_Sleepmore.setBackground(getResources().getDrawable(R.drawable.but_sleep_radius_bg_black));
-                if (mFrag7 == null) {
-                    mFrag7 = new AsmrSleepMoreFragment();
-                    currentFragment = mFrag7;
+//                if (mFrag7 == null) {
+//                    mFrag7 = new AsmrSleepMoreFragment();
+//                    currentFragment = mFrag7;
+//                }
+//
+//                fragmentTransaction.replace(R.id.fragmentLayout, mFrag7);
+                MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog(this);
+                Window window = myTimePickerDialog.getWindow();
+                if (window != null) {
+                    WindowManager.LayoutParams layoutParams = window.getAttributes();
+                    layoutParams.gravity = Gravity.BOTTOM; // 设置对话框的位置为底部
+                    window.setAttributes(layoutParams);
                 }
-
-                fragmentTransaction.replace(R.id.fragmentLayout, mFrag7);
+                myTimePickerDialog.show();
                 break;
         }
 //        showFragments(fragmentTransaction,index);

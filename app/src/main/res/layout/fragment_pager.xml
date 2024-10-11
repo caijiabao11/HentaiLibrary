@@ -6,21 +6,42 @@
     android:layout_height="match_parent"
     android:tag="fragment_bttom_tag">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/run_main"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/run_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
-    <com.example.administrator.lztsg.LoadingView
-        android:id="@+id/item_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"/>
+        </LinearLayout>
+
+        <com.example.administrator.lztsg.LoadingView
+            android:id="@+id/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/but_loaduserpic"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:background="@drawable/but_toumingbiankuang_bg"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="加载更多"
+            android:textColor="#fff"/>
+
+    </RelativeLayout>
+
 </FrameLayout>

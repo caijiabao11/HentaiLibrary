@@ -23,12 +23,12 @@ public class HpoiHttpJson {
 
     public static void getData(String selecttopage,final HttpHpoiDataResolution resolution){
         //热门浏览界面链接
-        path = "https://www.hpoi.net/hobby/all?order=hits&r18=-1&workers=&view=4&category=100" + selecttopage;
+        path = "https://www.hpoi.net/hobby/all?order=hits7Day&r18=-1&workers=&view=4&category=100" + selecttopage;
 
         int GOingUrl = 1;
         HtmlServiceOkHttp.getHtml(path,"",GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
 
                 //生成遍历
                 Document document = Jsoup.parse(response,path);
@@ -50,6 +50,7 @@ public class HpoiHttpJson {
                     }
                 }
 
+                return response;
             }
 
             @Override
@@ -65,7 +66,7 @@ public class HpoiHttpJson {
             private HpoiHttpJson httpJson;
 
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //成功回调
                 Document doc = Jsoup.parse(response);
                 //选择器选择scriprt
@@ -93,6 +94,7 @@ public class HpoiHttpJson {
                     }
                     inituserpic(userpic,resolution);
                 }
+                return response;
             }
 
             @Override
@@ -107,7 +109,7 @@ public class HpoiHttpJson {
         int GOingUrl = 1;
         HtmlServiceOkHttp.getHtml(userpicurl, "", GOingUrl, new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //成功回调
                 Document doc = Jsoup.parse(response);
                 //选择器选择scriprt
@@ -135,6 +137,7 @@ public class HpoiHttpJson {
                     String img = item_userpic.get(size).attr("src");
                     resolution.onFinish("",img,number);
                 }
+                return response;
             }
 
             @Override
@@ -150,7 +153,7 @@ public class HpoiHttpJson {
             private HpoiHttpJson httpJson;
 
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //成功回调
                 Document doc = Jsoup.parse(response);
                 //选择器选择scriprt
@@ -165,6 +168,7 @@ public class HpoiHttpJson {
                         resolution.onFinish("",img,"");
                     }
                 }
+                return response;
             }
 
             @Override
@@ -180,7 +184,7 @@ public class HpoiHttpJson {
         int GOingUrl = 1;
         HtmlServiceOkHttp.getHtml(path,"",GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
 
                 //生成遍历
                 Document document = Jsoup.parse(response,path);
@@ -192,6 +196,7 @@ public class HpoiHttpJson {
                     Integer totalint = Integer.parseInt(total);
                     resolution.onPages(totalint);
                 }
+                return response;
             }
 
             @Override

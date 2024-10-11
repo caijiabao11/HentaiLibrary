@@ -180,7 +180,7 @@ public class LifanTagFragment extends Fragment {
                         mSearch.getText().clear();
                         checkd_tagarr.clear();
                         butcode = 0;
-                        OnAnimButonTag(-DensityUtils.dip2px(getContext(),100),0);
+                        OnAnimButonTag(-DensityUtils.dip2px(getContext(),150),0);
                     }
                 }
 //                for (String tag: checkd_tagarr){
@@ -190,7 +190,7 @@ public class LifanTagFragment extends Fragment {
                 mSearch.setText(checkd_tagarr.toString());
                 if (checkd_tagarr.size() > 0 && butcode == 0){
                     butcode = 1;
-                    OnAnimButonTag(0,-DensityUtils.dip2px(getContext(),100));
+                    OnAnimButonTag(0,-DensityUtils.dip2px(getContext(),150));
                 }
             }
         });

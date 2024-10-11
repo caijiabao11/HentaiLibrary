@@ -13,8 +13,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".MyApplication"
@@ -101,24 +100,38 @@
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.AsmrActivity"
-            android:theme="@style/AsmrDetailpageTheme"/>
+            android:theme="@style/AsmrDetailpageTheme" />
         <activity
             android:name=".activity.AsmrDetailpageActivity"
-            android:theme="@style/AsmrDetailpageTheme"/>
+            android:theme="@style/AsmrDetailpageTheme" />
+        <activity
+            android:name=".activity.MusicPlayerItemActivity"
+            android:theme="@style/ImageTranslucentTheme"/>
+
         <service android:name=".LongRunningService" />
-        <service android:name=".MusicPlayerService"
+        <service
+            android:name=".MusicPlayerService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
         <service android:name="org.fourthline.cling.android.AndroidUpnpServiceImpl" />
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="com.lztsg.alarmreceiver_start" />
                 <action android:name="com.lztsg.alarmreceiver_stop" />
-
                 <action android:name="com.lztsg.musicplayer_start" />
+                <action android:name="com.lztsg.musicplayer_last" />
+                <action android:name="com.lztsg.musicplayer_receiver_play" />
+                <action android:name="com.lztsg.musicplayer_next" />
             </intent-filter>
-
+        </receiver>
+        <receiver android:name=".MusicPlayerReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="com.lztsg.musicplayer_start" />
+                <action android:name="com.lztsg.musicplayer_last" />
+                <action android:name="com.lztsg.musicplayer_receiver_play" />
+                <action android:name="com.lztsg.musicplayer_next" />
+            </intent-filter>
         </receiver>
     </application>
 

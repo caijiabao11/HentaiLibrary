@@ -32,12 +32,12 @@ public class CunzhiHellHttpJson {
 
     public static void getData(final HttpJsonResolution resolution){
         //主页链接
-        path = "https://spankbang.com/5nzsi/video/porn";
+        path = "https://jp.spankbang.com/5nzsi/video/";
 
         int GOingUrl = 1;
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 FileIOStream fileIOStream = new FileIOStream(context);
                 File fileDir = context.getFilesDir(); // 或者使用 getCacheDir() 获取缓存目录
@@ -50,8 +50,7 @@ public class CunzhiHellHttpJson {
                     sit = response;
                 }
                 Document document = Jsoup.parse(sit,path);
-                Elements divVideo = document.select("div.video-list")
-                        .select(".video-rotate").get(1)
+                Elements divVideo = document.select("section.user_uploads > div.video-list")
                         .select("div.video-item>a[href]")
                         .select(".thumb");
                 if (divVideo != null){
@@ -69,6 +68,7 @@ public class CunzhiHellHttpJson {
                         indata(videourl,resolution,videoList);
                     }
                 }
+                return sit;
             }
 
             @Override
@@ -85,7 +85,7 @@ public class CunzhiHellHttpJson {
             private String oenUrl = "https://spankbang.com/5nzsi/video/";
             private String toUrl = "https://sharesome.com/api/videos?user=694125&limit=12&page=2";
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //成功回调
                 Document doc = Jsoup.parse(response);
                 if (videourl.equals(toUrl)){
@@ -151,6 +151,7 @@ public class CunzhiHellHttpJson {
                         loging ++;
                     }
                 }
+                return response;
             }
 
             @Override

@@ -37,7 +37,7 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
     private LinearAdapter mLinearAdaoter;
     private LinearAdapter.ItemHolder mItemHolder;
     private ImageButton mImgButton, mSearchButton;
-    public static Button mBut_more, mBut_live, mBut_mass, mBut_label;
+    public static Button mBut_more, mBut_live, mBut_mass, mBut_label,mBut_random;
     public static EditText mSearch;
     private RecyclerView mRecyclerView;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
@@ -46,6 +46,7 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
     private LifanLiveFragment mLifanLiveFragment = new LifanLiveFragment();
     private LifanMassFragment mLifanMassFragment = new LifanMassFragment();
     private LifanTagFragment mLifanTagFragment = new LifanTagFragment();
+    private LifanRandomFragment mLifanRandomFragment = new LifanRandomFragment();
     private LifanMass_putFragment mLifanMass_putFragment;
     private LifanTag_putFragment mLifanTag_putFragment;
     public static Fragment currentFragment;
@@ -56,6 +57,7 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
     private static Fragment mFrag2;
     private static Fragment mFrag3;
     private static Fragment mFrag4;
+    private static Fragment mFrag5;
     public static int nowselecttab;
     public int[] firstStaggeredGridPosition = {0, 0};
     public int[] lastStaggeredGridPosition = {0, 0};
@@ -80,6 +82,7 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         mBut_live.setOnClickListener(this);
         mBut_mass.setOnClickListener(this);
         mBut_label.setOnClickListener(this);
+        mBut_random.setOnClickListener(this);
     }
 
     private void init() {
@@ -93,6 +96,7 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         mBut_live = findViewById(R.id.but_live);
         mBut_mass = findViewById(R.id.but_mass);
         mBut_label = findViewById(R.id.but_label);
+        mBut_random = findViewById(R.id.but_random);
     }
 
     //载入图片+标题
@@ -214,13 +218,6 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
 
                 } else if (currentFragment instanceof LifanMass_putFragment){
                     querySelectArrTit(data,mAllData);
-                } else if (currentFragment instanceof LifanTagFragment) {
-
-//                    querySelectArrTag(data,mAllData);
-                } else if (currentFragment instanceof LifanTag_putFragment) {
-                    if (mData != null && mAllData != null){
-                        querySelectArrTit(data,mAllData);
-                    }
                 }
 
                 //刷新
@@ -303,6 +300,10 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
                 selectTab(3);
                 nowselecttab = 3;
                 break;
+            case R.id.but_random:
+                selectTab(4);
+                nowselecttab = 4;
+                break;
         }
     }
 
@@ -344,12 +345,20 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
                 }
                 fragmentTransaction.replace(R.id.fragmentLayout, mFrag4);
                 break;
+            case 4:
+                mBut_random.setBackground(getResources().getDrawable(R.drawable.but_random_radius_bg_black));
+                if (mFrag5 == null) {
+                    mFrag5 = new LifanRandomFragment();
+                    currentFragment = mFrag5;
+                }
+                fragmentTransaction.replace(R.id.fragmentLayout, mFrag5);
+                break;
         }
         fragmentTransaction.commit();
         if (!(currentFragment instanceof LifanTagFragment)){
             if (LifanTagFragment.butcode == 1){
                 LifanTagFragment.butcode = 0;
-                LifanTagFragment.OnAnimButonTag(-DensityUtils.dip2px(this,100),0);
+                LifanTagFragment.OnAnimButonTag(-DensityUtils.dip2px(this,150),0);
             }
             mSearch.getText().clear();//清空输入框
         }
@@ -370,6 +379,9 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         if (mFrag4 != null) {
             fragmentTransaction.hide(mFrag4);
         }
+        if (mFrag5 != null) {
+            fragmentTransaction.hide(mFrag5);
+        }
     }
 
     //将全部Button置为灰色
@@ -378,6 +390,7 @@ public class LifanActivity extends AppCompatActivity implements View.OnClickList
         mBut_live.setBackground(getResources().getDrawable(R.drawable.but_like_radius_bg_white));
         mBut_mass.setBackground(getResources().getDrawable(R.drawable.but_mass_radius_bg_white));
         mBut_label.setBackground(getResources().getDrawable(R.drawable.but_label_radius_bg_white));
+        mBut_random.setBackground(getResources().getDrawable(R.drawable.but_random_radius_bg_white));
     }
 
     //监听返回键事件，进行返回上个事务处理

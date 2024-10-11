@@ -1,11 +1,15 @@
 package com.example.administrator.lztsg.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.administrator.lztsg.CustomJZMp3;
 import com.example.administrator.lztsg.MusicPlayerService;
 import com.example.administrator.lztsg.MyApplication;
+import com.example.administrator.lztsg.PlayerStateViewModel;
 import com.example.administrator.lztsg.R;
 import com.example.administrator.lztsg.httpjson.AsmrHttpJson;
 import com.example.administrator.lztsg.httpjson.HttpAsmrJsonResolution;
@@ -37,6 +42,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,11 +57,28 @@ public class AsmrDetailpageActivity extends AppCompatActivity {
     public static MusicPlayerFragment musicPlayerFragment = new MusicPlayerFragment();
     public static JSONArray tracksList,allurl;
     public static Stack<JSONArray> itemStack = new Stack<>();
-    public static int currentVideoIndex = 0;
+    public static int currentAudeoIndex = 0;
     private SharedPreferences sp;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private String icon;
+
+    private PlayerStateViewModel playerStateViewModel;
+    // 创建BroadcastReceiver实例
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("com.lztsg.musicplayer_stop")) {
+                Log.d("AsmrDetailpage获取广播", "暂停音乐");
+                playerStateViewModel.setData(false);
+            }
+            if (intent.getAction().equals("com.lztsg.musicplayer_play")) {
+
+                Log.d("AsmrDetailpage获取广播", "播放音乐");
+                playerStateViewModel.setData(true);
+            }
+        }
+    };
 
 
     @Override
@@ -65,6 +88,15 @@ public class AsmrDetailpageActivity extends AppCompatActivity {
         init();
         initData();
         addFragment(musicPlayerFragment);
+
+        playerStateViewModel = new ViewModelProvider(this).get(PlayerStateViewModel.class);
+
+        // 创建IntentFilter并添加广播的Action
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.lztsg.musicplayer_play");
+        intentFilter.addAction("com.lztsg.musicplayer_stop");
+        // 注册BroadcastReceiver
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void init() {
@@ -172,13 +204,15 @@ public class AsmrDetailpageActivity extends AppCompatActivity {
                                             i--;
                                         }
                                         if (title.equals(item.getString("title"))){
-                                            currentVideoIndex = i;
+                                            currentAudeoIndex = i;
                                         }
                                     }
                                     mediaStreamUrl = item.getString("mediaStreamUrl");
                                     String title = item.getString("title");
                                     intent = new Intent(MyApplication.getContext(), MusicPlayerService.class);
                                     intent.putExtra("mediaStreamUrl", mediaStreamUrl);
+                                    intent.putExtra("itemAudios",allurl.toString());
+                                    intent.putExtra("currentAudeoIndex",currentAudeoIndex);
                                     intent.putExtra("icon",icon);
                                     intent.putExtra("title", title);
                                     startService(intent);
@@ -242,7 +276,9 @@ public class AsmrDetailpageActivity extends AppCompatActivity {
             }
 
         }else if (itemStack.isEmpty() && fragmentTransaction != null){
-            fragmentTransaction.remove(musicPlayerFragment);
+//            Intent intent = new Intent(this, AsmrActivity.class);
+//            startActivity(intent);
+//            fragmentTransaction.remove(musicPlayerFragment);
             super.onBackPressed();
         }else {
             super.onBackPressed();

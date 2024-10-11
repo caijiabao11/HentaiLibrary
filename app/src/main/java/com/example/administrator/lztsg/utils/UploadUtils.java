@@ -143,7 +143,7 @@ public class UploadUtils {
         int GOingUrl = 1;
         HtmlServiceOkHttp.getHtml(path, "", GOingUrl, new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 Document document = Jsoup.parse(response, path);
                 Elements itemthumb = document.select("div.CbirSites-ItemThumb a[href]");
@@ -188,6 +188,7 @@ public class UploadUtils {
 //                    videourl = path + "&cbir_page=similar";
 //                    indata(videourl,resolution);
                 }
+                return response;
             }
 
             @Override

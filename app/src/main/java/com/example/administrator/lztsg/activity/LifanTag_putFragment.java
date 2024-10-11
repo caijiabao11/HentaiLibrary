@@ -79,7 +79,7 @@ public class LifanTag_putFragment extends Fragment implements View.OnClickListen
     private void initData(Context context) {
         if (LifanTagFragment.butcode == 1){
             LifanTagFragment.butcode = 0;
-            LifanTagFragment.OnAnimButonTag(-DensityUtils.dip2px(context,100),0);
+            LifanTagFragment.OnAnimButonTag(-DensityUtils.dip2px(context,150),0);
         }
         mSearch.getText().clear();//清空输入框
         this.mData = new ArrayList<>();

@@ -36,7 +36,7 @@ public class HpoiActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     public static EditText mSearch;
     private static List<Integer> allpage = new ArrayList<>();
-    private String path = "https://www.hpoi.net/hobby/all?order=hits&r18=-1&workers=&view=4&category=100";
+    private String path = "https://www.hpoi.net/hobby/all?order=hits7Day&r18=-1&workers=&view=4&category=100";
     private static int total = 1;
     public static String data;
 

@@ -62,6 +62,14 @@
                 android:background="@drawable/but_label_radius_bg_white"
                 style="?android:attr/borderlessButtonStyle"/>
 
+            <Button
+                android:id="@+id/but_random"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/but_random_radius_bg_white"
+                style="?android:attr/borderlessButtonStyle"/>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/but_querytags"
                 android:layout_width="50dp"

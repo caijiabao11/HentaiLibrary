@@ -5,6 +5,8 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.example.administrator.lztsg.MyApplication;
+import com.example.administrator.lztsg.items.MultipleItem;
+import com.example.administrator.lztsg.items.TestholeItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +51,7 @@ public class HentaiJoiHttpJson {
 
 
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //生成遍历
                 FileIOStream fileIOStream = new FileIOStream(context);
                 File fileDir = context.getFilesDir(); // 或者使用 getCacheDir() 获取缓存目录
@@ -63,32 +65,38 @@ public class HentaiJoiHttpJson {
                 }
 
                 Document document = Jsoup.parse(sit, path);
-                Elements divVideo = document.select("div.mozaique")
-                        .select("div.thumb-block")
-                        .select("div.thumb-inside")
-                        .select("div.thumb>a[href]");
+                Elements divVideo = document.select("div.mozaique > .thumb-block > .thumb-under")
+                        .select("p.title> a[href]");
+                Elements divImg = document.select("div.mozaique > .thumb-block > .thumb-inside")
+                        .select(".thumb> a > img[src]");
+                Elements divDuration = document.select("div.mozaique > .thumb-block > .thumb-under")
+                        .select("p.metadata > .bg > .duration");
                 if (divVideo != null) {
-                    ArrayList<String> videoList = new ArrayList<String>();
+                    ArrayList<MultipleItem> videoList = new ArrayList<>();
                     //判断获取筛选标签
                     for (int size = 0; size < divVideo.size(); size++) {
-                        Log.i("videoList", "videoList: "+videoList.toString());
-
                         //录入所有链接到videoList里面
-                        videoList.add(divVideo.get(size).attr("abs:href"));
+                        String alt = divVideo.get(size).attr("title");
+                        String img = divImg.get(size).attr("abs:src");
+                        String url = divVideo.get(size).attr("abs:href");
+                        String durantion = divDuration.get(size).text();
+                        videoList.add(new TestholeItem(alt,img,url,durantion));
 
+                        resolution.onFinish(alt,img,url,durantion);
                     }
                     //遍历videoList
-                    for (String urlinto:videoList){
-                        //第二详细页视频链接
-                        videourl = urlinto;
-                        if (urlinto.contains("verification_video")) {
-                            Log.i("videourl", "videourl: "+videourl);
-                            videoList.remove(urlinto);
-                        }else {
-                            indata(videourl, resolution,videoList);
-                        }
-                    }
+//                    for (String urlinto:videoList){
+//                        //第二详细页视频链接
+//                        videourl = urlinto;
+//                        if (urlinto.contains("verification_video")) {
+//                            Log.i("videourl", "videourl: "+videourl);
+//                            videoList.remove(urlinto);
+//                        }else {
+//                            indata(videourl, resolution,videoList);
+//                        }
+//                    }
                 }
+                return sit;
             }
 
             @Override
@@ -102,21 +110,26 @@ public class HentaiJoiHttpJson {
     public static void indata(final String videourl, final HttpJsonResolution resolution, final ArrayList<String> allvideoList) {
         int GOingUrl = 2;
         HtmlServiceOkHttp.getHtml(path,videourl,GOingUrl,new HttpCallbackListener() {
-            private HentaiJoiHttpJson httpJson;
 
             @Override
-            public void onFinish(String response) {
+            public String onFinish(String response) {
                 //成功回调
                 Document doc = Jsoup.parse(response);
                 //选择器选择scriprt type="application/ld+json"
                 Element scriptEle = doc.select("script[type=\"application/ld+json\"]").first();
                     try{
                         JSONObject json = new JSONObject(scriptEle.data());
-                        httpJson.Allname.add(json.getString("name"));
-                        httpJson.Allimg.add(json.getJSONArray("thumbnailUrl").getString(0));
-                        httpJson.Allvideourl.add(json.getString("contentUrl"));
-                        httpJson.Allduration.add(json.getString("duration"));
+//                        httpJson.Allname.add(json.getString("name"));
+//                        httpJson.Allimg.add(json.getJSONArray("thumbnailUrl").getString(0));
+//                        httpJson.Allvideourl.add(json.getString("contentUrl"));
+//                        httpJson.Allduration.add(json.getString("duration"));
 
+                        String title = json.getString("name");
+                        String imageurl = json.getJSONArray("thumbnailUrl").getString(0);
+                        String videourl = json.getString("contentUrl");
+                        String duration = json.getString("duration");
+
+                        resolution.onFinish(title, imageurl, videourl, duration);
                         Log.e("text数据","text数据"+scriptEle.data());
 
                     } catch (JSONException e){
@@ -126,18 +139,19 @@ public class HentaiJoiHttpJson {
                     }
 
                 //Allname.size() % 10== 0 &&  10数量的余0
-                if (Allname.size() == allvideoList.size() - deurl && resolution!=null) {
-                    int loging = 0;
-                    while (loging <= (Allname.size()-1)) {
-                        String title = Allname.get(loging);
-                        String imageurl = Allimg.get(loging);
-                        String videourl = Allvideourl.get(loging);
-                        String duration = Allduration.get(loging);
-                        //回调onFinish方法
-                        resolution.onFinish(title, imageurl, videourl, duration);
-                        loging ++;
-                    }
-                }
+//                if (Allname.size() == allvideoList.size() - deurl && resolution!=null) {
+//                    int loging = 0;
+//                    while (loging <= (Allname.size()-1)) {
+//                        String title = Allname.get(loging);
+//                        String imageurl = Allimg.get(loging);
+//                        String videourl = Allvideourl.get(loging);
+//                        String duration = Allduration.get(loging);
+//                        //回调onFinish方法
+//                        resolution.onFinish(title, imageurl, videourl, duration);
+//                        loging ++;
+//                    }
+//                }
+                return response;
             }
 
             @Override

@@ -10,9 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.administrator.lztsg.LoadingView;
 import com.example.administrator.lztsg.R;
+import com.example.administrator.lztsg.httpjson.FapHeroHttpJson;
+import com.example.administrator.lztsg.httpjson.HentaiJoiHttpJson;
+import com.example.administrator.lztsg.httpjson.HttpJsonResolution;
 import com.example.administrator.lztsg.items.MultipleItem;
 import com.example.administrator.lztsg.items.TestholeItem;
 
@@ -28,11 +32,17 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+
 public class PagerFragment extends BaseFragment implements BaseFragment.SetInto {
     private static final String KEY_POSITION = "position";
     private RecyclerView mRecyclerView;
     private LoadingView mLoadingView;
-    private int position;
+    private Button mBut_loaduserpic;
+    public static int[] firstStaggeredGridPosition = {0, 0};
+    public static int[] lastStaggeredGridPosition = {0, 0};
+    public static int position;
     private static ArrayList<String>
             CunzhiHellTitle = new ArrayList<>(),
             CunzhiHellImage = new ArrayList<>(),
@@ -78,15 +88,58 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
         mLinearAdaoter = new LinearAdapter(mData, new LinearAdapter.OnItemClickListener() {
             @Override
             public void itemonClick(int position, List<MultipleItem> mItems) {
-                final Intent intent = new Intent(getActivity(), TestholekilnVideoActivity.class);
-                //传递图片、标题信息
-                Bundle bundle = new Bundle();
                 TestholeItem item = (TestholeItem) mItems.get(position);
-                bundle.putString("itemImageUrl", item.getmImageUrl());
-                bundle.putString("itemTitle", item.getTitle());
-                bundle.putString("itemVideo", item.getmVideoUrl());
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                if (getArguments().getInt(KEY_POSITION) == 0) {
+                    final Intent intent = new Intent(getActivity(), TestholekilnVideoActivity.class);
+                    //传递图片、标题信息
+                    Bundle bundle = new Bundle();
+                    bundle.putString("itemImageUrl", item.getmImageUrl());
+                    bundle.putString("itemTitle", item.getTitle());
+                    bundle.putString("itemVideo", item.getmVideoUrl());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else if (getArguments().getInt(KEY_POSITION) == 1) {
+                    HentaiJoiHttpJson.indata(item.getmVideoUrl(), new HttpJsonResolution() {
+                        @Override
+                        public void onFinish(String title, String imageurl, String videourl, String duration) {
+                            final Intent intent = new Intent(getActivity(), TestholekilnVideoActivity.class);
+                            //传递图片、标题信息
+                            Bundle bundle = new Bundle();
+                            bundle.putString("itemImageUrl", imageurl);
+                            bundle.putString("itemTitle", title);
+                            bundle.putString("itemVideo", videourl);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    },HentaiJoiVideo);
+
+                } else if (getArguments().getInt(KEY_POSITION) == 2) {
+                    FapHeroHttpJson.indata(item.getmVideoUrl(), new HttpJsonResolution() {
+                        @Override
+                        public void onFinish(String title, String imageurl, String videourl, String duration) {
+
+                            final Intent intent = new Intent(getActivity(), TestholekilnVideoActivity.class);
+                            //传递图片、标题信息
+                            Bundle bundle = new Bundle();
+                            bundle.putString("itemImageUrl", imageurl);
+                            bundle.putString("itemTitle", title);
+                            bundle.putString("itemVideo", videourl);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    },FapHeroVideo);
+                }
             }
 
             @Override
@@ -101,7 +154,48 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
         });
         //设置适配器
         mRecyclerView.setAdapter(mLinearAdaoter);
+        //设置recycleView的滚动监听
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //该if判断的是滚动的状态，其意义是放置不断的刷新if内的语句
+                if (newState == SCROLL_STATE_IDLE || newState == SCROLL_STATE_DRAGGING) {
 
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+//                LinearAdapter.ItemHolder itemHolder = (LinearAdapter.ItemHolder) recyclerView.getChildViewHolder(mRecyclerView);
+                if (layoutManager != null && layoutManager instanceof GridLayoutManager) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        //滑到底部
+//                        MyToast.makeText(HpoiDetailpageActivity.this, "已经在谷底了>_<", 1000,
+//                                Gravity.FILL_HORIZONTAL | Gravity.BOTTOM).show();
+
+
+                        if (getArguments().getInt(KEY_POSITION) == 2 && FapHeroHttpJson.pagination <= 1){
+                            mBut_loaduserpic.setVisibility(View.VISIBLE);
+                        }else {
+                            mBut_loaduserpic.setVisibility(View.GONE);
+                        }
+
+                    } else if (!recyclerView.canScrollVertically(-1)) {
+                        //滑到顶部
+                    } else if (dy > 0) {
+                        //监听上滑
+//                    mItemHolder.itemView.setAnimation();
+                    } else if (dy < 0) {
+                        //监听下滑
+                        mBut_loaduserpic.setVisibility(View.GONE);
+//                        mItemHolder.itemView.setAnimation(AnimationUtils.loadAnimation(mItemHolder.itemView.getContext(),R.anim.alpha));
+                    }
+                }
+            }
+        });
         mLoadingView.init(mLoadingView);
     }
 
@@ -119,6 +213,7 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
     protected void initView(View view) {
         mRecyclerView = view.findViewById(R.id.run_main);
         mLoadingView = view.findViewById(R.id.item_loading);
+        mBut_loaduserpic = view.findViewById(R.id.but_loaduserpic);
     }
 
     @Override
@@ -150,6 +245,33 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
                 }
             }
         }
+
+        //加载跟多的按钮
+        mBut_loaduserpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FapHeroHttpJson.getVideosPage();
+                Handler handler = new Handler();
+                if (FapHeroHttpJson.pagination > 1){
+                    FapHeroHttpJson.getData(new HttpJsonResolution() {
+                        @Override
+                        public void onFinish(String title, String imageurl, String videourl, String duration) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    myDataAddOneTime(title,videourl,imageurl,duration, 2);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -198,18 +320,19 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
         HentaiJoiTitle.add(title);
         HentaiJoiImage.add(imageurl);
         HentaiJoiVideo.add(videourl);
-        Duration pares = Duration.parse(duration);
-        long minutes = pares.toMinutes(); //获取分钟数
-        long millis = pares.toMillis(); //获取时间 毫秒数包含分钟数
-        millis = (millis / 1000 % 60);
-        /**
-         * millis 除以 1000 将毫秒数转换秒数
-         * 再对60求余 去除分钟数可得秒数
-         */
-        String format = (minutes < 10 ? "0" + minutes : minutes) + ":" + (millis < 10 ? "0" + millis : millis);
-        HentaiJoiDuration.add(format);
+        HentaiJoiDuration.add(duration);
+//        Duration pares = Duration.parse(duration);
+//        long minutes = pares.toMinutes(); //获取分钟数
+//        long millis = pares.toMillis(); //获取时间 毫秒数包含分钟数
+//        millis = (millis / 1000 % 60);
+//        /**
+//         * millis 除以 1000 将毫秒数转换秒数
+//         * 再对60求余 去除分钟数可得秒数
+//         */
+//        String format = (minutes < 10 ? "0" + minutes : minutes) + ":" + (millis < 10 ? "0" + millis : millis);
+//        HentaiJoiDuration.add(format);
 
-        myDataAddOneTime(title,videourl,imageurl,format,1);
+        myDataAddOneTime(title,videourl,imageurl,duration,1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -220,19 +343,9 @@ public class PagerFragment extends BaseFragment implements BaseFragment.SetInto 
         FapHeroTitle.add(title);
         FapHeroImage.add(imageurl);
         FapHeroVideo.add(videourl);
-        Duration pares = Duration.parse(duration);
+        FapHeroDuration.add(duration);
 
-        long minutes = pares.toMinutes(); //获取分钟数
-        long millis = pares.toMillis(); //获取时间 毫秒数包含分钟数
-        millis = (millis / 1000 % 60);
-        /**
-         * millis 除以 1000 将毫秒数转换秒数
-         * 再对60求余 去除分钟数可得秒数
-         */
-        String format = (minutes < 10 ? "0" + minutes : minutes) + ":" + (millis < 10 ? "0" + millis : millis);
-        FapHeroDuration.add(format);
-
-        myDataAddOneTime(title,videourl,imageurl,format, 2);
+        myDataAddOneTime(title,videourl,imageurl,duration, 2);
     }
 
     @Override

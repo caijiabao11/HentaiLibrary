@@ -125,19 +125,9 @@
     <FrameLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="75dp"
         android:layout_weight="0.2"
         android:layout_alignParentBottom="true"/>
 
-
-
-<!--        <fragment-->
-<!--            android:id="@+id/fragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:layout_weight="0.2"-->
-<!--            android:visibility="invisible"-->
-<!--            android:name="com.example.administrator.lztsg.activity.MusicPlayerFragment"-->
-<!--            android:layout_alignParentBottom="true"/>-->
 
 </LinearLayout>
